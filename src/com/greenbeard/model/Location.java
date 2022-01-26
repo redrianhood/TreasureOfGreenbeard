@@ -1,5 +1,5 @@
 package com.greenbeard.model;
 
-enum Location {
+public enum Location {
 
 }
