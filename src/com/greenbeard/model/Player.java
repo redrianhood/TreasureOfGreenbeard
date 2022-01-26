@@ -1,5 +1,5 @@
 package com.greenbeard.model;
 
-class Player {
+public class Player {
 
 }
