@@ -11,5 +11,11 @@
     "check",
     "view"
   ],
+  "recruit": [
+    "enlist",
+    "select",
+    "draft",
+    "enroll"
+  ],
   "set": []
 }

@@ -69,31 +69,41 @@ public class Game {
         String verb = checkSynonym(commands.get(0));
         String noun = commands.get(1);
 
-        if ("go".equals(verb)) {
-            try (Reader reader = new FileReader("data/locations/locations.json")) {
+        try (Reader reader = new FileReader("data/locations/locations.json")) {
+            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
+            JSONObject location = (JSONObject) jObj.get(this.currentLocation);
+
+            if ("go".equals(verb)) {
                 this.currentLocation = noun;
-                JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-                JSONObject location = (JSONObject) jObj.get(this.currentLocation);
+                location = (JSONObject) jObj.get(this.currentLocation);
                 String description = (String) location.get("description");
                 System.out.println(description);
-
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
             }
-        } else if ("set".equals(verb) && "sail".equals(noun)){
-            try (Reader reader = new FileReader("data/locations/locations.json")) {
+            if (!currentLocation.equals("town") && "recruit".equals(verb)) {
+                JSONArray npcs = (JSONArray) location.get("npcs");
+
+                npcs.forEach(item -> {
+                    JSONObject npc = (JSONObject) item;
+                    String name = (String) npc.get("name");
+                    String ableToRecruit = (String) npc.get("ableToRecruit");
+                    if(name.equals(noun) && ableToRecruit.equals("true")) {
+                        player.addCrewMate(name);
+                    }
+                });
+            }
+            if ("set".equals(verb) && "sail".equals(noun)){
                 this.currentLocation = "island";
-                JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-                JSONObject location = (JSONObject) jObj.get(this.currentLocation);
                 String description = (String) location.get("description");
                 System.out.println(description);
-
                 ending();
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
             }
+          
+            System.out.println(player.getCrewMates());
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
         }
-        
+
     }
 
     private String checkSynonym(String command) {
