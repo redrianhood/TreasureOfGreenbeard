@@ -75,6 +75,18 @@ public class Game {
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
+        } else if ("set".equals(verb) && "sail".equals(noun)){
+            try (Reader reader = new FileReader("data/locations/locations.json")) {
+                this.currentLocation = "island";
+                JSONObject jObj = (JSONObject) jsonParser.parse(reader);
+                JSONObject location = (JSONObject) jObj.get(this.currentLocation);
+                String description = (String) location.get("description");
+                System.out.println(description);
+
+                ending();
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
         }
         
     }
@@ -110,5 +122,10 @@ public class Game {
             System.out.println("Thanks for playing! See you again!");
             System.exit(0);
         }
+    }
+
+    private void ending() {
+        System.out.println("You find the treasure and live happily ever after :)");
+        gameOver = true;
     }
 }
