@@ -53,8 +53,8 @@ public class Game {
     }
 
     private void textParser(String input) {
-        checkSynonym(input);
-
+        String verb = checkSynonym(input);
+        System.out.println("***return from synonym is: " + verb);
 
 
         List<String> commands = Arrays.asList(input.split(" "));
@@ -75,20 +75,23 @@ public class Game {
             JSONObject jObj = (JSONObject) jsonParser.parse(readerSynonym);
             if (jObj.containsKey(command)) {
                 System.out.println("INPUT IS A KEY");
-
+                return command;
             } else {
+                final String[] keyStr = {""};
                 jObj.forEach((key, val) -> {
                     JSONArray arr = (JSONArray) val;
                     if (arr.contains(command)) {
                         System.out.println("INPUT IS A VALUE OF" + key);
-//                        return key ;
+                        keyStr[0] = key.toString();
                     }
                 });
+                return keyStr[0];
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-        }
+        } return "Required return statement here";
     }
+
     private void gameOver() {
         System.out.println("GAME OVER!");
         String playAgain = prompter.prompt("Play again? yes or no?\n -> ", "yes|no", "Invalid Choice");
