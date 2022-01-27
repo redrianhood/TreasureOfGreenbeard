@@ -16,5 +16,6 @@
     "select",
     "draft",
     "enroll"
-  ]
+  ],
+  "set": []
 }
