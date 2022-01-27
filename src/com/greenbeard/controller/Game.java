@@ -17,14 +17,20 @@ import java.util.*;
 
 public class Game {
     private boolean gameOver;
-    private Player player;
+    private Player player = new Player();
     private Prompter prompter = new Prompter(new Scanner(System.in));
-    private String currentLocation;
+    private String currentLocation = "town";
     private JSONParser jsonParser = new JSONParser();
 
     public void execute() {
         welcome();
-        start();
+        while (!gameOver) {
+            if (player.getHealth() <= 0) {
+                gameOver = true;
+                break;
+            }
+            start();
+        }
         gameOver();
     }
 
@@ -47,26 +53,30 @@ public class Game {
 
     private void start() {
         String input = prompter.prompt("Where would you like to go?\n -> ").toLowerCase();
-        System.out.println(input);
+
         textParser(input);
 
     }
 
     private void textParser(String input) {
-        String verb = checkSynonym(input);
-        System.out.println("***return from synonym is: " + verb);
-
-
         List<String> commands = Arrays.asList(input.split(" "));
 
-        if (commands.contains("go")) {
-            try (Reader reader = new FileReader("data/bar/bar.json")) {
+        String verb = checkSynonym(commands.get(0));
+        String noun = commands.get(1);
+
+        if ("go".equals(verb)) {
+            try (Reader reader = new FileReader("data/locations/locations.json")) {
+                this.currentLocation = noun;
                 JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-                System.out.println(jObj);
+                JSONObject location = (JSONObject) jObj.get(this.currentLocation);
+                String description = (String) location.get("description");
+                System.out.println(description);
+
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         }
+        
     }
 
     private String checkSynonym(String command) {
@@ -74,22 +84,21 @@ public class Game {
         try (Reader readerSynonym = new FileReader("data/synonyms.json")) {
             JSONObject jObj = (JSONObject) jsonParser.parse(readerSynonym);
             if (jObj.containsKey(command)) {
-                System.out.println("INPUT IS A KEY");
                 return command;
             } else {
                 final String[] keyStr = {""};
                 jObj.forEach((key, val) -> {
                     JSONArray arr = (JSONArray) val;
                     if (arr.contains(command)) {
-                        System.out.println("INPUT IS A VALUE OF" + key);
-                        keyStr[0] = key.toString();
+                        keyStr[0] = String.valueOf(key);
                     }
                 });
                 return keyStr[0];
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-        } return "Required return statement here";
+        }
+        return "Required return statement here";
     }
 
     private void gameOver() {

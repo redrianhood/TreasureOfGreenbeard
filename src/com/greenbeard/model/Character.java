@@ -2,7 +2,7 @@ package com.greenbeard.model;
 
 class Character {
     private String name;
-    private int health;
+    private int health = 100;
     private String weapon;
 
     public String getName() {
