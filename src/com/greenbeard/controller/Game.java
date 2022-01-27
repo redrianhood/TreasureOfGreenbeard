@@ -26,7 +26,9 @@ public class Game {
     }
 
     private void welcome() {
+        System.out.println("\n\n");
         try {
+            Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
             welcome.forEach(
@@ -37,6 +39,7 @@ public class Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private void start() {
