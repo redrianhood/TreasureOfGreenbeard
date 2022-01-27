@@ -40,11 +40,16 @@ public class Game {
             Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
-            welcome.forEach(
-                    line -> System.out.println(line)
-            );
+            welcome.forEach(System.out::println);
+            player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
+            player.setShipName(prompter.prompt("What is the name of your Ship? -> "));
+            String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
+                    "Options are: sword, or pistol\n --> ", "sword|pistol", "Invalid selection");
+            player.setWeapon(weapon);
+            System.out.printf("\n\nYou are the Great Captain %s, Captain of the %s.\n" +
+                            "With your trusty %s by your side, you set off to town.%n",
+                    player.getName(), player.getShipName(), player.getWeapon());
             intro.forEach(line -> System.out.println(line));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
