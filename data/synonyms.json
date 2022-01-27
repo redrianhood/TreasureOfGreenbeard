@@ -1,0 +1,14 @@
+{
+  "go": [
+    "walk",
+    "jump",
+    "run",
+    "travel",
+    "proceed"
+  ],
+  "look": [
+    "see",
+    "check",
+    "view"
+  ]
+}
