@@ -54,5 +54,15 @@
       }
     ],
     "description": "You walk through a stone door to a mausoleum. Standing in front of you appears to be a man, but he seems to be missing his head. You look down to see the head on the ground when the head speaks to you."
+  },
+
+  "island": {
+    "name": "Yarginory Island",
+    "npcs": [
+      {
+        "name": "enemy1"
+      }
+    ],
+    "description": "A beautiful, yet creepy little island."
   }
 }

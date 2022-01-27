@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Player extends Character{
     ArrayList<String> crewMates = new ArrayList<>();
     private int gold = 100;
+    private String shipName = "";
 
     public Player() {
 
@@ -25,6 +26,14 @@ public class Player extends Character{
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public String getShipName() {
+        return shipName;
+    }
+
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
     }
 
     @Override
