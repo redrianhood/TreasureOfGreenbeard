@@ -1,0 +1,28 @@
+{
+  "town": {
+    "locations": [
+      "harbor",
+      "bar",
+      "cemetery"
+    ],
+    "description": "The central area for the pirate town of Dark Reef"
+  },
+  "harbor": {
+    "leave": "town",
+    "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling."
+  },
+  "bar": {
+    "leave": "town",
+    "npcs": [
+      {
+        "name": "bartender",
+        "greeting": "Hello Sea Captain, how goes yer adventurin'?"
+      },
+      {
+        "name": "stranger",
+        "greeting": "Arrr, I don't know ye stranger. Whatcha be wanting?"
+      }
+    ],
+    "description": "A sign labeled \"The Ugly Duckling\" hangs from rusty chains outside of what looks to be a popular bar location. The door is heavy as you pull it open and are greeted by a classic bar.\n There is a dart board, a bartender, stairs leading down, a lone stranger sitting in the corner, and the smell of ale permeates the area."
+  }
+}
