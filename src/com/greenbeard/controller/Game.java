@@ -57,14 +57,17 @@ public class Game {
     }
 
     private void start() {
-        String input = prompter.prompt("Where would you like to go?\n -> ").toLowerCase();
-
+        String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
         textParser(input);
-
     }
 
     private void textParser(String input) {
         List<String> commands = Arrays.asList(input.split(" "));
+
+        if(commands.size() != 2) {
+            System.out.println("Invalid Command");
+            return;
+        }
 
         String verb = checkSynonym(commands.get(0));
         String noun = commands.get(1);
@@ -76,28 +79,43 @@ public class Game {
             if ("go".equals(verb)) {
                 this.currentLocation = noun;
                 location = (JSONObject) jObj.get(this.currentLocation);
-                String description = (String) location.get("description");
-                System.out.println(description);
+                if (location != null) {
+                    String description = (String) location.get("description");
+                    System.out.println(description);
+                }
             }
             if (!currentLocation.equals("town") && "recruit".equals(verb)) {
-                JSONArray npcs = (JSONArray) location.get("npcs");
+                JSONObject npcs = (JSONObject) location.get("npcs");
+                JSONObject npc = (JSONObject) npcs.get(noun);
 
-                npcs.forEach(item -> {
-                    JSONObject npc = (JSONObject) item;
+                if(npc != null) {
                     String name = (String) npc.get("name");
                     String ableToRecruit = (String) npc.get("ableToRecruit");
-                    if(name.equals(noun) && ableToRecruit.equals("true")) {
+                    if(ableToRecruit.equals("true")) {
                         player.addCrewMate(name);
                     }
-                });
+                }
             }
-            if ("set".equals(verb) && "sail".equals(noun)){
+            if ("set".equals(verb) && "sail".equals(noun)) {
                 this.currentLocation = "island";
+                location = (JSONObject) jObj.get(this.currentLocation);
                 String description = (String) location.get("description");
                 System.out.println(description);
                 ending();
             }
-          
+
+            if (!currentLocation.equals("town") && "talk".equals(verb)) {
+                JSONObject npcs = (JSONObject) location.get("npcs");
+                JSONObject npc = (JSONObject) npcs.get(noun);
+
+                if(npc != null) {
+                    String greet = (String) npc.get("greeting");
+                    System.out.println(greet);
+                } else {
+                    System.out.println("Sorry you cannot speak to "+ noun +"." );
+                }
+            }
+
             System.out.println(player.getCrewMates());
 
         } catch (IOException | ParseException e) {
