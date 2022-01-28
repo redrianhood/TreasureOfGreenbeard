@@ -1,0 +1,22 @@
+{
+  "go": [
+    "walk",
+    "jump",
+    "run",
+    "travel",
+    "proceed"
+  ],
+  "look": [
+    "see",
+    "check",
+    "view"
+  ],
+  "recruit": [
+    "enlist",
+    "select",
+    "draft",
+    "enroll"
+  ],
+  "set": [],
+  "talk": ["speak", "approach", "ask"]
+}
