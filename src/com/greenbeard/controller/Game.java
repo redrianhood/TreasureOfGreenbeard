@@ -92,7 +92,7 @@ public class Game {
     private void textParser(String input) {
         List<String> commands = Arrays.asList(input.split(" "));
 
-        if(commands.size() != 2) {
+        if (commands.size() != 2) {
             System.out.println("Invalid Command");
             return;
         }
@@ -116,10 +116,10 @@ public class Game {
                 JSONObject npcs = (JSONObject) location.get("npcs");
                 JSONObject npc = (JSONObject) npcs.get(noun);
 
-                if(npc != null) {
+                if (npc != null) {
                     String name = (String) npc.get("name");
                     String ableToRecruit = (String) npc.get("ableToRecruit");
-                    if(ableToRecruit.equals("true")) {
+                    if (ableToRecruit.equals("true")) {
                         player.addCrewMate(name);
                     }
                 }
@@ -136,11 +136,11 @@ public class Game {
                 JSONObject npcs = (JSONObject) location.get("npcs");
                 JSONObject npc = (JSONObject) npcs.get(noun);
 
-                if(npc != null) {
+                if (npc != null) {
                     String greet = (String) npc.get("greeting");
                     System.out.println(greet);
                 } else {
-                    System.out.println("Sorry you cannot speak to "+ noun +"." );
+                    System.out.println("Sorry you cannot speak to " + noun + ".");
                 }
             }
 
@@ -185,7 +185,12 @@ public class Game {
     }
 
     private void ending() {
-        System.out.println("You find the treasure and live happily ever after :)");
+        if (player.getCrewMates().contains("mourner")) {
+            System.out.println("You find the treasure and live happily ever after :)");
+        } else {
+            System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
+                    "GAME OVER");
+        }
         gameOver = true;
     }
 }
