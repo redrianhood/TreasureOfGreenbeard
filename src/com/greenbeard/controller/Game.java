@@ -37,10 +37,20 @@ public class Game {
     private void welcome() {
         System.out.println("\n\n");
         try {
-            Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
+            //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/welcome/banner1.txt")).forEach(System.out::println);
+            delay();
+            Files.lines(Path.of("data/welcome/banner2.txt")).forEach(System.out::println);
+            delay();
+            Files.lines(Path.of("data/welcome/banner3.txt")).forEach(System.out::println);
+            delay();
+            Files.lines(Path.of("data/welcome/banner4.txt")).forEach(System.out::println);
+            delay();
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
             welcome.forEach(System.out::println);
+            Thread.sleep(8000);
+            clearConsole();
             player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
             player.setShipName(prompter.prompt("What is the name of your Ship? -> "));
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
@@ -50,10 +60,25 @@ public class Game {
                             "With your trusty %s by your side, you set off to town.%n",
                     player.getName(), player.getShipName(), player.getWeapon());
             intro.forEach(line -> System.out.println(line));
+
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+    }
 
+    private void clearConsole() {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    private void delay() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void start() {
@@ -103,7 +128,6 @@ public class Game {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     private String checkSynonym(String command) {
