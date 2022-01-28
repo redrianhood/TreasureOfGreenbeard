@@ -17,5 +17,6 @@
     "draft",
     "enroll"
   ],
-  "set": []
+  "set": [],
+  "talk": ["speak", "approach", "ask"]
 }
