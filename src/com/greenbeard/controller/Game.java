@@ -8,6 +8,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -34,7 +40,24 @@ public class Game {
         gameOver();
     }
 
+    private void audio(String fileName) {
+        try {
+            File audioFile = new File(fileName);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void welcome() {
+        audio("data/audio/intro.wav");
         System.out.println("\n\n");
         try {
             //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
@@ -49,8 +72,6 @@ public class Game {
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
             welcome.forEach(System.out::println);
-            Thread.sleep(8000);
-            clearConsole();
             player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
             player.setShipName(prompter.prompt("What is the name of your Ship? -> "));
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
@@ -62,8 +83,6 @@ public class Game {
             intro.forEach(line -> System.out.println(line));
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -175,11 +194,13 @@ public class Game {
 
     private void gameOver() {
         System.out.println("GAME OVER!");
+        audio("data/audio/gameover.wav");
         String playAgain = prompter.prompt("Play again? yes or no?\n -> ", "yes|no", "Invalid Choice");
         if ("yes".equals(playAgain)) {
             execute();
         } else if ("no".equals(playAgain)) {
             System.out.println("Thanks for playing! See you again!");
+            audio("data/audio/victory.wav");
             System.exit(0);
         }
     }
