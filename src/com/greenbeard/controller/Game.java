@@ -67,8 +67,6 @@ public class Game {
             delay();
             Files.lines(Path.of("data/welcome/banner3.txt")).forEach(System.out::println);
             delay();
-            Files.lines(Path.of("data/welcome/banner4.txt")).forEach(System.out::println);
-            delay();
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
             welcome.forEach(System.out::println);
