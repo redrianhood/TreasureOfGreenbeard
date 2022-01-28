@@ -58,6 +58,9 @@ public class Game {
 
     private void start() {
         String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
+        if( !this.currentLocation.equals("town")) {
+            System.out.println("Interact with the environment with verb commands, such as 'go', 'talk', 'recruit', followed by a noun.");
+        }
         textParser(input);
     }
 
