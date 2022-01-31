@@ -31,15 +31,13 @@ public class Game {
     private Prompter prompter = new Prompter(new Scanner(System.in));
     private String currentLocation = "town";
     private JSONParser jsonParser = new JSONParser();
-<<<<<<< HEAD
     private boolean dialogue = false;
-=======
+
     private Scanner scanner = new Scanner(System.in);
     private Clip clip;
     private static long BANNER_DELAY = 1500;
     private static final long WORD_DELAY = 250;
 
->>>>>>> 3db1992354c16b6379b8431b45f049c784fbe5e4
 
     public void execute() {
         gameOver = false;
