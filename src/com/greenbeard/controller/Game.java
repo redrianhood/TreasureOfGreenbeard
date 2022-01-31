@@ -327,15 +327,21 @@ public class Game {
                 System.out.println();
                 JSONArray finalOptions = options;
                 options.forEach((item) -> System.out.println((finalOptions.indexOf(item) + 1) + ". " + item.toString()));
-                String input = prompter.prompt("-> ");
-
-                if (input.equals("1")) {
-                    System.out.println(responses.get(1));
-                }
-                if (input.equals("leave")) {
-                    this.dialogue = false;
+                String input = (prompter.prompt("-> "));
+                Integer response = null;
+                if (input.matches("\\d+")) {
+                    response = Integer.valueOf(input);
+                } else if(input.equals("leave")) {
+                    dialogue = false;
                     break;
                 }
+
+                if (response != null && response <= responses.size()) {
+                    System.out.println(responses.get(response - 1));
+                } else {
+                    System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.");
+                }
+
             }
 
         } else {
@@ -378,7 +384,7 @@ public class Game {
         System.out.println(enemy.getIntro());
 
         // player attack, enemy attack loop
-        while (player.getHealth() > 0 && enemy.getHealth() > 0){
+        while (player.getHealth() > 0 && enemy.getHealth() > 0) {
             // player attack
             enemy.setHealth(enemy.getHealth() - player.getWeaponDmg());
             System.out.printf("Player turn:\n Player damage is: %d; Enemy health is: %d\n", player.getWeaponDmg(), enemy.getHealth());
@@ -386,10 +392,10 @@ public class Game {
             player.setHealth(player.getHealth() - enemy.getWeaponDmg());
             System.out.printf("Enemy turn:\n Enemy damage is: %d; Player health is: %d\n", enemy.getWeaponDmg(), player.getHealth());
             // once one has 0 health print victory or defeat
-            if (player.getHealth() <= 0){
+            if (player.getHealth() <= 0) {
                 System.out.println("I, THE MIGHTY GREENBEARD HAVE KILLED YOU!!!");
             }
-            if (enemy.getHealth() <= 0){
+            if (enemy.getHealth() <= 0) {
                 System.out.println("OH NO, i have been defeated. And so i die  X_X");
                 gameOver = true;
             }

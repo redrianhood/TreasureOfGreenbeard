@@ -24,38 +24,17 @@
       "inn",
       "clinic"
     ],
-    "npcs": {
-      "bartender": {
-        "name": "bartender",
-        "greeting": "Hello Sea Captain, how goes yer adventurin'?",
-        "ableToRecruit": "false"
-      },
-      "stranger": {
-        "name": "stranger",
-        "greeting": "Arrr, I don't know ye stranger. Whatcha be wanting?",
-        "ableToRecruit": "true"
-      }
-    },
     "description": "A sign labeled \"The Ugly Duckling\" hangs from rusty chains outside of what looks to be a popular bar location. The door is heavy as you pull it open and are greeted by a classic bar.\n There is a dart board, a bartender, stairs leading down, a lone stranger sitting in the corner, and the smell of ale permeates the area."
   },
   "cemetery": {
     "name": "Fair Winds and Following Seas Cemetery",
     "leave": "town",
     "locations": [
-
       "crypt",
       "bar",
       "inn",
       "clinic"
-
     ],
-    "npcs": {
-      "mourner": {
-        "name": "mourner",
-        "greeting": "I would like to be left alone right now, please come back later.",
-        "ableToRecruit": "true"
-      }
-    },
     "description": "A cemetery that has a mourner crying over a gravestone, a shovel leaning against a cabin, and a nearby crypt with what appears to be an open door."
   },
   "crypt": {
@@ -66,23 +45,10 @@
       "harbor",
       "cemetery"
     ],
-    "npcs": {
-      "zombie": {
-        "name": "zombie",
-        "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
-        "ableToRecruit": "true"
-      }
-    },
-
     "description": "You walk through a stone door to a mausoleum. Standing in front of you appears to be a man, but he seems to be missing his head. You look down to see the head on the ground when the head speaks to you."
   },
   "island": {
     "name": "Yarginory Island",
-    "npcs": [
-      {
-        "name": "enemy1"
-      }
-    ],
     "description": "After sailing to where your navigator directed, you spot a beautiful, yet creepy little island off in the distance. \n"
   }
 }

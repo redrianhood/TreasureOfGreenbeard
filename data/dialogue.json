@@ -9,6 +9,16 @@
         "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
         "Couldn't be better! Just another day in good ol' Dark Reef"
       ]
+    },
+    "stranger": {
+      "options": [
+        "Ask if he wants to join the crew.",
+        "Ask what he's doing at the bar in the middle of the day, drinking his life away."
+      ],
+      "responses": [
+        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
+        "I should ask you da same ol' timer."
+      ]
     }
   }
 }
