@@ -130,6 +130,7 @@ public class Game {
                     System.out.println(description);
                 }
             }
+
             if (!currentLocation.equals("town") && "recruit".equals(verb)) {
                 JSONObject npcs = (JSONObject) location.get("npcs");
                 JSONObject npc = (JSONObject) npcs.get(noun);
