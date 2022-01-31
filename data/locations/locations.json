@@ -42,10 +42,12 @@
     "name": "Fair Winds and Following Seas Cemetery",
     "leave": "town",
     "locations": [
+
       "crypt",
       "bar",
       "inn",
       "clinic"
+
     ],
     "npcs": {
       "mourner": {
@@ -59,6 +61,7 @@
   "crypt": {
     "name": "Ryte Family Tomb",
     "leave": "cemetery",
+
     "locations": [
       "harbor",
       "cemetery"
@@ -70,6 +73,7 @@
         "ableToRecruit": "true"
       }
     },
+
     "description": "You walk through a stone door to a mausoleum. Standing in front of you appears to be a man, but he seems to be missing his head. You look down to see the head on the ground when the head speaks to you."
   },
   "island": {

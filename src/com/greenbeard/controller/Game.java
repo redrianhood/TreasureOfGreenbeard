@@ -12,10 +12,14 @@ import org.json.simple.parser.ParseException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
+import javax.sound.sampled.Control;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -222,6 +226,30 @@ public class Game {
         String description = (String) location.get("description");
         System.out.println(description);
         ending();
+    }
+
+    private boolean validateRoute(String destination) {
+        try (Reader reader = new FileReader("data/locations/locations.json")) {
+            //Get the JSON Data for the current location
+            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
+            JSONObject currentLocationJObj = (JSONObject) jObj.get(this.currentLocation);
+//            Get the possible destinations from the current location
+            JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
+
+            //check if the target destination is found in the permitted destinations
+            for (Object locElement : locationsArray) {
+                String locationName = (String) locElement;
+
+                if (locationName.equals(destination)) {
+                    //valid destination
+                    return true;
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        //destination not found
+        return false;
     }
 
     private boolean validateRoute(String destination) {
