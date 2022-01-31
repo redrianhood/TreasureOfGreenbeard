@@ -213,6 +213,30 @@ public class Game {
         }
     }
 
+    private boolean validateRoute(String destination) {
+        try (Reader reader = new FileReader("data/locations/locations.json")) {
+            //Get the JSON Data for the current location
+            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
+            JSONObject currentLocationJObj = (JSONObject) jObj.get(this.currentLocation);
+//            Get the possible destinations from the current location
+            JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
+
+            //check if the target destination is found in the permitted destinations
+            for (Object locElement : locationsArray) {
+                String locationName = (String) locElement;
+
+                if (locationName.equals(destination)) {
+                    //valid destination
+                    return true;
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        //destination not found
+        return false;
+    }
+
     private void recruitCrewMember(String member) {
 
         try (Reader reader = new FileReader("data/npc.json")) {
