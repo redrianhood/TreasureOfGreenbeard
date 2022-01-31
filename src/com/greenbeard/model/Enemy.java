@@ -12,6 +12,7 @@ public class Enemy extends Character {
     private JSONParser jsonParser = new JSONParser();
     private String enemyName;
     private int health;
+    private String intro;
 
     //constructor
     public Enemy(String name) {
@@ -20,10 +21,13 @@ public class Enemy extends Character {
             JSONObject jObj = (JSONObject) jsonParser.parse(reader);
             JSONObject enemyJObj = (JSONObject) jObj.get(name);
 
-            // set weapon and name of enemy
+            // set weapon and names of enemy
             this.setName(name);
             this.setEnemyName((String) enemyJObj.get("name"));
             this.setWeapon((String) enemyJObj.get("weapon"));
+
+            // set dialogue
+            this.setIntro((String) enemyJObj.get("intro"));
         }
         catch (IOException | ParseException e){
             e.printStackTrace();
@@ -36,6 +40,14 @@ public class Enemy extends Character {
 
     public void setEnemyName(String enemyName) {
         this.enemyName = enemyName;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     @Override

@@ -28,6 +28,8 @@ public class GameTest {
     @Test
     public void returnsSuccessText_whenRightCrewMates() {
         testPlayer.addCrewMate("mourner");
+        testPlayer.setWeapon("pistol");
+        System.out.println(testPlayer.getWeapon());
         System.out.println(testPlayer.getCrewMates());
         game.finale();
     }

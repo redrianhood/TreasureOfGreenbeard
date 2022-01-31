@@ -29,7 +29,7 @@ class Character {
 
     public void setWeapon(String weapon) {
         // may want to add validation here
-        this.weapon = weapon;
+        this.weapon = weapon.toUpperCase();
     }
 
     // Weapon Accessors
