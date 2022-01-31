@@ -3,6 +3,7 @@ package com.greenbeard.controller;
 import com.apps.util.Console;
 import com.apps.util.Prompter;
 
+import com.greenbeard.model.Enemy;
 import com.greenbeard.model.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -225,31 +226,7 @@ public class Game {
         JSONObject location = (JSONObject) jObj.get(this.currentLocation);
         String description = (String) location.get("description");
         System.out.println(description);
-        ending();
-    }
-
-    private boolean validateRoute(String destination) {
-        try (Reader reader = new FileReader("data/locations/locations.json")) {
-            //Get the JSON Data for the current location
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject currentLocationJObj = (JSONObject) jObj.get(this.currentLocation);
-//            Get the possible destinations from the current location
-            JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
-
-            //check if the target destination is found in the permitted destinations
-            for (Object locElement : locationsArray) {
-                String locationName = (String) locElement;
-
-                if (locationName.equals(destination)) {
-                    //valid destination
-                    return true;
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
-        //destination not found
-        return false;
+        finale();
     }
 
     private boolean validateRoute(String destination) {
@@ -356,13 +333,44 @@ public class Game {
         player.clearCrewMates();
     }
 
-    private void ending() {
+    void finale() {
         if (player.getCrewMates().contains("mourner")) {
-            System.out.println("You find the treasure and live happily ever after :)");
+            System.out.println("\nYou land on Yarginory Island, look around, and see a treasure chest just" +
+                    "sitting on the beach! You approach it cautiously...\n\n");
+            fight("greenbeard");
         } else {
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
         }
         gameOver = true;
+    }
+
+    void fight(String name) {
+        Enemy enemy = new Enemy(name);
+
+        // fight intro description -> pulled from enemy
+        System.out.println(enemy.getIntro());
+
+        // player attack, enemy attack loop
+        while (player.getHealth() > 0 && enemy.getHealth() > 0){
+            // player attack
+            enemy.setHealth(enemy.getHealth() - player.getWeaponDmg());
+            System.out.printf("Player turn:\n Player damage is: %d; Enemy health is: %d\n", player.getWeaponDmg(), enemy.getHealth());
+            // enemy attack
+            player.setHealth(player.getHealth() - enemy.getWeaponDmg());
+            System.out.printf("Enemy turn:\n Enemy damage is: %d; Player health is: %d\n", enemy.getWeaponDmg(), player.getHealth());
+            // once one has 0 health print victory or defeat
+            if (player.getHealth() <= 0){
+                System.out.println("I, THE MIGHTY GREENBEARD HAVE KILLED YOU!!!");
+            }
+            if (enemy.getHealth() <= 0){
+                System.out.println("OH NO, i have been defeated. And so i die  X_X");
+                gameOver = true;
+            }
+        }
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
