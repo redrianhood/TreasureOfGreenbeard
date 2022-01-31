@@ -1,0 +1,28 @@
+{
+  "bar": {
+    "bartender": {
+      "name": "bartender",
+      "greeting": "Hello Sea Captain, how goes yer adventurin'?",
+      "ableToRecruit": "false",
+      "recruitMessage": "Arr, sorry cap'ain. No longer do I belong to the sea. My time has passed, you may try that stranger in the corner. I heard he might be interested in a crew."
+    },
+    "stranger": {
+      "name": "stranger",
+      "greeting": "Arrr, I don't know ye stranger. Whatcha be wanting?",
+      "ableToRecruit": "true"
+    }
+  },
+  "cemetery": {
+    "mourner": {
+      "name": "mourner",
+      "greeting": "I would like to be left alone right now, please come back later.",
+      "ableToRecruit": "true"
+    }
+  },
+  "crypt": {
+    "zombie": {
+      "name": "zombie",
+      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?"
+    }
+  }
+}
