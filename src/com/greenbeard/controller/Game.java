@@ -5,6 +5,7 @@ import com.apps.util.Prompter;
 
 import com.greenbeard.model.Enemy;
 import com.greenbeard.model.Player;
+import com.greenbeard.util.Die;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,6 +32,7 @@ import java.util.*;
 public class Game {
     private boolean gameOver;
     private Player player = new Player();
+    private Die die = new Die();
     private Prompter prompter = new Prompter(new Scanner(System.in));
     private String currentLocation = "town";
     private JSONParser jsonParser = new JSONParser();
@@ -372,31 +374,43 @@ public class Game {
     }
 
     void fight(String name) {
-        Enemy enemy = new Enemy(name);
+        Enemy enemy = new Enemy(currentLocation, name);
+        boolean fighting = true;
 
         // fight intro description -> pulled from enemy
         System.out.println(enemy.getIntro());
 
         // player attack, enemy attack loop
-        while (player.getHealth() > 0 && enemy.getHealth() > 0){
-            // player attack
-            enemy.setHealth(enemy.getHealth() - player.getWeaponDmg());
-            System.out.printf("Player turn:\n Player damage is: %d; Enemy health is: %d\n", player.getWeaponDmg(), enemy.getHealth());
-            // enemy attack
-            player.setHealth(player.getHealth() - enemy.getWeaponDmg());
-            System.out.printf("Enemy turn:\n Enemy damage is: %d; Player health is: %d\n", enemy.getWeaponDmg(), player.getHealth());
+        while (fighting){
             // once one has 0 health print victory or defeat
             if (player.getHealth() <= 0){
                 System.out.println("I, THE MIGHTY GREENBEARD HAVE KILLED YOU!!!");
-            }
-            if (enemy.getHealth() <= 0){
+                fighting = false;
+            } else if (enemy.getHealth() <= 0){
                 System.out.println("OH NO, i have been defeated. And so i die  X_X");
+                fighting = false;
                 gameOver = true;
+            }
+            // player attack
+            if (player.getHealth() >= 0 && enemy.getHealth() >= 0){
+                int playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
+                enemy.setHealth(enemy.getHealth() - playerDmg);
+                System.out.printf("Player does %d damage; Enemy health at %d\n", playerDmg, enemy.getHealth());
+            }
+            // enemy attack
+            if (player.getHealth() >= 0 && enemy.getHealth() >= 0){
+                int enemyDmg = enemy.getBaseDmg() + die.dmgRoll(enemy.getVariableDmg());
+                player.setHealth(player.getHealth() - enemyDmg);
+                System.out.printf("Enemy does %d damage; Player health at %d\n", enemyDmg, player.getHealth());
             }
         }
     }
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
     }
 }

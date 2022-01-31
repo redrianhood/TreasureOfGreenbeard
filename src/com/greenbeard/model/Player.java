@@ -13,7 +13,7 @@ public class Player extends Character{
 
     public ArrayList<String> addCrewMate(String name){
         crewMates.add(name);
-        // JSON Crewmates npcs.json
+        // JSON Crewmates npc.json
         return crewMates;
     }
 
