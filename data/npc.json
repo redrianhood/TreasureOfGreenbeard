@@ -9,20 +9,24 @@
     "stranger": {
       "name": "stranger",
       "greeting": "Arrr, I don't know ye stranger. Whatcha be wanting?",
-      "ableToRecruit": "true"
+      "ableToRecruit": "true",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
     }
   },
   "cemetery": {
     "mourner": {
       "name": "mourner",
       "greeting": "I would like to be left alone right now, please come back later.",
-      "ableToRecruit": "true"
+      "ableToRecruit": "true",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
     }
   },
   "crypt": {
     "zombie": {
       "name": "zombie",
-      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?"
+      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+      "ableToRecruit": "true",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
     }
   },
   "island": {

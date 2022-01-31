@@ -46,7 +46,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-//        welcome();
+        welcome();
         while (!gameOver) {
             if (player.getHealth() <= 0) {
                 gameOver = true;
@@ -57,8 +57,16 @@ public class Game {
         gameOver();
     }
 
-    private void audio(String fileName) {
+    private void audio(String fileName, int count) {
         try {
+            // Stop previous audio clip, if any.
+
+            if(clip != null) {
+                clip.stop();
+                clip.close();
+                clip = null;
+            }
+
             File audioFile = new File(fileName);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
@@ -66,6 +74,7 @@ public class Game {
             FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             volumeControl.setValue(-10.0f);
             clip.start();
+            clip.loop(count);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -74,13 +83,32 @@ public class Game {
             e.printStackTrace();
         }
     }
-//    private float getCurrentVolume(Clip clip){
-//        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-//        return (float) Math.pow(10f, volumeControl.getValue() / 20f);
-//    }
+
+    private void audioPreference(Clip clip) {
+        String response = "";
+        System.out.println("Choose your audio preferences: ");
+        while(!response.equals("Q")) {
+            System.out.println("N = Stop, R = Restart, Q = Quit");
+            System.out.print("Do you want an audio on your background? ");
+            response = scanner.next().toUpperCase();
+
+            switch(response) {
+                case("Y"): this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    break;
+                case("N"): this.clip.stop();
+                    break;
+                case("R"): this.clip.setMicrosecondPosition(0);
+                    break;
+                case("Q"):
+                    break;
+                default:
+                    System.out.println("Not a Valid Response.");
+            }
+        }
+    }
 
     private void welcome() {
-//        audio("data/audio/gamemusic.wav");
+        audio("data/audio/gamemusic.wav", Clip.LOOP_CONTINUOUSLY);
         System.out.println("\n\n");
         try {
             //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
@@ -91,6 +119,8 @@ public class Game {
             Files.lines(Path.of("data/welcome/banner3.txt")).forEach(System.out::println);
             delay(BANNER_DELAY);
 
+            audioPreference(clip);
+            System.out.println("\n\n");
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
             welcome.forEach((line) -> {
@@ -164,6 +194,7 @@ public class Game {
         }
         // set sail for island when ready for final boss
         if ("set".equals(verb) && "sail".equals(noun)) {
+            audio("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
             travel(noun);
         }
         // talking to someone
@@ -329,15 +360,21 @@ public class Game {
                 System.out.println();
                 JSONArray finalOptions = options;
                 options.forEach((item) -> System.out.println((finalOptions.indexOf(item) + 1) + ". " + item.toString()));
-                String input = prompter.prompt("-> ");
-
-                if (input.equals("1")) {
-                    System.out.println(responses.get(1));
-                }
-                if (input.equals("leave")) {
-                    this.dialogue = false;
+                String input = (prompter.prompt("-> "));
+                Integer response = null;
+                if (input.matches("\\d+")) {
+                    response = Integer.valueOf(input);
+                } else if(input.equals("leave")) {
+                    dialogue = false;
                     break;
                 }
+
+                if (response != null && response <= responses.size()) {
+                    System.out.println(responses.get(response - 1));
+                } else {
+                    System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.");
+                }
+
             }
 
         } else {
