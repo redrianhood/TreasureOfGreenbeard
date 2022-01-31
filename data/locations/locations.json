@@ -42,14 +42,10 @@
     "name": "Fair Winds and Following Seas Cemetery",
     "leave": "town",
     "locations": [
-<<<<<<< HEAD
-      "crypt"
-=======
-        "crypt",
-        "bar",
-        "inn",
-        "clinic"
->>>>>>> 3db1992354c16b6379b8431b45f049c784fbe5e4
+      "crypt",
+      "bar",
+      "inn",
+      "clinic"
     ],
     "npcs": {
       "mourner": {
@@ -63,25 +59,17 @@
   "crypt": {
     "name": "Ryte Family Tomb",
     "leave": "cemetery",
-    "locations" : [
-        "harbor",
+    "locations": [
+      "harbor",
       "cemetery"
     ],
     "npcs": {
-<<<<<<< HEAD
       "zombie": {
         "name": "zombie",
-        "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?"
+        "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+        "ableToRecruit": "true"
       }
     },
-=======
-    "zombie": {
-      "name": "zombie",
-      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
-      "ableToRecruit" : "true"
-    }
-  },
->>>>>>> 3db1992354c16b6379b8431b45f049c784fbe5e4
     "description": "You walk through a stone door to a mausoleum. Standing in front of you appears to be a man, but he seems to be missing his head. You look down to see the head on the ground when the head speaks to you."
   },
   "island": {
