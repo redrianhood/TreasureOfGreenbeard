@@ -292,4 +292,12 @@ public class Game {
         }
         gameOver = true;
     }
+
+    void fight(String name) {
+        Enemy enemy = new Enemy(name);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }
