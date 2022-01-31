@@ -1,0 +1,14 @@
+{
+  "bar": {
+    "bartender": {
+      "options": [
+        "Ask a rumor.",
+        "Ask how his day is."
+      ],
+      "responses": [
+        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
+        "Couldn't be better! Just another day in good ol' Dark Reef"
+      ]
+    }
+  }
+}
