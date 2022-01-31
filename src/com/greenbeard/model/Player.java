@@ -21,6 +21,10 @@ public class Player extends Character{
         return crewMates;
     }
 
+    public void clearCrewMates() {
+        crewMates.clear();
+    }
+
     public int getGold() {
         return gold;
     }

@@ -4,7 +4,9 @@
     "locations": [
       "harbor",
       "bar",
-      "cemetery"
+      "cemetery",
+      "inn",
+      "clinic"
     ],
     "description": "The central area for the pirate town of Dark Reef"
   },
@@ -16,6 +18,12 @@
   "bar": {
     "name": "The Ugly Duckling",
     "leave": "town",
+    "locations": [
+      "harbor",
+      "cemetery",
+      "inn",
+      "clinic"
+    ],
     "npcs": {
       "bartender": {
         "name": "bartender",
@@ -34,7 +42,12 @@
     "name": "Fair Winds and Following Seas Cemetery",
     "leave": "town",
     "locations": [
-      "crypt"
+
+      "crypt",
+      "bar",
+      "inn",
+      "clinic"
+
     ],
     "npcs": {
       "mourner": {
@@ -48,12 +61,19 @@
   "crypt": {
     "name": "Ryte Family Tomb",
     "leave": "cemetery",
+
+    "locations": [
+      "harbor",
+      "cemetery"
+    ],
     "npcs": {
       "zombie": {
         "name": "zombie",
-        "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?"
+        "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+        "ableToRecruit": "true"
       }
     },
+
     "description": "You walk through a stone door to a mausoleum. Standing in front of you appears to be a man, but he seems to be missing his head. You look down to see the head on the ground when the head speaks to you."
   },
   "island": {
