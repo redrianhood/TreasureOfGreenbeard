@@ -27,6 +27,7 @@ public class Game {
     private Prompter prompter = new Prompter(new Scanner(System.in));
     private String currentLocation = "town";
     private JSONParser jsonParser = new JSONParser();
+    private boolean dialogue = false;
 
     public void execute() {
         welcome();
@@ -150,15 +151,7 @@ public class Game {
             }
 
             if (!currentLocation.equals("town") && "talk".equals(verb)) {
-                JSONObject npcs = (JSONObject) location.get("npcs");
-                JSONObject npc = (JSONObject) npcs.get(noun);
-
-                if (npc != null) {
-                    String greet = (String) npc.get("greeting");
-                    System.out.println(greet);
-                } else {
-                    System.out.println("Sorry you cannot speak to " + noun + ".");
-                }
+                startDialogue(noun, location);
             }
 
             System.out.println(player.getCrewMates());
@@ -188,6 +181,48 @@ public class Game {
             e.printStackTrace();
         }
         return "Required return statement here";
+    }
+
+    private void startDialogue(String noun, JSONObject location) {
+        JSONObject npcs = (JSONObject) location.get("npcs");
+        JSONObject npc = (JSONObject) npcs.get(noun);
+
+        if (npc != null) {
+            this.dialogue = true;
+            String greet = (String) npc.get("greeting");
+            System.out.println(greet);
+            JSONArray options = null;
+            JSONArray responses = null;
+            try(Reader readerDialogue = new FileReader("data/dialogue.json")) {
+                JSONObject jObj = (JSONObject) jsonParser.parse(readerDialogue);
+                JSONObject area = (JSONObject) jObj.get(this.currentLocation);
+                JSONObject person = (JSONObject) area.get(noun);
+                options = (JSONArray) person.get("options");
+                responses = (JSONArray) person.get("response");
+
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+
+            while(dialogue) {
+                System.out.println();
+                options.forEach(item -> System.out.println(item.toString()));
+                String input = prompter.prompt("-> ");
+
+                if(input.contains("rumor")) {
+                    int idx = options.indexOf("Ask a rumor.");
+                    System.out.println(idx);
+                    System.out.println(responses.get(idx));
+                }
+                if (input.equals("leave")) {
+                    this.dialogue = false;
+                    break;
+                }
+            }
+
+        } else {
+            System.out.println("Sorry you cannot speak to " + noun + ".");
+        }
     }
 
     private void gameOver() {
