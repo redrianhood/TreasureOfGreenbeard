@@ -2,6 +2,7 @@ package com.greenbeard.controller;
 
 import com.apps.util.Prompter;
 
+import com.greenbeard.model.Enemy;
 import com.greenbeard.model.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,13 +12,10 @@ import org.json.simple.parser.ParseException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.Control;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -199,7 +197,7 @@ public class Game {
                 location = (JSONObject) jObj.get(this.currentLocation);
                 String description = (String) location.get("description");
                 System.out.println(description);
-                ending();
+                finale();
             }
 
             if (!currentLocation.equals("town") && "talk".equals(verb)) {
@@ -283,9 +281,11 @@ public class Game {
         player.clearCrewMates();
     }
 
-    private void ending() {
+    void finale() {
         if (player.getCrewMates().contains("mourner")) {
-            System.out.println("You find the treasure and live happily ever after :)");
+            System.out.println("You land on Yarginory Island, look around, and see a treasure chest just" +
+                    "sitting on the beach! You approach it cautiously...");
+            fight("greenbeard");
         } else {
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
