@@ -23,6 +23,11 @@ class Character {
         this.health = health;
     }
 
+    // Weapon Accessors
+    public String getWeaponName() {
+        return Weapon.valueOf(weapon).getName();
+    }
+
     public Enum<Weapon> getWeapon() {
         return Weapon.valueOf(weapon.toUpperCase());
     }
@@ -32,13 +37,12 @@ class Character {
         this.weapon = weapon.toUpperCase();
     }
 
-    // Weapon Accessors
-    public String getWeaponName() {
-        return Weapon.valueOf(weapon).getName();
+    public int getBaseDmg() {
+        return Weapon.valueOf(weapon).getBaseDmg();
     }
 
-    public int getWeaponDmg() {
-        return Weapon.valueOf(weapon).getDamage();
+    public int getVariableDmg() {
+        return Weapon.valueOf(weapon).getDmgRoll();
     }
 
 
@@ -53,18 +57,20 @@ class Character {
 
     // inner enum for Weapons
     enum Weapon {
-        PISTOL("Pistol", 20, 50),
-        SWORD("Cutlass", 15, 75);
+        PISTOL("Pistol", 5, 15, 50),
+        SWORD("Cutlass", 10, 5, 75);
 
         // Fields
         private final String name;
-        private final int damage;
+        private final int baseDmg;
+        private final int dmgRoll;
         private final int goldValue;
 
         // Ctor: set values of ENUM
-        Weapon(String name, int damage, int goldValue) {
+        Weapon(String name, int baseDmg, int dmgRoll, int goldValue) {
             this.name = name;
-            this.damage = damage;
+            this.baseDmg = baseDmg;
+            this.dmgRoll = dmgRoll;
             this.goldValue = goldValue;
         }
 
@@ -73,13 +79,16 @@ class Character {
             return name;
         }
 
-        public int getDamage() {
-            return damage;
+        public int getBaseDmg() {
+            return baseDmg;
+        }
+
+        public int getDmgRoll() {
+            return dmgRoll;
         }
 
         public int getGoldValue() {
             return goldValue;
         }
     }
-
 }

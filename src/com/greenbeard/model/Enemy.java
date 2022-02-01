@@ -15,11 +15,13 @@ public class Enemy extends Character {
     private String intro;
 
     //constructor
-    public Enemy(String name) {
-        try (Reader reader = new FileReader("data/npcs.json")){
+    public Enemy(String location, String name) {
+        try (Reader reader = new FileReader("data/npc.json")){
             // read who the enemy is
             JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject enemyJObj = (JSONObject) jObj.get(name);
+            // RVB - is there a better way to dig into the JSON?
+            JSONObject locationJObj = (JSONObject) jObj.get(location);
+            JSONObject enemyJObj = (JSONObject) locationJObj.get(name);
 
             // set weapon and names of enemy
             this.setName(name);
