@@ -56,12 +56,9 @@ public class Game {
     private void audio(String fileName, int count) {
         try {
             // Stop previous audio clip, if any.
-
-
             if(clip != null) {
                 clip.stop();
             }
-
             File audioFile = new File(fileName);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
@@ -92,8 +89,6 @@ public class Game {
             if(response.length() >1) {
                 response = response.charAt(0) + "";
             }
-
-
             switch (response) {
                 case ("Y"):
                     this.clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -113,7 +108,7 @@ public class Game {
         System.out.println("Your present location is: " + this.currentLocation);
         //showLocation();
         System.out.println("\n");
-        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
+//        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
 
         System.out.println("\n\n");
         audioPreference();
@@ -289,16 +284,17 @@ public class Game {
     private void travel(String noun) {
         JSONObject jObj = readJsonFile("data/locations/locations.json");
         //check if valid route based on json locations for the current location
+        if (noun.equals("sail")) {
+            sailToIsland(jObj);
+            return;
+        }
+
         if (!validateRoute(noun)) {
             //invalid route.
             System.out.println("Can not go to " + noun + " from " + this.currentLocation);
             return;
         }
 
-        if (noun.equals("sail")) {
-            sailToIsland(jObj);
-            return;
-        }
         //Valid route.
         this.currentLocation = noun;
         //Get the JSON object for the target destinationS
@@ -495,7 +491,6 @@ public class Game {
         return jObj;
     }
     private void printFile(String file) {
-
         try {
             List<String> text = Files.readAllLines(Path.of(file));
             text.forEach(line -> System.out.println(line));
