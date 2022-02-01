@@ -176,6 +176,32 @@ public class Game {
         }
     }
 
+    private void showMap() {
+        String filePath = null;
+        try {
+            switch (this.currentLocation) {
+
+                case "bar":
+                case "cemetery":
+                case "clinic":
+                case "crypt":
+                case "harbor":
+                case "inn":
+                case "island":
+                case "town":
+                    filePath = "data/map/ascii-map-" + this.currentLocation + ".txt";
+                    break;
+                default:
+                    System.out.println("There is nothing to show, verify your input>");
+            }
+            if(filePath!= null) {
+                Files.lines(Path.of(filePath)).forEach(System.out::println);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void printWordByWord(String line) {
         if (!line.trim().isEmpty()) {
             String[] words = line.split(" ");
@@ -208,11 +234,11 @@ public class Game {
 
     private void start() {
         System.out.println("\n");
-        showLocation();
+        //showLocation();
 
         System.out.println("\n");
         String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
-
+        showMap();
         List<String> commands = Arrays.asList(input.split(" "));
 
         if (commands.size() == 1) {
