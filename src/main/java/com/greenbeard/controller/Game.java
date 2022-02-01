@@ -134,7 +134,7 @@ public class Game {
                 printWordByWord(line);
             });
             player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
-            player.setShipName(prompter.prompt("What is the name of your Ship? -> "));
+            player.setShipName(prompter.prompt("What is the name of your Ship? [please include 'The' or not] -> "));
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
                     "Options are: sword, or pistol\n --> ", "sword|pistol", "Invalid selection");
             player.setWeapon(weapon);
@@ -284,18 +284,24 @@ public class Game {
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
         JSONObject jObj = readJsonFile("data/locations/locations.json");
-        //check if valid route based on json locations for the current location
+
+        // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail")) {
-            sailToIsland(jObj);
-            return;
+            if (player.getCrewMates().size() < 3) {
+                System.out.printf("You don't have enough crew members to sail my friend!\n" +
+                        "Continue searching for at least 3 members to \"Set Sail\" on ", player.getShipName());
+                return;
+            } else {
+                sailToIsland(jObj);
+            }
         }
 
+        // check if valid route based on json locations for the current location
         if (!validateRoute(noun)) {
             //invalid route.
             System.out.println("Can not go to " + noun + " from " + this.currentLocation);
             return;
         }
-
         //Valid route.
         this.currentLocation = noun;
         //Get the JSON object for the target destinationS
@@ -352,11 +358,17 @@ public class Game {
     }
 
     private void sailToIsland(JSONObject jObj) {
-        this.currentLocation = "island";
-        JSONObject location = (JSONObject) jObj.get(this.currentLocation);
-        String description = (String) location.get("description");
-        System.out.println(description);
-        finale();
+        if (player.getCrewMates().size() < 3){
+            System.out.printf("You don't have enough crew members to sail my friend!\n" +
+                    "Continue searching for at least 3 members to \"Set Sail\" on ", player.getShipName());
+            return;
+        } else {
+            this.currentLocation = "island";
+            JSONObject location = (JSONObject) jObj.get(this.currentLocation);
+            String description = (String) location.get("description");
+            System.out.println(description);
+            finale();
+        }
     }
 
 
@@ -438,15 +450,32 @@ public class Game {
     }
 
     void finale() {
-        if (player.getCrewMates().contains("mourner")) {
-            System.out.println("\nYou land on Yarginory Island, look around, and see a treasure chest just" +
-                    "sitting on the beach! You approach it cautiously...\n\n");
-            fight("greenbeard");
-        } else {
+        if (!player.getCrewMates().contains("mourner")) {
+            delay(300);
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
+            gameOver = true;
+        } else if (!player.getCrewMates().contains("zombie")){
+            delay(300);
+            System.out.println("As you were out at sea, you started sinking! \n" +
+                    "You didn't have a shipwright and you sank to the bottom. Sorry :(\n" +
+                    "GAME OVER");
+            gameOver = true;
+        } else if (!player.getCrewMates().contains("stranger")){
+            delay(300);
+            System.out.println("MUTINY! \n" +
+                    "You sailed to the island and got the treasure all right.\n" +
+                    "Then your crew left you on the deserted island :(\n" +
+                    "Shoulda had a FirstMate\n\n" +
+                    "GAME OVER");
+            gameOver = true;
+        } else {
+            System.out.println("\nYou land on Yarginory Island, look around, and see a treasure chest just" +
+                    "sitting on the beach! You approach it cautiously...\n\n");
+            delay(300);
+            fight("greenbeard");
+            gameOver = true;
         }
-        gameOver = true;
     }
 
     void fight(String name) {
@@ -458,26 +487,31 @@ public class Game {
 
         // player attack, enemy attack loop
         while (fighting){
-            // once one has 0 health print victory or defeat
+            // if defeated, call gameOver
             if (player.getHealth() <= 0){
                 System.out.println("I, THE MIGHTY GREENBEARD HAVE KILLED YOU!!!");
                 fighting = false;
-            } else if (enemy.getHealth() <= 0){
+                gameOver();
+            } // if enemy is defeated, continue game
+            else if (enemy.getHealth() <= 0){
                 System.out.println("OH NO, i have been defeated. And so i die  X_X");
                 fighting = false;
-                gameOver = true;
+                // RVB - where to adjust for other fights
+                gameOver();
             }
             // player attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0){
                 int playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
                 enemy.setHealth(enemy.getHealth() - playerDmg);
                 System.out.printf("Player does %d damage; Enemy health at %d\n", playerDmg, enemy.getHealth());
+                delay(200);
             }
             // enemy attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0){
                 int enemyDmg = enemy.getBaseDmg() + die.dmgRoll(enemy.getVariableDmg());
                 player.setHealth(player.getHealth() - enemyDmg);
                 System.out.printf("Enemy does %d damage; Player health at %d\n", enemyDmg, player.getHealth());
+                delay(300);
             }
         }
     }
