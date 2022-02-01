@@ -42,7 +42,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-        welcome();
+//        welcome();
         while (!gameOver) {
             if (player.getHealth() <= 0) {
                 gameOver = true;
@@ -56,6 +56,8 @@ public class Game {
     private void audio(String fileName, int count) {
         try {
             // Stop previous audio clip, if any.
+
+
             if(clip != null) {
                 clip.stop();
             }
@@ -91,10 +93,13 @@ public class Game {
                 response = response.charAt(0) + "";
             }
 
-            switch(response) {
-                case("Y"): this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            switch (response) {
+                case ("Y"):
+                    this.clip.loop(Clip.LOOP_CONTINUOUSLY);
                     break;
-                case("N"): this.clip.stop();
+                case ("N"):
+                    this.clip.stop();
                     break;
                 default:
                     System.out.println("Not a Valid Response.");
@@ -256,83 +261,70 @@ public class Game {
 
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
-
-        try (Reader reader = new FileReader("data/locations/locations.json")) {
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            //check if valid route based on json locations for the current location
-            if (!getDestinations(this.currentLocation).contains(noun)) {
-
-                //invalid route.
-                System.out.println("Can not go to " + noun + " from " + this.currentLocation);
-                return;
-            }
-
-            if (noun.equals("sail")) {
-                sailToIsland(jObj);
-                return;
-            }
-
-            //Valid route.
-            this.currentLocation = noun;
-
-            //Get the JSON object for the target destinationS
-            JSONObject location = (JSONObject) jObj.get(noun);
-            if (location != null) {
-                //JSON object found for the target destination
-                String description = (String) location.get("description");
-                System.out.println(description);
-            } else {
-                //JSON object NOT found for the target destination
-                System.out.println("No JSON entry for: " + noun);
-            }
-
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        JSONObject jObj = readJsonFile("data/locations/locations.json");
+        //check if valid route based on json locations for the current location
+        if (!validateRoute(noun)) {
+            //invalid route.
+            System.out.println("Can not go to " + noun + " from " + this.currentLocation);
+            return;
         }
+
+        if (noun.equals("sail")) {
+            sailToIsland(jObj);
+            return;
+        }
+        //Valid route.
+        this.currentLocation = noun;
+        //Get the JSON object for the target destinationS
+        JSONObject location = (JSONObject) jObj.get(noun);
+        if (location != null) {
+            //JSON object found for the target destination
+            String description = (String) location.get("description");
+            System.out.println(description);
+        } else {
+            //JSON object NOT found for the target destination
+            System.out.println("No JSON entry for: " + noun);
+        }
+
     }
 
-    private List<String> getDestinations(String destination) {
-        List<String> destinationNames = new ArrayList<>();
-        try (Reader reader = new FileReader("data/locations/locations.json")) {
-            //Get the JSON Data for the current location
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject currentLocationJObj = (JSONObject) jObj.get(this.currentLocation);
-//            Get the possible destinations from the current location
-            JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
 
-            //check if the target destination is found in the permitted destinations
-            for (Object locElement : locationsArray) {
-                destinationNames.add((String) locElement);
+    private boolean validateRoute(String destination) {
+        //Get the JSON Data for the current location
+        JSONObject jObj = readJsonFile("data/locations/locations.json");
+        JSONObject currentLocationJObj = (JSONObject) jObj.get(this.currentLocation);
+//            Get the possible destinations from the current location
+        JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
+
+
+        //check if the target destination is found in the permitted destinations
+        for (Object locElement : locationsArray) {
+            String locationName = (String) locElement;
+
+            if (locationName.equals(destination)) {
+                //valid destination
+                return true;
             }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
         }
-        return destinationNames;
+        return false;
     }
 
     private void recruitCrewMember(String member) {
+        JSONObject jObj = readJsonFile("data/npc.json");
+        JSONObject npcs = (JSONObject) jObj.get(this.currentLocation);
+        JSONObject npc = (JSONObject) npcs.get(member);
 
-        try (Reader reader = new FileReader("data/npc.json")) {
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject npcs = (JSONObject) jObj.get(this.currentLocation);
-            JSONObject npc = (JSONObject) npcs.get(member);
-
-            if (npc != null) {
-                String name = (String) npc.get("name");
-                String ableToRecruit = (String) npc.get("ableToRecruit");
-                if (ableToRecruit.equals("true")) {
-                    player.addCrewMate(name);
-                }
-                String recruitMsg = (String) npc.get("recruitMessage");
-                System.out.println(recruitMsg); // print message out when you try to recruit them.
-                System.out.println();
-            } else {
-                System.out.println("You cannot recruit " + member + ".");
+        if (npc != null) {
+            String name = (String) npc.get("name");
+            String ableToRecruit = (String) npc.get("ableToRecruit");
+            if (ableToRecruit.equals("true")) {
+                player.addCrewMate(name);
             }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            String recruitMsg = (String) npc.get("recruitMessage");
+            System.out.println(recruitMsg); // print message out when you try to recruit them.
+            System.out.println();
+        } else {
+            System.out.println("You cannot recruit " + member + ".");
         }
     }
 
@@ -346,69 +338,52 @@ public class Game {
 
 
     private String checkSynonym(String command) {
-
-        try (Reader readerSynonym = new FileReader("data/synonyms.json")) {
-            JSONObject jObj = (JSONObject) jsonParser.parse(readerSynonym);
-            if (jObj.containsKey(command)) {
-                return command;
-            } else {
-                final String[] keyStr = {""};
-                jObj.forEach((key, val) -> {
-                    JSONArray arr = (JSONArray) val;
-                    if (arr.contains(command)) {
-                        keyStr[0] = String.valueOf(key);
-                    }
-                });
-                return keyStr[0];
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        JSONObject jObj = readJsonFile("data/synonyms.json");
+        if (jObj.containsKey(command)) {
+            return command;
+        } else {
+            final String[] keyStr = {""};
+            jObj.forEach((key, val) -> {
+                JSONArray arr = (JSONArray) val;
+                if (arr.contains(command)) {
+                    keyStr[0] = String.valueOf(key);
+                }
+            });
+            return keyStr[0];
         }
-        return "Required return statement here";
     }
 
     private void startDialogue(String noun) {
-        JSONObject npc = null;
+        JSONObject jObj = readJsonFile("data/npc.json");
+        JSONObject npcs = (JSONObject) jObj.get(this.currentLocation); // grab npcs in current location
+        JSONObject npc = (JSONObject) npcs.get(noun); // grab specific npc based on text input
 
-        try (Reader reader = new FileReader("data/npc.json")) {
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject npcs = (JSONObject) jObj.get(this.currentLocation); // grab npcs in current location
-            npc = (JSONObject) npcs.get(noun); // grab specific npc based on text input
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
 
         if (npc != null) {
             this.dialogue = true;
             String greet = (String) npc.get("greeting");
-            System.out.println(greet);
-            JSONArray options = null;
-            JSONArray responses = null;
-            try (Reader readerDialogue = new FileReader("data/dialogue.json")) {
-                JSONObject jObj = (JSONObject) jsonParser.parse(readerDialogue);
-                JSONObject area = (JSONObject) jObj.get(this.currentLocation);
-                JSONObject person = (JSONObject) area.get(noun);
-                options = (JSONArray) person.get("options");
-                responses = (JSONArray) person.get("responses");
+            String ascii = (String) npc.get("image");
+            System.out.println(greet +"\n");
 
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
+//            printFile("data/"+ascii);
+
+            JSONObject jsonObject = readJsonFile("data/dialogue.json");
+            JSONObject area = (JSONObject) jsonObject.get(this.currentLocation);
+            JSONObject person = (JSONObject) area.get(noun);
+            JSONArray options = (JSONArray) person.get("options");
+            JSONArray responses = (JSONArray) person.get("responses");
 
             while (dialogue) {
-                System.out.println();
                 JSONArray finalOptions = options;
                 options.forEach((item) -> System.out.println((finalOptions.indexOf(item) + 1) + ". " + item.toString()));
                 String input = (prompter.prompt("-> "));
                 Integer response = null;
                 if (input.matches("\\d+")) {
                     response = Integer.valueOf(input);
-                } else if(input.equals("leave")) {
+                } else if (input.equals("leave")) {
                     dialogue = false;
                     break;
                 }
-
                 if (response != null && response <= responses.size()) {
                     System.out.println(responses.get(response - 1));
                 } else {
@@ -481,6 +456,25 @@ public class Game {
                 player.setHealth(player.getHealth() - enemyDmg);
                 System.out.printf("Enemy does %d damage; Player health at %d\n", enemyDmg, player.getHealth());
             }
+        }
+    }
+
+    private JSONObject readJsonFile(String file) {
+        JSONObject jObj = null;
+        try (Reader readerDialogue = new FileReader(file)) {
+            jObj = (JSONObject) jsonParser.parse(readerDialogue);
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return jObj;
+    }
+    private void printFile(String file) {
+
+        try {
+            List<String> text = Files.readAllLines(Path.of(file));
+            text.forEach(line -> System.out.println(line));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

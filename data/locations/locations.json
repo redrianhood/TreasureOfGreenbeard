@@ -13,7 +13,14 @@
   "harbor": {
     "name": "Dark Reef Port",
     "leave": "town",
-    "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling."
+    "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling.",
+    "locations": [
+      "harbor",
+      "bar",
+      "cemetery",
+      "inn",
+      "clinic"
+    ]
   },
   "bar": {
     "name": "The Ugly Duckling",
