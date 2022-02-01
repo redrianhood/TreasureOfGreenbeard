@@ -106,7 +106,7 @@ public class Game {
     private void help() {
         System.out.println("\n\n");
         System.out.println("Your present location is: " + this.currentLocation);
-        //showLocation();
+        showLocation();
         System.out.println("\n");
 //        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
 
@@ -234,11 +234,10 @@ public class Game {
 
     private void start() {
         System.out.println("\n");
-        //showLocation();
+        showLocation();
 
         System.out.println("\n");
         String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
-        showMap();
         List<String> commands = Arrays.asList(input.split(" "));
 
         if (commands.size() == 1) {
@@ -276,6 +275,8 @@ public class Game {
         if ("look".equals(verb)) {
             if ("crew".equals(noun)) {
                 System.out.println(player.getCrewMates());
+            } else if ("map".equals(noun)) {
+                showMap();
             }
         }
     }
