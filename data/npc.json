@@ -28,5 +28,13 @@
       "ableToRecruit": "true",
       "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
     }
+  },
+  "island": {
+    "greenbeard": {
+      "name": "Captain Greenbeard",
+      "weapon":"sword",
+      "intro": "A zombie with a big, green, seaweed filled beard walks up to you holding a Cutlass.\n\n \"Arrggg, think ya can just take me treasure so easily? Think again young Captain\" \n\nThe zombie lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!",
+      "lose": "OH NO, i have been defeated. And so i die  X_X"
+    }
   }
 }
