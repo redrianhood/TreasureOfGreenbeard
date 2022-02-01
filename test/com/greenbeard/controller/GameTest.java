@@ -29,6 +29,8 @@ public class GameTest {
     public void returnsSuccessText_whenRightCrewMates() {
         testPlayer.setWeapon("pistol");
         testPlayer.addCrewMate("mourner");
+        testPlayer.addCrewMate("zombie");
+        testPlayer.addCrewMate("stranger");
         game.setCurrentLocation("island");
         System.out.println(testPlayer.getWeapon());
         System.out.println(testPlayer.getCrewMates());
