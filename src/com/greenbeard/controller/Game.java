@@ -1,6 +1,5 @@
 package com.greenbeard.controller;
 
-import com.apps.util.Console;
 import com.apps.util.Prompter;
 
 import com.greenbeard.model.Enemy;
@@ -13,14 +12,11 @@ import org.json.simple.parser.ParseException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
-import javax.sound.sampled.Control;
+;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -38,8 +34,8 @@ public class Game {
 
     private Scanner scanner = new Scanner(System.in);
     private Clip clip;
-    private static long BANNER_DELAY = 1500;
-    private static final long WORD_DELAY = 250;
+    private static long BANNER_DELAY = 0; //1500;
+    private static final long WORD_DELAY = 0; //250;
 
 
     public void execute() {
@@ -58,19 +54,16 @@ public class Game {
     private void audio(String fileName, int count) {
         try {
             // Stop previous audio clip, if any.
-
             if(clip != null) {
                 clip.stop();
-                clip.close();
-                clip = null;
             }
 
             File audioFile = new File(fileName);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
             clip.open(audioStream);
-            FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(-10.0f);
+//            FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+//            volumeControl.setValue(-10.0f);
             clip.start();
             clip.loop(count);
         } catch (UnsupportedAudioFileException e) {
@@ -82,27 +75,40 @@ public class Game {
         }
     }
 
-    private void audioPreference(Clip clip) {
+    private void audioPreference() {
+        if(clip==null) {
+            return;
+        }
         String response = "";
         System.out.println("Choose your audio preferences: ");
-        while(!response.equals("Q")) {
-            System.out.println("N = Stop, R = Restart, Q = Quit");
-            System.out.print("Do you want an audio on your background? ");
-            response = scanner.next().toUpperCase();
+        while(response.trim().isEmpty()) {
+            System.out.print("Do you want an audio on your background? (Y / N): ");
+            response = scanner.next().trim().toUpperCase();
+
+            if(response.length() >1) {
+                response = response.charAt(0) + "";
+            }
 
             switch(response) {
                 case("Y"): this.clip.loop(Clip.LOOP_CONTINUOUSLY);
                     break;
                 case("N"): this.clip.stop();
                     break;
-                case("R"): this.clip.setMicrosecondPosition(0);
-                    break;
-                case("Q"):
-                    break;
                 default:
                     System.out.println("Not a Valid Response.");
+                    audioPreference();
             }
         }
+    }
+
+    private void help() {
+        System.out.println("\n\n");
+        System.out.println("Your present location is: " + this.currentLocation);
+        System.out.println("\n");
+        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
+
+        System.out.println("\n\n");
+        audioPreference();
     }
 
     private void welcome() {
@@ -117,7 +123,7 @@ public class Game {
             Files.lines(Path.of("data/welcome/banner3.txt")).forEach(System.out::println);
             delay(BANNER_DELAY);
 
-            audioPreference(clip);
+            audioPreference();
             System.out.println("\n\n");
             List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
@@ -162,6 +168,7 @@ public class Game {
         System.out.flush();
     }
 
+    //method delaying
     private void delay(long millis) {
         try {
             Thread.sleep(millis);
@@ -171,14 +178,21 @@ public class Game {
     }
 
     private void start() {
+        System.out.println("\n");
         String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
 
         List<String> commands = Arrays.asList(input.split(" "));
 
-        if (commands.size() != 2) {
+        if (commands.size() == 1) {
+            if("help".equals(commands.get(0))) {
+                help();
+                return;
+            }
+        } else if (commands.size() !=2 ) {
             System.out.println("Invalid Command");
             return;
         }
+
         String verb = checkSynonym(commands.get(0));
         String noun = commands.get(1);
 
@@ -214,7 +228,7 @@ public class Game {
         try (Reader reader = new FileReader("data/locations/locations.json")) {
             JSONObject jObj = (JSONObject) jsonParser.parse(reader);
             //check if valid route based on json locations for the current location
-            if (!validateRoute(noun)) {
+            if (!getDestinations(this.currentLocation).contains(noun)) {
                 //invalid route.
                 System.out.println("Can not go to " + noun + " from " + this.currentLocation);
                 return;
@@ -244,7 +258,8 @@ public class Game {
         }
     }
 
-    private boolean validateRoute(String destination) {
+    private List<String> getDestinations(String destination) {
+        List<String> destinationNames = new ArrayList<>();
         try (Reader reader = new FileReader("data/locations/locations.json")) {
             //Get the JSON Data for the current location
             JSONObject jObj = (JSONObject) jsonParser.parse(reader);
@@ -254,18 +269,12 @@ public class Game {
 
             //check if the target destination is found in the permitted destinations
             for (Object locElement : locationsArray) {
-                String locationName = (String) locElement;
-
-                if (locationName.equals(destination)) {
-                    //valid destination
-                    return true;
-                }
+                destinationNames.add((String) locElement);
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        //destination not found
-        return false;
+        return destinationNames;
     }
 
     private void recruitCrewMember(String member) {
@@ -336,7 +345,6 @@ public class Game {
             e.printStackTrace();
         }
 
-
         if (npc != null) {
             this.dialogue = true;
             String greet = (String) npc.get("greeting");
@@ -392,6 +400,7 @@ public class Game {
         }
     }
 
+    //method to clear the crew-mates after game over
     private void resetGame() {
         player.clearCrewMates();
     }
