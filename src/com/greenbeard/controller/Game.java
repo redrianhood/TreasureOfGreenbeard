@@ -106,6 +106,7 @@ public class Game {
     private void help() {
         System.out.println("\n\n");
         System.out.println("Your present location is: " + this.currentLocation);
+        //showLocation();
         System.out.println("\n");
         System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
 
@@ -149,6 +150,32 @@ public class Game {
         }
     }
 
+    private void showLocation() {
+        String pathFile = null;
+        try {
+            switch (this.currentLocation) {
+                case "bar":
+                case "cemetery":
+                case "clinic":
+                case "crypt":
+                case "harbor":
+                case "inn":
+                case "island":
+                case "town":
+                    pathFile = "data/single-image-text/" + this.currentLocation + ".txt";
+                    break;
+                default:
+                    System.out.println("Invalid Location you are trying to go" + this.currentLocation);
+            }
+            if(pathFile != null) {
+                Files.lines(Path.of(pathFile)).forEach(System.out::println);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void printWordByWord(String line) {
         if (!line.trim().isEmpty()) {
             String[] words = line.split(" ");
@@ -180,6 +207,9 @@ public class Game {
     }
 
     private void start() {
+        System.out.println("\n");
+        showLocation();
+
         System.out.println("\n");
         String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
 
@@ -231,6 +261,7 @@ public class Game {
             JSONObject jObj = (JSONObject) jsonParser.parse(reader);
             //check if valid route based on json locations for the current location
             if (!getDestinations(this.currentLocation).contains(noun)) {
+
                 //invalid route.
                 System.out.println("Can not go to " + noun + " from " + this.currentLocation);
                 return;
@@ -243,6 +274,7 @@ public class Game {
 
             //Valid route.
             this.currentLocation = noun;
+
             //Get the JSON object for the target destinationS
             JSONObject location = (JSONObject) jObj.get(noun);
             if (location != null) {
