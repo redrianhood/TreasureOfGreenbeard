@@ -1,0 +1,73 @@
+                                                                         _-----
+                                                                     _ _/-     }
+                                                                    /          }
+                                                                   <            }
+		                                                           |	>_       )
+                                                                   \_.           /
+                                                                      <         /
+                                                                       \   *  _/
+                                                                         >    º
+                                                                         /    /
+                                                                        <    /
+                                                                         "^./
+			                I\
+                            I \						                     ISLAND
+                            I  \
+                            I*--\                                             {           
+                            I    \                                             )                              	
+	                        I     \                                 __________[]
+	                        I______\                               /^~^~^~^~^~^~\
+	                   _____I__O______                            /^ ^ ^  ^ ^ ^ ^\
+	               __  \     ( )     b    _____        _____     /_^_^_^^_^_^_^_^_\         ____||____
+         Harbor   /__\  ^^^^^^^^^^^^^   |o o o|_______|    |      |        .--.  |         ///////////\
+       ___________|  |  _____/\____/|   |o o o|  * * *|: ::|      |  [}{]  |[]|  |        / /////////  \
+      |_|_|_|_|_| |  |  >____,\---` \   |o o o|* * *  |::  |    88|________|__|__|888     | == _x   |  |  
+      |_|_|_|_|_|_|__|                  |o o o|**  ** |:  :|            Inn               |[] | | []|[]|
+      A@\|_|_|_|_|_|/@@                 |_[]__|__[]___|_||_|                              |@@ | |   |  |
+   aaA@@@@@@@@@@@@@@@@@                        Town				                          |_________|__|
+  A@@@@@@@@@@@DWB@@@@@@                                                                       Bar
+  ^^^^^^^^^^^^^^^^^^^^^^
+							                                    '::.
+                                                           _________H ,%%&%,
+                                                          /\     _   \%&&%%&%
+                                                         /  \___/^\___\%&%%&&
+                                                        |  | []   [] |%\Y&%'
+                                                        |  |   .-.   | ||  
+                                                      ~~@._|@@_|||_@@|~||~~~~~~~~~~~~~
+             |=|                                                `""") )"""`
+            __|__   	                                         Clinic   
+          //.=|=.\\
+	     // .=|=. \\		    ,-=-.       ______     _
+	     \\ .=|=. //	       /  +  \     />----->  _|1|_
+	      \\(_=_)//	           | ~~~ |    // -/- /  |_ H _|
+           (:| |:)             |R.I.P|   //  /  /     |S|
+            || ||               \vV,,|V,//_____/VvV,v,|_|/,,vhjwv/,														  
+            () ()                       cemetery
+            || ||                   <<Current Location>>private void showMap() {
+                                                                String filePath = null;
+                                                                try {
+                                                                    switch (this.currentLocation) {
+
+                                                                        case "bar":
+                                                                        case "cemetery":
+                                                                        case "clinic":
+                                                                        case "crypt":
+                                                                        case "harbor":
+                                                                        case "inn":
+                                                                        case "island":
+                                                                        case "town":
+                                                                            filePath = "data/ascii-map-" + this.currentLocation + ".txt";
+                                                                            break;
+                                                                        default:
+                                                                            System.out.println("There is nothing to show, verify your input>");
+                                                                    }
+                                                                    if(filePath!= null) {
+                                                                        Files.lines(Path.of(filePath)).forEach(System.out::println);
+                                                                    }
+                                                                } catch (IOException e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+	        || ||
+          ==' '==
+           crypt(headless zombie)
