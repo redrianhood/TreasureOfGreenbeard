@@ -56,12 +56,9 @@ public class Game {
     private void audio(String fileName, int count) {
         try {
             // Stop previous audio clip, if any.
-
-
             if(clip != null) {
                 clip.stop();
             }
-
             File audioFile = new File(fileName);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
@@ -92,8 +89,6 @@ public class Game {
             if(response.length() >1) {
                 response = response.charAt(0) + "";
             }
-
-
             switch (response) {
                 case ("Y"):
                     this.clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -111,7 +106,7 @@ public class Game {
     private void help() {
         System.out.println("\n\n");
         System.out.println("Your present location is: " + this.currentLocation);
-        //showLocation();
+        showLocation();
         System.out.println("\n");
 //        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
 
@@ -181,6 +176,32 @@ public class Game {
         }
     }
 
+    private void showMap() {
+        String filePath = null;
+        try {
+            switch (this.currentLocation) {
+
+                case "bar":
+                case "cemetery":
+                case "clinic":
+                case "crypt":
+                case "harbor":
+                case "inn":
+                case "island":
+                case "town":
+                    filePath = "data/map/ascii-map-" + this.currentLocation + ".txt";
+                    break;
+                default:
+                    System.out.println("There is nothing to show, verify your input>");
+            }
+            if(filePath!= null) {
+                Files.lines(Path.of(filePath)).forEach(System.out::println);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void printWordByWord(String line) {
         if (!line.trim().isEmpty()) {
             String[] words = line.split(" ");
@@ -217,7 +238,6 @@ public class Game {
 
         System.out.println("\n");
         String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
-
         List<String> commands = Arrays.asList(input.split(" "));
 
         if (commands.size() == 1) {
@@ -255,6 +275,8 @@ public class Game {
         if ("look".equals(verb)) {
             if ("crew".equals(noun)) {
                 System.out.println(player.getCrewMates());
+            } else if ("map".equals(noun)) {
+                showMap();
             }
         }
     }
@@ -504,7 +526,6 @@ public class Game {
         return jObj;
     }
     private void printFile(String file) {
-
         try {
             List<String> text = Files.readAllLines(Path.of(file));
             text.forEach(line -> System.out.println(line));
