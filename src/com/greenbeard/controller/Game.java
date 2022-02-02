@@ -18,6 +18,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -158,10 +159,13 @@ public class Game {
         System.out.println("Your present location is: " + this.currentLocation);
         //showLocation();
         System.out.println("\n");
-//        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
+        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
 
-        System.out.println("\n\n");
-        audioPreference();
+        System.out.println("\n");
+        recruitCharacter(this.currentLocation);
+
+//        System.out.println("\n\n");
+//        audioPreference();
     }
 
     private void printCurrentLocation() {
@@ -335,6 +339,55 @@ public class Game {
         }
     }
 
+    private void recruitCharacter(String location) {
+        List<String> characterList = new ArrayList<>();
+        List<String> recruitList = new ArrayList<>();
+
+        try (Reader reader = new FileReader("data/npc.json")) {
+
+            //get the Json data for the current location
+
+            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
+            JSONObject currentLocationJObj = (JSONObject) jObj.get(location);
+
+            if (currentLocationJObj == null) {
+                //location not found
+                return;
+            }
+            //ge the list of people found in the location
+            //Iterate through JSONObject keys:
+
+            Set keySet = currentLocationJObj.keySet();
+            keySet.forEach((key)-> {
+                //add each character name to list
+                String characterName = (String) key;
+                characterList.add(characterName);
+
+                //check if character can be recruited
+                JSONObject characterJSON = (JSONObject) currentLocationJObj.get(characterName);
+                String ableToRecruit = (String) characterJSON.get("ableToRecruit");
+
+                if (ableToRecruit.equals("true")) {
+                    //add character to recruit list
+                    recruitList.add(characterName);
+                }
+            });
+
+            System.out.println("You can talk to: " + characterList);
+            System.out.println("You can recruit: " + recruitList);
+
+            //print ableToRecruit information.
+
+            keySet.forEach((key)-> {
+                characterList.add((String) key);
+            });
+
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
         JSONObject jObj = readJsonFile("data/locations/locations.json");
@@ -371,6 +424,34 @@ public class Game {
             System.out.println("No JSON entry for: " + noun);
         }
 
+    }
+
+    private List<String> getDestinations(String presentLocation) {
+        List<String> destinationNames = new ArrayList<>();
+
+        try (Reader reader = new FileReader("data/locations/locations.json")) {
+            //Get the JSON Data for the current location
+            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
+            JSONObject currentLocationJObj = (JSONObject) jObj.get(presentLocation);
+
+            //get the possible destinations from the current location
+
+            JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
+
+            //check if the target destination is found in the permitted destinations
+
+            for (Object locElement : locationsArray) {
+                destinationNames.add((String) locElement);
+            }
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+       return destinationNames;
+    }
+
+    private boolean validateDestinations (String presentLocation, String destination) {
+        return getDestinations(presentLocation).contains(destination);
     }
 
 
