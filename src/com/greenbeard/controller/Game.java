@@ -154,8 +154,7 @@ public class Game {
             } else if ("map".equals(noun)) {
                 map.showMap(this.currentLocation);
             }
-        }
-        else {
+        } else {
             System.out.println("Sorry the command you typed is not recognized");
         }
     }
@@ -164,55 +163,48 @@ public class Game {
         List<String> characterList = new ArrayList<>();
         List<String> recruitList = new ArrayList<>();
 
-        try (Reader reader = new FileReader("data/npc.json")) {
 
-            //get the Json data for the current location
+        //get the Json data for the current location
+        JSONObject jObj = TextParser.readJsonFile(NPC_FILE);
+        JSONObject currentLocationJObj = (JSONObject) jObj.get(location);
 
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject currentLocationJObj = (JSONObject) jObj.get(location);
-
-            if (currentLocationJObj == null) {
-                //location not found
-                return;
-            }
-            //ge the list of people found in the location
-            //Iterate through JSONObject keys:
-
-            Set keySet = currentLocationJObj.keySet();
-            keySet.forEach((key)-> {
-                //add each character name to list
-                String characterName = (String) key;
-                characterList.add(characterName);
-
-                //check if character can be recruited
-                JSONObject characterJSON = (JSONObject) currentLocationJObj.get(characterName);
-                String ableToRecruit = (String) characterJSON.get("ableToRecruit");
-
-                if (ableToRecruit.equals("true")) {
-                    //add character to recruit list
-                    recruitList.add(characterName);
-                }
-            });
-
-            System.out.println("You can talk to: " + characterList);
-            System.out.println("You can recruit: " + recruitList);
-
-            //print ableToRecruit information.
-
-            keySet.forEach((key)-> {
-                characterList.add((String) key);
-            });
-
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        if (currentLocationJObj == null) {
+            //location not found
+            return;
         }
+        //ge the list of people found in the location
+        //Iterate through JSONObject keys:
+
+        Set keySet = currentLocationJObj.keySet();
+        keySet.forEach((key) -> {
+            //add each character name to list
+            String characterName = (String) key;
+            characterList.add(characterName);
+
+            //check if character can be recruited
+            JSONObject characterJSON = (JSONObject) currentLocationJObj.get(characterName);
+            String ableToRecruit = (String) characterJSON.get("ableToRecruit");
+
+            if (ableToRecruit.equals("true")) {
+                //add character to recruit list
+                recruitList.add(characterName);
+            }
+        });
+
+        System.out.println("You can talk to: " + characterList);
+        System.out.println("You can recruit: " + recruitList);
+
+        //print ableToRecruit information.
+
+        keySet.forEach((key) -> {
+            characterList.add((String) key);
+        });
+
     }
 
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
         JSONObject jObj = TextParser.readJsonFile(LOCATIONS_FILE);
-
         // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail")) {
             if (player.getCrewMates().size() < 3) {
@@ -249,30 +241,18 @@ public class Game {
 
     private List<String> getDestinations(String presentLocation) {
         List<String> destinationNames = new ArrayList<>();
+        //Get the JSON Data for the current location
+        JSONObject jObj = TextParser.readJsonFile(LOCATIONS_FILE);
+        JSONObject currentLocationJObj = (JSONObject) jObj.get(presentLocation);
 
-        try (Reader reader = new FileReader("data/locations/locations.json")) {
-            //Get the JSON Data for the current location
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            JSONObject currentLocationJObj = (JSONObject) jObj.get(presentLocation);
+        //get the possible destinations from the current location
+        JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
 
-            //get the possible destinations from the current location
-
-            JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
-
-            //check if the target destination is found in the permitted destinations
-
-            for (Object locElement : locationsArray) {
-                destinationNames.add((String) locElement);
-            }
-
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        //check if the target destination is found in the permitted destinations
+        for (Object locElement : locationsArray) {
+            destinationNames.add((String) locElement);
         }
-       return destinationNames;
-    }
-
-    private boolean validateDestinations (String presentLocation, String destination) {
-        return getDestinations(presentLocation).contains(destination);
+        return destinationNames;
     }
 
 
