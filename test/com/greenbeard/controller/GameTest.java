@@ -1,11 +1,8 @@
 package com.greenbeard.controller;
 
-import com.greenbeard.controller.Game;
 import com.greenbeard.model.Player;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.reflect.Method;
 
 public class GameTest {
     //
