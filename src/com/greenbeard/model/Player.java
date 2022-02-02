@@ -1,9 +1,11 @@
 package com.greenbeard.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Player extends Character{
-    ArrayList<String> crewMates = new ArrayList<>();
+    Set<String> crewMates = new HashSet<>();
     private int gold = 100;
     private String shipName = "";
 
@@ -11,14 +13,18 @@ public class Player extends Character{
 
     }
 
-    public ArrayList<String> addCrewMate(String name){
+    public Set<String> addCrewMate(String name){
         crewMates.add(name);
-        // JSON Crewmates npcs.json
+        // JSON Crewmates npc.json
         return crewMates;
     }
 
-    public ArrayList<String> getCrewMates() {
+    public Set<String> getCrewMates() {
         return crewMates;
+    }
+
+    public void clearCrewMates() {
+        crewMates.clear();
     }
 
     public int getGold() {

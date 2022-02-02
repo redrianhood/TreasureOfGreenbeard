@@ -1,0 +1,41 @@
+{
+  "bar": {
+    "bartender": {
+      "name": "bartender",
+      "greeting": "Hello Sea Captain, how goes yer adventurin'?",
+      "ableToRecruit": "false",
+      "recruitMessage": "Arr, sorry cap'ain. No longer do I belong to the sea. My time has passed, you may try that stranger in the corner. I heard he might be interested in a crew.",
+      "image": "bartender.txt"
+    },
+    "stranger": {
+      "name": "stranger",
+      "greeting": "Arrr, I don't know ye stranger. Whatcha be wanting?",
+      "ableToRecruit": "true",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
+    }
+  },
+  "cemetery": {
+    "mourner": {
+      "name": "mourner",
+      "greeting": "I would like to be left alone right now, please come back later.",
+      "ableToRecruit": "true",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
+    }
+  },
+  "crypt": {
+    "zombie": {
+      "name": "zombie",
+      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+      "ableToRecruit": "true",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
+    }
+  },
+  "island": {
+    "greenbeard": {
+      "name": "Captain Greenbeard",
+      "weapon":"sword",
+      "intro": "A zombie with a big, green, seaweed filled beard walks up to you holding a Cutlass.\n\n \"Arrggg, think ya can just take me treasure so easily? Think again young Captain\" \n\nThe zombie lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!",
+      "lose": "OH NO, i have been defeated. And so i die  X_X"
+    }
+  }
+}

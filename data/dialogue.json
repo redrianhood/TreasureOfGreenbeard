@@ -1,0 +1,126 @@
+{
+  "bar": {
+    "bartender": {
+      "options": [
+        "Do you have any rumors you are willing to share?",
+        "How is your day going?"
+      ],
+      "responses": [
+        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
+        "Couldn't be better! Just another day in good ol' Dark Reef"
+      ]
+    },
+    "stranger": {
+      "options": [
+        "Are you interested in joining my crew?",
+        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+      ],
+      "responses": [
+        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
+        "I should ask you da same ol' timer."
+      ]
+    }
+  },
+  "cemetery": {
+    "mourner": {
+      "options": [
+        "Are you okay?",
+        "Sorry for your loss.",
+        "I know it's a bad time, but are you a navigator?"
+      ],
+      "responses": [
+        "What does it look like you fool? Leave me alone.",
+        "My dearest Betty, she was so young... * You notice the gravestone says 'Beatrice: Loving pet and friend' *",
+        "Uh, yes I am and I've been in search of a crew to go with, but I lost Betty so suddenly..."
+      ]
+    }
+  },
+  "crypt": {
+    "zombie": {
+      "options": [
+        "How are you alive?",
+        "Umm.. Would you like to join my crew?"
+      ],
+      "responses": [
+        "I don't know I woke up like this.",
+        "Hell yes! I do be a good shipwright back when I be with the living."
+      ]
+    }
+  },
+  "inn": {
+    "dog": {
+      "options": [
+        "Do you have any rumors you are willing to share?",
+        "How is your day going?"
+      ],
+      "responses": [
+        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
+        "Couldn't be better! Just another day in good ol' Dark Reef"
+      ]
+    },
+    "innkeeper": {
+      "options": [
+        "Are you interested in joining my crew?",
+        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+      ],
+      "responses": [
+        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
+        "I should ask you da same ol' timer."
+      ]
+    },
+    "pirate": {
+      "options": [
+        "Are you interested in joining my crew?",
+        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+      ],
+      "responses": [
+        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
+        "I should ask you da same ol' timer."
+      ]
+    }
+  },
+  "clinic": {
+    "doctor": {
+      "options": [
+        "Do you have any rumors you are willing to share?",
+        "How is your day going?"
+      ],
+      "responses": [
+        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
+        "Couldn't be better! Just another day in good ol' Dark Reef"
+      ]
+    },
+    "receptionist": {
+      "options": [
+        "Are you interested in joining my crew?",
+        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+      ],
+      "responses": [
+        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
+        "I should ask you da same ol' timer."
+      ]
+    },
+    "apprentice": {
+      "options": [
+        "Are you interested in joining my crew?",
+        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+      ],
+      "responses": [
+        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
+        "I should ask you da same ol' timer."
+      ]
+    }
+  },
+  "restaurant": {
+    "cook": {
+      "options": [
+        "Do you have any rumors you are willing to share?",
+        "How is your day going?"
+      ],
+      "responses": [
+        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
+        "Couldn't be better! Just another day in good ol' Dark Reef"
+      ]
+    }
+  }
+}
