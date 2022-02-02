@@ -116,7 +116,9 @@ public class Game {
                 help();
                 return;
             }
-        } else if (commands.size() != 2) {
+        }
+
+        if (commands.size() != 2) {
             System.out.println("Invalid Command");
             return;
         }
@@ -129,26 +131,29 @@ public class Game {
         }
 
         // recruit an npc for your crew
-        if (!currentLocation.equals("town") && "recruit".equals(verb)) {
+        else if (!currentLocation.equals("town") && "recruit".equals(verb)) {
             recruitCrewMember(noun);
         }
         // set sail for island when ready for final boss
-        if ("set".equals(verb) && "sail".equals(noun)) {
+        else if ("set".equals(verb) && "sail".equals(noun)) {
             audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
             travel(noun);
         }
         // talking to someone
-        if (!currentLocation.equals("town") && "talk".equals(verb)) {
+        else if (!currentLocation.equals("town") && "talk".equals(verb)) {
             startDialogue(noun);
         }
 
         //show current crew members
-        if ("look".equals(verb)) {
+        else if ("look".equals(verb)) {
             if ("crew".equals(noun)) {
                 System.out.println(player.getCrewMates());
             } else if ("map".equals(noun)) {
                 map.showMap(this.currentLocation);
             }
+        }
+        else {
+            System.out.println("Sorry the command you typed is not recognized");
         }
     }
 
