@@ -19,9 +19,9 @@ import java.util.*;
 public class Game {
     private boolean gameOver;
     private boolean dialogue;
-    private GameMap map = new GameMap();
+    private GameMap map = GameMap.getInstance();
     private boolean cryptFight = true;
-    private Player player = new Player();
+    private Player player = Player.getInstance();
     private Die die = new Die();
     private Audio audio = new Audio();
     private Prompter prompter = new Prompter(new Scanner(System.in));
@@ -35,7 +35,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-//        welcome();
+        welcome();
         map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
 
@@ -53,9 +53,9 @@ public class Game {
         System.out.println("\n");
         printCurrentLocation();
         map.availableCommand(this.currentLocation);
-        System.out.println("\n");
+//        System.out.println("\n");
         showCharacters(this.currentLocation);
-        System.out.println("\n\n");
+        System.out.println("========================\n");
         //audio.audioPreference();
     }
 
@@ -88,6 +88,7 @@ public class Game {
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
                     "Options are: " + ColorConsole.CYAN_BOLD + "sword, or pistol" + ColorConsole.RESET + "\n  --> ", "sword|pistol", "Invalid selection");
             player.setWeapon(weapon);
+            // Console.clear here (?)
             System.out.printf("\n\nYou are the Great Captain %s, Captain of the %s.\n" +
                             "With your trusty %s by your side, you set off to town.%n",
                     player.getName(), player.getShipName(), player.getWeaponName());
@@ -98,11 +99,6 @@ public class Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void clearConsole() {
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
     }
 
     private void start() {
@@ -203,7 +199,6 @@ public class Game {
 
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
-        clearConsole();
         // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail")) {
             sailToIsland();
