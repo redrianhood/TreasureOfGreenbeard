@@ -54,7 +54,7 @@ public class Game {
         printCurrentLocation();
         map.availableCommand(this.currentLocation);
         System.out.println("\n");
-        recruitCharacter(this.currentLocation);
+        showCharacters(this.currentLocation);
         System.out.println("\n\n");
         //audio.audioPreference();
     }
@@ -162,7 +162,7 @@ public class Game {
         }
     }
 
-    private void recruitCharacter(Location location) {
+    private void showCharacters(Location location) {
         List<String> characterList = new ArrayList<>();
         List<String> recruitList = new ArrayList<>();
 
@@ -172,7 +172,6 @@ public class Game {
         }
         //ge the list of people found in the location
         //Iterate through JSONObject keys:
-
         location.getNpcs().forEach((key, value) -> {
             //add each character name to list
             NPC npc = (NPC) value;
@@ -183,12 +182,9 @@ public class Game {
                 //add character to recruit list
                 recruitList.add(value.getName());
             }
-
-            System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
-            System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
-
-
         });
+        System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
+        System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
     }
 
     // Handles traveling between different locations in the map.
@@ -228,12 +224,6 @@ public class Game {
 
     }
 
-    private List<String> getDestinations(Location presentLocation) {
-        List<String> locations = presentLocation.getCanTravelTo();
-        return locations;
-    }
-
-
     private boolean validateRoute(String destination) {
         return map.getLocations().get(destination) != null;
     }
@@ -269,7 +259,6 @@ public class Game {
         }
 
     }
-
 
     private void startDialogue(String noun) {
         Character npc = this.currentLocation.getNpcs().get(noun);
