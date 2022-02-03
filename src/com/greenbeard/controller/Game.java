@@ -19,7 +19,6 @@ public class Game {
     private boolean dialogue;
     private GameMap map = new GameMap();
     private boolean cryptFight = true;
-    private String currentLocation = "town";
     private Player player = new Player();
     private Die die = new Die();
     private Audio audio = new Audio();

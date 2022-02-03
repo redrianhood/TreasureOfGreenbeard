@@ -40,7 +40,7 @@ public class GameTest {
     @Test
     public void successfullyFightZombie() {
         testPlayer.setWeapon("pistol");
-        game.setCurrentLocation("crypt");
+        game.setCurrentLocation(map.getLocations().get("crypt"));
         game.fight("zombie");
     }
 }
