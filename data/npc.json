@@ -27,10 +27,15 @@
   "crypt": {
     "zombie": {
       "name": "zombie",
-      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+      "weapon":"sword",
+      "greeting": "Sorry if we got off to a rough start.\nMy name is Gregory, I seem to have dropped my head. Would you mind handing it to me?",
       "ableToRecruit": "true",
       "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
       "image": "bartender.txt"
+      "intro": "You enter a crypt and see a zombie headed directly towards you!!! You draw your weapon for battle ***\n",
+      "victory": "\n***VICTORY***\nWith your final blow, the zombie's head appears to have rolled onto the floor.\nIt looks like you can talk to the head O.O",
+      "defeat": "\n***DEFEATED***\nAs things fade you black, you think you faintly hear the zombie say, \"Well that was rather rude\""
+
     }
   },
   "island": {
@@ -43,6 +48,8 @@
       "ableToRecruit": "false",
       "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
       "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?"
+      "victory": "\nWith a final blow, Captain Greenbeard falls to the sand and looks up at you, \n\"I've been bested...\nSafe travels young Captain, yer crew is mighty fine..\"\n\nSailing off into the sunset, your crew sings the praises of their great Captain\n\n###VICTORY###\nGood Job Gamer :)",
+      "defeat": "\n***DEFEATED***\n A shine from Greenbeard's cutlass is the last thing you see as you fall to the ground. Perhaps you can join his zombie crew?"
     }
   }
 }

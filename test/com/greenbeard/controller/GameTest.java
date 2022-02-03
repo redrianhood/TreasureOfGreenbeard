@@ -36,4 +36,11 @@ public class GameTest {
         System.out.println(testPlayer.getCrewMates());
         game.finale();
     }
+
+    @Test
+    public void successfullyFightZombie() {
+        testPlayer.setWeapon("pistol");
+        game.setCurrentLocation("crypt");
+        game.fight("zombie");
+    }
 }

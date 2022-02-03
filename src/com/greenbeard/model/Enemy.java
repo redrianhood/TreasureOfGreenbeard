@@ -1,5 +1,6 @@
 package com.greenbeard.model;
 
+import com.greenbeard.util.TextParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -7,12 +8,17 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Enemy extends Character {
     private JSONParser jsonParser = new JSONParser();
     private String enemyName;
     private int health;
-    private String intro;
+//    private String intro;
+//    private String victory;
+//    private String defeat;
+    private Map<String, String> dialogue = new HashMap<>();
 
     //constructor
     public Enemy(Location location, String name) {
@@ -26,7 +32,9 @@ public class Enemy extends Character {
 
         // set dialogue
         this.setIntro(enemy.getIntro());
-
+        // dialogue.put("intro", (String) enemyJObj.get("intro"));
+        // dialogue.put("victory", (String) enemyJObj.get("victory"));
+        // dialogue.put("defeat", (String) enemyJObj.get("defeat"));
 
     }
 
@@ -38,13 +46,17 @@ public class Enemy extends Character {
         this.enemyName = enemyName;
     }
 
-    public String getIntro() {
-        return intro;
+    public Map<String, String> getDialogue() {
+        return dialogue;
     }
 
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
+    //    public String getIntro() {
+//        return intro;
+//    }
+//
+//    public void setIntro(String intro) {
+//        this.intro = intro;
+//    }
 
     @Override
     public String toString() {
