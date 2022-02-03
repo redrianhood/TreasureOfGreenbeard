@@ -38,6 +38,52 @@
       "defeat": "\n***DEFEATED***\nAs things fade you black, you think you faintly hear the zombie say, \"Well that was rather rude\""
     }
   },
+  "inn": {
+    "dog": {
+      "name": "dog",
+      "greeting": "Woof Woof! * He jumps on you and sticks his tongue out. *",
+      "ableToRecruit": "true",
+      "recruitMessage": "* He barks and starts following you around * You start to think the dog likes you.",
+      "image": "bartender.txt"
+    },
+    "innkeeper" : {
+      "name": "innkeeper",
+      "greeting": "We got vacant rooms, if it pleases ya.",
+      "ableToRecruit": "false",
+      "recruitMessage": "Sorry laddy, my sailin' days are behind me. I am flattered you would try to recruit an old man like me.",
+      "image": "bartender.txt"
+    },
+    "pirate" : {
+      "name": "pirate",
+      "greeting": "Hoy! Matey! Hope ya day is as salty as I am.",
+      "ableToRecruit": "true",
+      "recruitMessage": "You made a great choice mate. I am the best QuarterMaster in all of the West Coast. Self-proclaimed of course, so don't blame me if somethin' goes wrong.",
+      "image": "bartender.txt"
+    }
+  },
+  "clinic": {
+    "doctor": {
+      "name": "doctor",
+      "greeting": "If it ain't an emergency, or you got scurvy, then I don't have time to chat with you.",
+      "ableToRecruit": "false",
+      "recruitMessage": "My place is here in Dark Reef. I don't have the luxury of leaving and participating in your foolish plans.",
+      "image": "bartender.txt"
+    },
+    "innkeeper" : {
+      "name": "innkeeper",
+      "greeting": "We got vacant rooms, if it pleases ya.",
+      "ableToRecruit": "false",
+      "recruitMessage": "Sorry laddy, my sailin' days are behind me. I am flattered you would try to recruit an old man like me.",
+      "image": "bartender.txt"
+    },
+    "pirate" : {
+      "name": "pirate",
+      "greeting": "Hoy! Matey! Hope ya day is as salty as I am.",
+      "ableToRecruit": "true",
+      "recruitMessage": "You made a great choice mate. I am the best QuarterMaster in all of the West Coast. Self-proclaimed of course, so don't blame me if somethin' goes wrong.",
+      "image": "bartender.txt"
+    }
+  },
   "island": {
     "greenbeard": {
       "name": "Captain Greenbeard",
