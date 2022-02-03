@@ -1,5 +1,6 @@
 package com.greenbeard.model;
 
+import com.greenbeard.util.TextParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -7,33 +8,35 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Enemy extends Character {
     private JSONParser jsonParser = new JSONParser();
     private String enemyName;
     private int health;
-    private String intro;
+//    private String intro;
+//    private String victory;
+//    private String defeat;
+    private Map<String, String> dialogue = new HashMap<>();
 
     //constructor
     public Enemy(String location, String name) {
-        try (Reader reader = new FileReader("data/npc.json")){
-            // read who the enemy is
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            // RVB - is there a better way to dig into the JSON?
-            JSONObject locationJObj = (JSONObject) jObj.get(location);
-            JSONObject enemyJObj = (JSONObject) locationJObj.get(name);
+        JSONObject jObj = TextParser.readJsonFile("data/npc.json");
+        JSONObject locationJObj = (JSONObject) jObj.get(location);
+        JSONObject enemyJObj = (JSONObject) locationJObj.get(name);
 
-            // set weapon and names of enemy
-            this.setName(name);
-            this.setEnemyName((String) enemyJObj.get("name"));
-            this.setWeapon((String) enemyJObj.get("weapon"));
+        // set weapon and names of enemy
+        this.setName(name);
+        this.setEnemyName((String) enemyJObj.get("name"));
+        this.setWeapon((String) enemyJObj.get("weapon"));
 
-            // set dialogue
-            this.setIntro((String) enemyJObj.get("intro"));
-        }
-        catch (IOException | ParseException e){
-            e.printStackTrace();
-        }
+        // set dialogue
+//        this.setIntro((String) enemyJObj.get("intro"));
+        dialogue.put("intro", (String) enemyJObj.get("intro"));
+        dialogue.put("victory", (String) enemyJObj.get("victory"));
+        dialogue.put("defeat", (String) enemyJObj.get("defeat"));
+
     }
 
     public String getEnemyName() {
@@ -44,13 +47,17 @@ public class Enemy extends Character {
         this.enemyName = enemyName;
     }
 
-    public String getIntro() {
-        return intro;
+    public Map<String, String> getDialogue() {
+        return dialogue;
     }
 
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
+    //    public String getIntro() {
+//        return intro;
+//    }
+//
+//    public void setIntro(String intro) {
+//        this.intro = intro;
+//    }
 
     @Override
     public String toString() {

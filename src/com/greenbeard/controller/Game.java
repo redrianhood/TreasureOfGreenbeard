@@ -20,12 +20,14 @@ import java.util.*;
 public class Game {
     private boolean gameOver;
     private boolean dialogue;
+    private boolean cryptFight = true;
     private String currentLocation = "town";
     private Player player = new Player();
     private Die die = new Die();
     private Audio audio = new Audio();
     private GameMap map = new GameMap();
     private Prompter prompter = new Prompter(new Scanner(System.in));
+    private Scanner scanner = new Scanner(System.in);
     private static long BANNER_DELAY = 0; //1500;
     private static final String LOCATIONS_FILE = "data/locations/locations.json";
     private static final String NPC_FILE = "data/npc.json";
@@ -138,7 +140,7 @@ public class Game {
             recruitCrewMember(noun);
         }
         // set sail for island when ready for final boss
-        else if ("set".equals(verb) && "sail".equals(noun)) {
+        else if ("set".equals(verb) && "sail".equals(noun) && currentLocation.equals("harbor")) {
             audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
             travel(noun);
         }
@@ -213,6 +215,7 @@ public class Game {
                 return;
             } else {
                 sailToIsland(jObj);
+                gameOver();
             }
         }
 
@@ -224,6 +227,13 @@ public class Game {
         }
         //Valid route.
         this.currentLocation = noun;
+
+        // Initiate combat if player enter the crypt for the first time
+        if (cryptFight && "crypt".equals(noun)){
+            fight("zombie");
+            cryptFight = false;
+        }
+
         //Get the JSON object for the target destinationS
         JSONObject location = (JSONObject) jObj.get(noun);
         if (location != null) {
@@ -296,17 +306,11 @@ public class Game {
     }
 
     private void sailToIsland(JSONObject jObj) {
-        if (player.getCrewMates().size() < 3) {
-            System.out.printf("You don't have enough crew members to sail my friend!\n" +
-                    "Continue searching for at least 3 members to \"Set Sail\" on ", player.getShipName());
-            return;
-        } else {
-            this.currentLocation = "island";
-            JSONObject location = (JSONObject) jObj.get(this.currentLocation);
-            String description = (String) location.get("description");
-            System.out.println(description);
-            finale();
-        }
+        this.currentLocation = "island";
+        JSONObject location = (JSONObject) jObj.get(this.currentLocation);
+        String description = (String) location.get("description");
+        System.out.println(description);
+        finale();
     }
 
 
@@ -372,18 +376,21 @@ public class Game {
     }
 
     void finale() {
+        // if crew doesn't have a navigator
         if (!player.getCrewMates().contains("mourner")) {
             TextParser.delay(300);
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
             gameOver = true;
-        } else if (!player.getCrewMates().contains("zombie")) {
+        } // if crew doesn't have a shipwright
+        else if (!player.getCrewMates().contains("zombie")) {
             TextParser.delay(300);
             System.out.println("As you were out at sea, you started sinking! \n" +
                     "You didn't have a shipwright and you sank to the bottom. Sorry :(\n" +
                     "GAME OVER");
             gameOver = true;
-        } else if (!player.getCrewMates().contains("stranger")) {
+        } // if crew doesn't have a firstmate
+        else if (!player.getCrewMates().contains("stranger")) {
             TextParser.delay(300);
             System.out.println("MUTINY! \n" +
                     "You sailed to the island and got the treasure all right.\n" +
@@ -401,39 +408,84 @@ public class Game {
     }
 
     void fight(String name) {
+        // create enemy
         Enemy enemy = new Enemy(currentLocation, name);
-        boolean fighting = true;
+        // reset health before each fight
+        player.setHealth(100);
 
         // fight intro description -> pulled from enemy
-        System.out.println(enemy.getIntro());
+        System.out.println(enemy.getDialogue().get("intro"));
 
+        boolean fighting = true;
         // player attack, enemy attack loop
         while (fighting) {
-            // if defeated, call gameOver
-            if (player.getHealth() <= 0) {
-                System.out.println("I, THE MIGHTY GREENBEARD HAVE KILLED YOU!!!");
-                fighting = false;
-                gameOver();
-            } // if enemy is defeated, continue game
-            else if (enemy.getHealth() <= 0) {
-                System.out.println("OH NO, i have been defeated. And so i die  X_X");
-                fighting = false;
-                // RVB - where to adjust for other fights
-                gameOver();
+            // display:
+            // "3 Attacks available: \n Strong, Guarded, Normal
+            // prompt for valid input
+            // calculate appropriate dmg
+            // (is someone dead?)
+            // calculate enemy dmg
+            // (is someone dead?)
+            // loop
+
+            // Ask for what kind of attack and calculate damage
+            boolean validInput = false;
+            // reset guard for round
+            boolean guarded = false;
+            int playerDmg = 0;
+
+            System.out.println("Pick an attack type:\nStrong, Guarded, Normal  {s/g/n}");
+            while (!validInput){
+                String response = scanner.next().trim().toLowerCase();
+                switch (response) {
+                    // double the damage roll
+                    case ("strong"):
+                    case ("s"):
+                        playerDmg = player.getBaseDmg()*2 + die.dmgRoll(player.getVariableDmg());
+                        validInput = true;
+                        break;
+                    case ("guarded"):
+                    case ("g"):
+                        guarded = true;
+                        playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
+                        validInput = true;
+                        break;
+                    case ("normal"):
+                    case ("n"):
+                        playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
+                        validInput = true;
+                        break;
+                }
             }
+
             // player attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0) {
-                int playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
                 enemy.setHealth(enemy.getHealth() - playerDmg);
                 System.out.printf("Player does %d damage; Enemy health at %d\n", playerDmg, enemy.getHealth());
                 TextParser.delay(200);
             }
+            // if enemy is defeated, end fight and continue game
+            if (enemy.getHealth() <= 0) {
+                System.out.println(enemy.getDialogue().get("victory"));
+                fighting = false;
+            }
             // enemy attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0) {
                 int enemyDmg = enemy.getBaseDmg() + die.dmgRoll(enemy.getVariableDmg());
+                if(guarded & enemyDmg >= 8){
+                    enemyDmg -= 8;
+                } else if (guarded){
+                    enemyDmg = 0;
+                }
                 player.setHealth(player.getHealth() - enemyDmg);
                 System.out.printf("Enemy does %d damage; Player health at %d\n", enemyDmg, player.getHealth());
                 TextParser.delay(300);
+            }
+            // if defeated, call gameOver
+            if (player.getHealth() <= 0) {
+                System.out.println(enemy.getDialogue().get("defeat"));
+                fighting = false;
+                gameOver();
             }
         }
     }
