@@ -144,7 +144,7 @@ public class Game {
         }
         // set sail for island when ready for final boss
         else if ("set".equals(verb) && "sail".equals(noun) && currentLocation.equals("harbor")) {
-            if(audio.isMusicOn()) {
+            if (audio.isMusicOn()) {
                 audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
@@ -188,17 +188,18 @@ public class Game {
                 recruitList.add(value.getName());
             }
 
-        System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
-        System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
+            System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
+            System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
 
-        
+
+        });
     }
 
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
         // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail")) {
-                sailToIsland();
+            sailToIsland();
         }
 
         // check if valid route based on json locations for the current location
@@ -209,7 +210,7 @@ public class Game {
         }
         //Valid route.
         // Initiate combat if player enter the crypt for the first time
-        if (cryptFight && "crypt".equals(noun)){
+        if (cryptFight && "crypt".equals(noun)) {
             fight("zombie");
             cryptFight = false;
         }
@@ -245,7 +246,7 @@ public class Game {
 
         if (npc != null) {
             String name = npc.getName();
-            boolean ableToRecruit =  npc.isAbleToRecruit();
+            boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
                 player.addCrewMate(name);
             }
@@ -260,7 +261,7 @@ public class Game {
     private void sailToIsland() {
         if (player.getCrewMates().size() < 3) {
             System.out.printf("You don't have enough crew members to sail my friend!\n" +
-                        "Continue searching for at least 3 members to \"Set Sail\" on ",  ColorConsole.BLACK_BOLD + player.getShipName());
+                    "Continue searching for at least 3 members to \"Set Sail\" on ", ColorConsole.BLACK_BOLD + player.getShipName());
             return;
         } else {
             setCurrentLocation(map.getLocations().get("island"));
@@ -391,13 +392,13 @@ public class Game {
             int playerDmg = 0;
 
             System.out.println("Pick an attack type:\nStrong, Guarded, Normal  {s/g/n}");
-            while (!validInput){
+            while (!validInput) {
                 String response = scanner.next().trim().toLowerCase();
                 switch (response) {
                     // double the damage roll
                     case ("strong"):
                     case ("s"):
-                        playerDmg = player.getBaseDmg()*2 + die.dmgRoll(player.getVariableDmg());
+                        playerDmg = player.getBaseDmg() * 2 + die.dmgRoll(player.getVariableDmg());
                         validInput = true;
                         break;
                     case ("guarded"):
@@ -428,9 +429,9 @@ public class Game {
             // enemy attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0) {
                 int enemyDmg = enemy.getBaseDmg() + die.dmgRoll(enemy.getVariableDmg());
-                if(guarded & enemyDmg >= 8){
+                if (guarded & enemyDmg >= 8) {
                     enemyDmg -= 8;
-                } else if (guarded){
+                } else if (guarded) {
                     enemyDmg = 0;
                 }
                 player.setHealth(player.getHealth() - enemyDmg);

@@ -44,7 +44,7 @@ public class GameMap {
                 String weapon = (String) val.get("weapon");
                 String intro = (String) val.get("intro");
                 NPC npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image);
-                if(weapon != null && intro != null) {
+                if (weapon != null && intro != null) {
                     npc.setWeapon(weapon);
                     npc.setIntro(intro);
                 }
@@ -106,16 +106,16 @@ public class GameMap {
         }
     }
 
-    public void availableCommand(String location) {
+    public void availableCommand(Location location) {
         System.out.print("These are the available commands: ");
-        switch (location) {
+        switch (location.getBasicName()) {
             case "harbor":
-                System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD +  "show map" + ColorConsole.RESET + "\", " +
+                System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
                         "\"" + ColorConsole.RED_BOLD + "leave" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "set sail" + ColorConsole.RESET + "\"");
                 break;
             case "town":
-                System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD +  "show map" + ColorConsole.RESET + "\", " +
-                        "\"" +  ColorConsole.RED_BOLD +  "go" + ColorConsole.RESET + "\"");
+                System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
+                        "\"" + ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\"");
                 break;
             case "bar":
             case "cemetery":
@@ -123,10 +123,12 @@ public class GameMap {
             case "inn":
             case "clinic":
             case "restaurant":
-                System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD +  "show map" + ColorConsole.RESET + "\", " +
-                        "\"" +  ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD +  "leave" + ColorConsole.RESET + "\", " +
-                        ColorConsole.RED_BOLD +  "talk" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD +  "recruit" + ColorConsole.RESET + "\"");
+                System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
+                        "\"" + ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD + "leave" + ColorConsole.RESET + "\", " +
+                        ColorConsole.RED_BOLD + "talk" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD + "recruit" + ColorConsole.RESET + "\"");
         }
+
+    }
 
     public Map<String, Location> getLocations() {
         return locations;
