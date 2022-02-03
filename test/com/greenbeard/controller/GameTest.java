@@ -1,7 +1,6 @@
 package com.greenbeard.controller;
 
 import com.greenbeard.model.GameMap;
-import com.greenbeard.model.Location;
 import com.greenbeard.model.Player;
 import org.junit.Before;
 import org.junit.Test;
