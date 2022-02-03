@@ -15,25 +15,19 @@ public class Enemy extends Character {
     private String intro;
 
     //constructor
-    public Enemy(String location, String name) {
-        try (Reader reader = new FileReader("data/npc.json")){
-            // read who the enemy is
-            JSONObject jObj = (JSONObject) jsonParser.parse(reader);
-            // RVB - is there a better way to dig into the JSON?
-            JSONObject locationJObj = (JSONObject) jObj.get(location);
-            JSONObject enemyJObj = (JSONObject) locationJObj.get(name);
+    public Enemy(Location location, String name) {
+        // read who the enemy is
+        // RVB - is there a better way to dig into the JSON?
+        NPC enemy = location.getNpcs().get(name);
 
-            // set weapon and names of enemy
-            this.setName(name);
-            this.setEnemyName((String) enemyJObj.get("name"));
-            this.setWeapon((String) enemyJObj.get("weapon"));
+        // set weapon and names of enemy
+        this.setEnemyName(enemy.getName());
+        this.setWeapon(enemy.getWeapon());
 
-            // set dialogue
-            this.setIntro((String) enemyJObj.get("intro"));
-        }
-        catch (IOException | ParseException e){
-            e.printStackTrace();
-        }
+        // set dialogue
+        this.setIntro(enemy.getIntro());
+
+
     }
 
     public String getEnemyName() {
