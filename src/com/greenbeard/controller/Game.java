@@ -35,7 +35,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-//        welcome();
+        welcome();
         map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
 
@@ -50,18 +50,16 @@ public class Game {
     }
 
     private void help() {
-        System.out.println("\n\n");
+        System.out.println("\n");
         printCurrentLocation();
         map.availableCommand(this.currentLocation);
-        System.out.println("\n");
         recruitCharacter(this.currentLocation);
-        System.out.println("\n\n");
+        System.out.println("\n");
         //audio.audioPreference();
     }
 
     private void printCurrentLocation() {
-        System.out.println("Your current location is: " + ColorConsole.RED_BOLD + (this.currentLocation) + ColorConsole.RESET);
-        System.out.println();
+        System.out.println("Current Location: " + ColorConsole.RED_BOLD + (this.currentLocation.getBasicName()) + ColorConsole.RESET);
     }
 
     private void welcome() {
@@ -85,13 +83,13 @@ public class Game {
 
             });
             player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
-            player.setShipName(prompter.prompt("What is the name of your Ship? [please include 'The' or not] -> "));
+            player.setShipName(prompter.prompt("What is the name of your Ship? -> "));
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
                     "Options are: " + ColorConsole.CYAN_BOLD + "sword, or pistol" + ColorConsole.RESET + "\n  --> ", "sword|pistol", "Invalid selection");
             player.setWeapon(weapon);
             System.out.printf("\n\nYou are the Great Captain %s, Captain of the %s.\n" +
                             "With your trusty %s by your side, you set off to town.%n",
-                    player.getName(), player.getShipName(), player.getWeapon());
+                    player.getName(), player.getShipName(), player.getWeaponName());
             intro.forEach((line) -> {
                 TextParser.printWordByWord(line);
             });
@@ -107,21 +105,25 @@ public class Game {
     }
 
     private void start() {
-        System.out.println("\n");
-        //showLocation();
-
-        System.out.println("\n");
-        String input = prompter.prompt("What would you like to do?\n -> ").toLowerCase();
+        String input = prompter.prompt("\nWhat would you like to do?\n -> ").toLowerCase();
         List<String> commands = Arrays.asList(input.split(" "));
 
+        // Help and Quit commands
         if (commands.size() == 1) {
             if ("help".equals(commands.get(0))) {
                 help();
                 return;
             }
+            else if ("quit".equals(commands.get(0))){
+                String response = prompter.prompt("\nAre you sure you want to quit? (y/n) ", "y|n", "Invalid Selection");
+                if ("y".equals(response)) {
+                    gameOver = true;
+                }
+                return;
+            }
         }
 
-        if (commands.size() != 2) {
+        else if (commands.size() != 2) {
             System.out.println("Invalid Command");
             return;
         }
@@ -162,6 +164,17 @@ public class Game {
         }
     }
 
+//    private void actionOptions() {
+//        System.out.println("Current possible actions: ");
+////        StringBuilder builder = new StringBuilder();
+////        currentLocation.getActionOptions().forEach(option -> builder.append(option).append(" "));
+////        String actions = builder.toString();
+////        actions.replace(" ", ", ");
+////        System.out.println(actions);
+//        System.out.println(String.join(", ", currentLocation.getActionOptions()));
+//        System.out.println("==============");
+//    }
+
     private void recruitCharacter(Location location) {
         List<String> characterList = new ArrayList<>();
         List<String> recruitList = new ArrayList<>();
@@ -186,8 +199,6 @@ public class Game {
 
             System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
             System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
-
-
         });
     }
 
@@ -219,7 +230,7 @@ public class Game {
             map.showLocation(this.currentLocation.getBasicName());
             printCurrentLocation();
             String description = this.currentLocation.getDescription();
-            System.out.println(description);
+            System.out.println(description + "\n");
 
         } else {
             //JSON object NOT found for the target destination
@@ -327,6 +338,9 @@ public class Game {
     //method to clear the crew-mates after game over
     private void resetGame() {
         player.clearCrewMates();
+        cryptFight = true;
+        currentLocation = map.getLocations().get("town");
+        execute();
     }
 
     void finale() {

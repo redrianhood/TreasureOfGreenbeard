@@ -115,7 +115,7 @@ public class GameMap {
     }
 
     public void availableCommand(Location location) {
-        System.out.print("These are the available commands: ");
+        System.out.print("Available commands: ");
         switch (location.getBasicName()) {
             case "harbor":
                 System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
