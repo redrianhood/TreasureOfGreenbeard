@@ -10,12 +10,12 @@ public class GameTest {
     //
     private Player testPlayer;
     private Game game = new Game();
-    private GameMap map = new GameMap();
+    private GameMap map = GameMap.getInstance();
 
 
     @Before
     public void setUp(){
-        testPlayer = new Player();
+        testPlayer = Player.getInstance();
         game.setPlayer(testPlayer);
     }
 

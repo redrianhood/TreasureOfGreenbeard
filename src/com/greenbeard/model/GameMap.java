@@ -10,11 +10,12 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class GameMap {
+    private static GameMap gameMap;
     private static final String LOCATIONS_FILE = "data/locations/locations.json";
     private static final String NPC_FILE = "data/npc.json";
     private Map<String, Location> locations = new HashMap<>();
 
-    public GameMap() {
+    private GameMap() {
         JSONObject locObj = TextParser.readJsonFile(LOCATIONS_FILE);
         locObj.forEach((k, v) -> {
             String key = (String) k;
@@ -61,6 +62,14 @@ public class GameMap {
             });
         });
     }
+
+    public static GameMap getInstance(){
+        if (gameMap == null){
+            gameMap = new GameMap();
+        }
+        return gameMap;
+    }
+
 
     public void showLocation(String location) {
         String pathFile = null;
@@ -115,7 +124,7 @@ public class GameMap {
     }
 
     public void availableCommand(Location location) {
-        System.out.print("These are the available commands: ");
+        System.out.print("Available commands: ");
         switch (location.getBasicName()) {
             case "harbor":
                 System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
