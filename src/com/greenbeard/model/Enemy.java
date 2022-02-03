@@ -21,21 +21,20 @@ public class Enemy extends Character {
     private Map<String, String> dialogue = new HashMap<>();
 
     //constructor
-    public Enemy(String location, String name) {
-        JSONObject jObj = TextParser.readJsonFile("data/npc.json");
-        JSONObject locationJObj = (JSONObject) jObj.get(location);
-        JSONObject enemyJObj = (JSONObject) locationJObj.get(name);
+    public Enemy(Location location, String name) {
+        // read who the enemy is
+        // RVB - is there a better way to dig into the JSON?
+        NPC enemy = location.getNpcs().get(name);
 
         // set weapon and names of enemy
-        this.setName(name);
-        this.setEnemyName((String) enemyJObj.get("name"));
-        this.setWeapon((String) enemyJObj.get("weapon"));
+        this.setEnemyName(enemy.getName());
+        this.setWeapon(enemy.getWeapon());
 
         // set dialogue
-//        this.setIntro((String) enemyJObj.get("intro"));
-        dialogue.put("intro", (String) enemyJObj.get("intro"));
-        dialogue.put("victory", (String) enemyJObj.get("victory"));
-        dialogue.put("defeat", (String) enemyJObj.get("defeat"));
+        this.setIntro(enemy.getIntro());
+        // dialogue.put("intro", (String) enemyJObj.get("intro"));
+        // dialogue.put("victory", (String) enemyJObj.get("victory"));
+        // dialogue.put("defeat", (String) enemyJObj.get("defeat"));
 
     }
 
