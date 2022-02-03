@@ -28,20 +28,21 @@
     "zombie": {
       "name": "zombie",
       "weapon":"sword",
+      "enemy": "true",
       "greeting": "Sorry if we got off to a rough start.\nMy name is Gregory, I seem to have dropped my head. Would you mind handing it to me?",
       "ableToRecruit": "true",
       "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
-      "image": "bartender.txt"
+      "image": "bartender.txt",
       "intro": "You enter a crypt and see a zombie headed directly towards you!!! You draw your weapon for battle ***\n",
       "victory": "\n***VICTORY***\nWith your final blow, the zombie's head appears to have rolled onto the floor.\nIt looks like you can talk to the head O.O",
       "defeat": "\n***DEFEATED***\nAs things fade you black, you think you faintly hear the zombie say, \"Well that was rather rude\""
-
     }
   },
   "island": {
     "greenbeard": {
       "name": "Captain Greenbeard",
       "weapon":"sword",
+      "enemy": "true",
       "intro": "A zombie with a big, green, seaweed filled beard walks up to you holding a Cutlass.\n\n \"Arrggg, think ya can just take me treasure so easily? Think again young Captain\" \n\nThe zombie lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!",
       "lose": "OH NO, i have been defeated. And so i die  X_X",
       "image": "bartender.txt",

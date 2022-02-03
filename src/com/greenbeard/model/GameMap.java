@@ -35,19 +35,27 @@ public class GameMap {
             String key = (String) k;
             JSONObject value = (JSONObject) v;
             value.forEach((npcKey, npcVal) -> {
+                String basicName = (String) npcKey;
                 JSONObject val = (JSONObject) npcVal;
                 String name = (String) val.get("name");
-                String greeting = (String) val.get("greeting");
+                String image = (String) val.get("image");
                 String ableToRecruit = (String) val.get("ableToRecruit");
                 String recruitMessage = (String) val.get("recruitMessage");
-                String image = (String) val.get("image");
-                String weapon = (String) val.get("weapon");
-                String intro = (String) val.get("intro");
-                NPC npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image);
-                if (weapon != null && intro != null) {
-                    npc.setWeapon(weapon);
-                    npc.setIntro(intro);
+                String enemy = (String) val.get("enemy");
+                Character npc;
+                if(Boolean.parseBoolean(enemy)) {
+                    String weapon = (String) val.get("weapon");
+                    String intro = (String) val.get("intro");
+                    String victory = (String) val.get("victory");
+                    String defeat = (String) val.get("defeat");
+
+                    npc = new Enemy(basicName, intro, victory, defeat, image, recruitMessage, Boolean.parseBoolean(ableToRecruit));
+
+                } else {
+                    String greeting = (String) val.get("greeting");
+                    npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image);
                 }
+
                 Location curLoc = locations.get(key);
                 curLoc.addNpc(npc);
             });

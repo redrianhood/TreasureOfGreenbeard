@@ -1,68 +1,55 @@
 package com.greenbeard.model;
 
-import com.greenbeard.util.TextParser;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Enemy extends Character {
-    private JSONParser jsonParser = new JSONParser();
-    private String enemyName;
-    private int health;
-//    private String intro;
-//    private String victory;
-//    private String defeat;
+    private String intro;
+    private String victory;
+    private String defeat;
     private Map<String, String> dialogue = new HashMap<>();
 
     //constructor
-    public Enemy(Location location, String name) {
-        // read who the enemy is
-        // RVB - is there a better way to dig into the JSON?
-        NPC enemy = location.getNpcs().get(name);
-
-        // set weapon and names of enemy
-        this.setEnemyName(enemy.getName());
-        this.setWeapon(enemy.getWeapon());
-
-        // set dialogue
-        this.setIntro(enemy.getIntro());
-        // dialogue.put("intro", (String) enemyJObj.get("intro"));
-        // dialogue.put("victory", (String) enemyJObj.get("victory"));
-        // dialogue.put("defeat", (String) enemyJObj.get("defeat"));
-
+    public Enemy(String name, String intro, String victory, String defeat, String image, String recruitMessage, boolean ableToRecruit) {
+        setName(name);
+        setIntro(intro);
+        setVictory(victory);
+        setDefeat(defeat);
+        setImage(image);
+        setAbleToRecruit(ableToRecruit);
+        setRecruitMessage(recruitMessage);
     }
 
-    public String getEnemyName() {
-        return enemyName;
+
+    public String getIntro() {
+        return intro;
     }
 
-    public void setEnemyName(String enemyName) {
-        this.enemyName = enemyName;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
-    public Map<String, String> getDialogue() {
-        return dialogue;
+    public String getVictory() {
+        return victory;
     }
 
-    //    public String getIntro() {
-//        return intro;
-//    }
-//
-//    public void setIntro(String intro) {
-//        this.intro = intro;
-//    }
+    public void setVictory(String victory) {
+        this.victory = victory;
+    }
+
+    public String getDefeat() {
+        return defeat;
+    }
+
+    public void setDefeat(String defeat) {
+        this.defeat = defeat;
+    }
 
     @Override
     public String toString() {
         return "Enemy{" +
                 "name=" + getName() +
-                ", enemyName='" + getEnemyName() + '\'' +
+                ", enemyName='" + getName() + '\'' +
                 ", health=" + getHealth() +
                 ", weapon=" + getWeapon() +
                 '}';

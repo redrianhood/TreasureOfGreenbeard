@@ -1,10 +1,14 @@
 package com.greenbeard.model;
 
-class Character {
+public class Character {
     // Fields
     private String name;
+    private String greeting;
+    private boolean ableToRecruit;
+    private String recruitMessage;
+    private String image;
     private int health = 100;
-    private String weapon;
+    private String weapon = "SWORD";
 
     // Accessors
     public String getName() {
@@ -45,6 +49,37 @@ class Character {
         return Weapon.valueOf(weapon).getDmgRoll();
     }
 
+    public String getGreeting() {
+        return greeting;
+    }
+
+    public void setGreeting(String greeting) {
+        this.greeting = greeting;
+    }
+
+    public boolean isAbleToRecruit() {
+        return ableToRecruit;
+    }
+
+    public void setAbleToRecruit(boolean ableToRecruit) {
+        this.ableToRecruit = ableToRecruit;
+    }
+
+    public String getRecruitMessage() {
+        return recruitMessage;
+    }
+
+    public void setRecruitMessage(String recruitMessage) {
+        this.recruitMessage = recruitMessage;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public String toString() {

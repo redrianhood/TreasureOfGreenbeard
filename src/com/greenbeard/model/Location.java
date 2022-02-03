@@ -10,7 +10,8 @@ public class Location {
     private String basicName;
     private List<String> canTravelTo;
     private String description;
-    private Map<String, NPC> npcs = new HashMap<>();
+    private Map<String, Character> npcs = new HashMap<>();
+
 
     public Location(String name, String description) {
         setName(name);
@@ -23,7 +24,7 @@ public class Location {
         setCanTravelTo(canTravelTo);
     }
 
-    public Location(String name,String description,  List<String> canTravelTo, String basicName, Map<String, NPC> npcs) {
+    public Location(String name,String description,  List<String> canTravelTo, String basicName, Map<String, Character> npcs) {
         this(name, description, canTravelTo, basicName);
         setNpcs(npcs);
     }
@@ -52,15 +53,15 @@ public class Location {
         this.description = description;
     }
 
-    public Map<String, NPC> getNpcs() {
+    public Map<String, Character> getNpcs() {
         return npcs;
     }
 
-    public void setNpcs(Map<String,NPC> npcs) {
+    public void setNpcs(Map<String,Character> npcs) {
         this.npcs = npcs;
     }
 
-    public void addNpc(NPC npc) {
+    public void addNpc(Character npc) {
         this.npcs.put(npc.getName(), npc);
     }
 
