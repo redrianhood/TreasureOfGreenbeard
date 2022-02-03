@@ -1,5 +1,6 @@
 package com.greenbeard.controller;
 
+import com.apps.util.Console;
 import com.apps.util.Prompter;
 
 
@@ -29,8 +30,6 @@ public class Game {
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
     private static long BANNER_DELAY = 0; //1500;
-    private static final String LOCATIONS_FILE = "data/locations/locations.json";
-    private static final String NPC_FILE = "data/npc.json";
     private static final String DIALOGUE_FILE = "data/dialogue.json";
 
     public void execute() {
@@ -60,7 +59,7 @@ public class Game {
     }
 
     private void printCurrentLocation() {
-        System.out.println("Your current location is: " + ColorConsole.RED_BOLD + (this.currentLocation) + ColorConsole.RESET);
+        System.out.println("Your current location is: " + ColorConsole.RED_BOLD + (this.currentLocation.getBasicName())+ ": " + this.currentLocation.getName() + ColorConsole.RESET);
         System.out.println();
     }
 
@@ -189,7 +188,7 @@ public class Game {
 
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
-        clearConsole();
+        Console.clear();
         // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail")) {
             sailToIsland();
@@ -227,6 +226,7 @@ public class Game {
     private boolean validateRoute(String destination) {
         return map.getLocations().get(destination) != null;
     }
+
 
     private void recruitCrewMember(String member) {
         Character npc = this.currentLocation.getNpcs().get(member);

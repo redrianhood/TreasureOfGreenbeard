@@ -69,18 +69,27 @@
       "recruitMessage": "My place is here in Dark Reef. I don't have the luxury of leaving and participating in your foolish plans.",
       "image": "bartender.txt"
     },
-    "innkeeper" : {
-      "name": "innkeeper",
-      "greeting": "We got vacant rooms, if it pleases ya.",
-      "ableToRecruit": "false",
-      "recruitMessage": "Sorry laddy, my sailin' days are behind me. I am flattered you would try to recruit an old man like me.",
+    "apprentice" : {
+      "name": "apprentice",
+      "greeting": "How fare's the sea, mate?",
+      "ableToRecruit": "true",
+      "recruitMessage": "Great! I've been waiting for the right opportunity to leave this forsaken place. Adventure is what I have been craving. I'm sorry Mom, I will not be a doctor!",
       "image": "bartender.txt"
     },
-    "pirate" : {
+    "receptionist" : {
       "name": "pirate",
-      "greeting": "Hoy! Matey! Hope ya day is as salty as I am.",
+      "greeting": "The doctor is busy right now. We do not have any open appointments. Please leave. Now.",
+      "ableToRecruit": "false",
+      "recruitMessage": "I can't afford to be stuck at sea for months. Who do you think is going to do my hair an dmy nails.",
+      "image": "bartender.txt"
+    }
+  },
+  "restaurant": {
+    "cook" : {
+      "name": "cook",
+      "greeting": "If you ain't payin, then I don't need you stickin around",
       "ableToRecruit": "true",
-      "recruitMessage": "You made a great choice mate. I am the best QuarterMaster in all of the West Coast. Self-proclaimed of course, so don't blame me if somethin' goes wrong.",
+      "recruitMessage": "My dream is always been to sail the seas and discover all types of marine animals.\n You will be pleased to hear that my cooking skills are top notch. \n My specialty? Boiled water. Good ain't it?",
       "image": "bartender.txt"
     }
   },
@@ -94,7 +103,7 @@
       "image": "bartender.txt",
       "ableToRecruit": "false",
       "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
-      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?"
+      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
       "victory": "\nWith a final blow, Captain Greenbeard falls to the sand and looks up at you, \n\"I've been bested...\nSafe travels young Captain, yer crew is mighty fine..\"\n\nSailing off into the sunset, your crew sings the praises of their great Captain\n\n###VICTORY###\nGood Job Gamer :)",
       "defeat": "\n***DEFEATED***\n A shine from Greenbeard's cutlass is the last thing you see as you fall to the ground. Perhaps you can join his zombie crew?"
     }
