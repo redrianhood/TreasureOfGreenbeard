@@ -2,11 +2,8 @@ package com.greenbeard.controller;
 
 import com.apps.util.Prompter;
 
-import com.greenbeard.model.Audio;
-import com.greenbeard.model.ColorConsole;
-import com.greenbeard.model.Enemy;
-import com.greenbeard.model.GameMap;
-import com.greenbeard.model.Player;
+
+import com.greenbeard.model.*;
 import com.greenbeard.util.Die;
 import com.greenbeard.util.TextParser;
 import org.json.simple.JSONArray;
@@ -21,13 +18,16 @@ import java.util.*;
 public class Game {
     private boolean gameOver;
     private boolean dialogue;
-    private String currentLocation = "town";
+    private GameMap map = new GameMap();
+    private boolean cryptFight = true;
     private Player player = new Player();
     private Die die = new Die();
     private Audio audio = new Audio();
-    private GameMap map = new GameMap();
     private Prompter prompter = new Prompter(new Scanner(System.in));
-    private static long BANNER_DELAY = 750; //1500;
+
+    private Location currentLocation = map.getLocations().get("town");
+    private Scanner scanner = new Scanner(System.in);
+    private static long BANNER_DELAY = 0; //1500;
     private static final String LOCATIONS_FILE = "data/locations/locations.json";
     private static final String NPC_FILE = "data/npc.json";
     private static final String DIALOGUE_FILE = "data/dialogue.json";
@@ -35,8 +35,9 @@ public class Game {
     public void execute() {
         gameOver = false;
         welcome();
-        map.showLocation(this.currentLocation);
+        map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
+
         while (!gameOver) {
             if (player.getHealth() <= 0) {
                 gameOver = true;
@@ -142,12 +143,11 @@ public class Game {
             recruitCrewMember(noun);
         }
         // set sail for island when ready for final boss
-        else if ("set".equals(verb) && "sail".equals(noun)) {
+        else if ("set".equals(verb) && "sail".equals(noun) && currentLocation.equals("harbor")) {
             if(audio.isMusicOn()) {
                 audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
-
             travel(noun);
         }
         // talking to someone
@@ -160,86 +160,69 @@ public class Game {
             if ("crew".equals(noun)) {
                 System.out.println(ColorConsole.PURPLE_BOLD + player.getCrewMates() + ColorConsole.RESET);
             } else if ("map".equals(noun)) {
-                map.showMap(this.currentLocation);
+                map.showMap(this.currentLocation.getBasicName());
             }
         } else {
             System.out.println("Sorry the command you typed is not recognized");
         }
     }
 
-    private void recruitCharacter(String location) {
+    private void recruitCharacter(Location location) {
         List<String> characterList = new ArrayList<>();
         List<String> recruitList = new ArrayList<>();
 
-
-        //get the Json data for the current location
-        JSONObject jObj = TextParser.readJsonFile(NPC_FILE);
-        JSONObject currentLocationJObj = (JSONObject) jObj.get(location);
-
-        if (currentLocationJObj == null) {
+        if (location == null) {
             //location not found
             return;
         }
         //ge the list of people found in the location
         //Iterate through JSONObject keys:
 
-        Set keySet = currentLocationJObj.keySet();
-        keySet.forEach((key) -> {
+        location.getNpcs().forEach((key, value) -> {
             //add each character name to list
-            String characterName = (String) key;
-            characterList.add(characterName);
+            characterList.add(value.getName());
 
             //check if character can be recruited
-            JSONObject characterJSON = (JSONObject) currentLocationJObj.get(characterName);
-            String ableToRecruit = (String) characterJSON.get("ableToRecruit");
-
-            if (ableToRecruit.equals("true")) {
+            if (value.isAbleToRecruit()) {
                 //add character to recruit list
-                recruitList.add(characterName);
+                recruitList.add(value.getName());
             }
-        });
 
         System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
         System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
 
-        //print ableToRecruit information.
-
-        keySet.forEach((key) -> {
-            characterList.add((String) key);
-        });
-
+        
     }
 
     // Handles traveling between different locations in the map.
     private void travel(String noun) {
-        JSONObject jObj = TextParser.readJsonFile(LOCATIONS_FILE);
         // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail")) {
-            if (player.getCrewMates().size() < 3) {
-                System.out.printf("You don't have enough crew members to sail my friend!\n" +
-                        "Continue searching for at least 3 members to \"Set Sail\" on ",  ColorConsole.BLACK_BOLD + player.getShipName());
-                return;
-            } else {
-                sailToIsland(jObj);
-            }
+                sailToIsland();
         }
 
         // check if valid route based on json locations for the current location
         if (!validateRoute(noun)) {
             //invalid route.
-            System.out.println("Can not go to " + noun + " from " + this.currentLocation);
+            System.out.println("Can not go to " + noun + " from " + this.currentLocation.getBasicName());
             return;
         }
         //Valid route.
-        this.currentLocation = noun;
+        // Initiate combat if player enter the crypt for the first time
+        if (cryptFight && "crypt".equals(noun)){
+            fight("zombie");
+            cryptFight = false;
+        }
+
         //Get the JSON object for the target destinationS
-        JSONObject location = (JSONObject) jObj.get(noun);
-        if (location != null) {
+        setCurrentLocation(map.getLocations().get(noun));
+        if (currentLocation != null) {
             //JSON object found for the target destination
-            map.showLocation(this.currentLocation);
+            map.showLocation(this.currentLocation.getBasicName());
             printCurrentLocation();
-            String description = (String) location.get("description");
+            String description = this.currentLocation.getDescription();
             System.out.println(description);
+
         } else {
             //JSON object NOT found for the target destination
             System.out.println("No JSON entry for: " + noun);
@@ -247,55 +230,26 @@ public class Game {
 
     }
 
-    private List<String> getDestinations(String presentLocation) {
-        List<String> destinationNames = new ArrayList<>();
-        //Get the JSON Data for the current location
-        JSONObject jObj = TextParser.readJsonFile(LOCATIONS_FILE);
-        JSONObject currentLocationJObj = (JSONObject) jObj.get(presentLocation);
-
-        //get the possible destinations from the current location
-        JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
-
-        //check if the target destination is found in the permitted destinations
-        for (Object locElement : locationsArray) {
-            destinationNames.add((String) locElement);
-        }
-        return destinationNames;
+    private List<String> getDestinations(Location presentLocation) {
+        List<String> locations = presentLocation.getCanTravelTo();
+        return locations;
     }
 
 
     private boolean validateRoute(String destination) {
-        //Get the JSON Data for the current location
-        JSONObject jObj = TextParser.readJsonFile(LOCATIONS_FILE);
-        JSONObject currentLocationJObj = (JSONObject) jObj.get(this.currentLocation);
-//            Get the possible destinations from the current location
-        JSONArray locationsArray = (JSONArray) currentLocationJObj.get("locations");
-
-
-        //check if the target destination is found in the permitted destinations
-        for (Object locElement : locationsArray) {
-            String locationName = (String) locElement;
-
-            if (locationName.equals(destination)) {
-                //valid destination
-                return true;
-            }
-        }
-        return false;
+        return map.getLocations().get(destination) != null;
     }
 
     private void recruitCrewMember(String member) {
-        JSONObject jObj = TextParser.readJsonFile(NPC_FILE);
-        JSONObject npcs = (JSONObject) jObj.get(this.currentLocation);
-        JSONObject npc = (JSONObject) npcs.get(member);
+        NPC npc = this.currentLocation.getNpcs().get(member);
 
         if (npc != null) {
-            String name = (String) npc.get("name");
-            String ableToRecruit = (String) npc.get("ableToRecruit");
-            if (ableToRecruit.equals("true")) {
+            String name = npc.getName();
+            boolean ableToRecruit =  npc.isAbleToRecruit();
+            if (ableToRecruit) {
                 player.addCrewMate(name);
             }
-            String recruitMsg = (String) npc.get("recruitMessage");
+            String recruitMsg = npc.getRecruitMessage();
             System.out.println(recruitMsg); // print message out when you try to recruit them.
             System.out.println();
         } else {
@@ -303,37 +257,35 @@ public class Game {
         }
     }
 
-    private void sailToIsland(JSONObject jObj) {
+    private void sailToIsland() {
         if (player.getCrewMates().size() < 3) {
             System.out.printf("You don't have enough crew members to sail my friend!\n" +
-                    "Continue searching for at least 3 members to \"Set Sail\" on ", player.getShipName());
+                        "Continue searching for at least 3 members to \"Set Sail\" on ",  ColorConsole.BLACK_BOLD + player.getShipName());
             return;
         } else {
-            this.currentLocation = "island";
-            JSONObject location = (JSONObject) jObj.get(this.currentLocation);
-            String description = (String) location.get("description");
+            setCurrentLocation(map.getLocations().get("island"));
+            String description = (String) this.currentLocation.getDescription();
             System.out.println(description);
             finale();
+            gameOver();
         }
+
     }
 
 
     private void startDialogue(String noun) {
-        JSONObject jObj = TextParser.readJsonFile(NPC_FILE);
-        JSONObject npcs = (JSONObject) jObj.get(this.currentLocation); // grab npcs in current location
-        JSONObject npc = (JSONObject) npcs.get(noun); // grab specific npc based on text input
-
+        NPC npc = this.currentLocation.getNpcs().get(noun);
 
         if (npc != null) {
             this.dialogue = true;
-            String greet = (String) npc.get("greeting");
-            String ascii = (String) npc.get("image");
+            String greet = npc.getGreeting();
+            String ascii = npc.getImage();
             System.out.println(greet + "\n");
 
 //            printFile("data/"+ascii);
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
-            JSONObject area = (JSONObject) jsonObject.get(this.currentLocation);
+            JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
             JSONObject person = (JSONObject) area.get(noun);
             JSONArray options = (JSONArray) person.get("options");
             JSONArray responses = (JSONArray) person.get("responses");
@@ -350,7 +302,7 @@ public class Game {
                     break;
                 }
                 if (response != null && response <= responses.size()) {
-                    System.out.println(responses.get(response - 1));
+                    System.out.println("->" + responses.get(response - 1));
                 } else {
                     System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.");
                 }
@@ -380,18 +332,21 @@ public class Game {
     }
 
     void finale() {
+        // if crew doesn't have a navigator
         if (!player.getCrewMates().contains("mourner")) {
             TextParser.delay(300);
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
             gameOver = true;
-        } else if (!player.getCrewMates().contains("zombie")) {
+        } // if crew doesn't have a shipwright
+        else if (!player.getCrewMates().contains("zombie")) {
             TextParser.delay(300);
             System.out.println("As you were out at sea, you started sinking! \n" +
                     "You didn't have a shipwright and you sank to the bottom. Sorry :(\n" +
                     "GAME OVER");
             gameOver = true;
-        } else if (!player.getCrewMates().contains("stranger")) {
+        } // if crew doesn't have a firstmate
+        else if (!player.getCrewMates().contains("stranger")) {
             TextParser.delay(300);
             System.out.println("MUTINY! \n" +
                     "You sailed to the island and got the treasure all right.\n" +
@@ -409,39 +364,84 @@ public class Game {
     }
 
     void fight(String name) {
-        Enemy enemy = new Enemy(currentLocation, name);
-        boolean fighting = true;
+        Enemy enemy = new Enemy(this.currentLocation, name);
+        // reset health before each fight
+        player.setHealth(100);
+
 
         // fight intro description -> pulled from enemy
-        System.out.println(enemy.getIntro());
+        System.out.println(enemy.getDialogue().get("intro"));
 
+        boolean fighting = true;
         // player attack, enemy attack loop
         while (fighting) {
-            // if defeated, call gameOver
-            if (player.getHealth() <= 0) {
-                System.out.println("I, THE MIGHTY GREENBEARD HAVE KILLED YOU!!!");
-                fighting = false;
-                gameOver();
-            } // if enemy is defeated, continue game
-            else if (enemy.getHealth() <= 0) {
-                System.out.println("OH NO, i have been defeated. And so i die  X_X");
-                fighting = false;
-                // RVB - where to adjust for other fights
-                gameOver();
+            // display:
+            // "3 Attacks available: \n Strong, Guarded, Normal
+            // prompt for valid input
+            // calculate appropriate dmg
+            // (is someone dead?)
+            // calculate enemy dmg
+            // (is someone dead?)
+            // loop
+
+            // Ask for what kind of attack and calculate damage
+            boolean validInput = false;
+            // reset guard for round
+            boolean guarded = false;
+            int playerDmg = 0;
+
+            System.out.println("Pick an attack type:\nStrong, Guarded, Normal  {s/g/n}");
+            while (!validInput){
+                String response = scanner.next().trim().toLowerCase();
+                switch (response) {
+                    // double the damage roll
+                    case ("strong"):
+                    case ("s"):
+                        playerDmg = player.getBaseDmg()*2 + die.dmgRoll(player.getVariableDmg());
+                        validInput = true;
+                        break;
+                    case ("guarded"):
+                    case ("g"):
+                        guarded = true;
+                        playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
+                        validInput = true;
+                        break;
+                    case ("normal"):
+                    case ("n"):
+                        playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
+                        validInput = true;
+                        break;
+                }
             }
+
             // player attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0) {
-                int playerDmg = player.getBaseDmg() + die.dmgRoll(player.getVariableDmg());
                 enemy.setHealth(enemy.getHealth() - playerDmg);
                 System.out.printf("Player does %d damage; Enemy health at %d\n", playerDmg, enemy.getHealth());
                 TextParser.delay(200);
             }
+            // if enemy is defeated, end fight and continue game
+            if (enemy.getHealth() <= 0) {
+                System.out.println(enemy.getDialogue().get("victory"));
+                fighting = false;
+            }
             // enemy attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0) {
                 int enemyDmg = enemy.getBaseDmg() + die.dmgRoll(enemy.getVariableDmg());
+                if(guarded & enemyDmg >= 8){
+                    enemyDmg -= 8;
+                } else if (guarded){
+                    enemyDmg = 0;
+                }
                 player.setHealth(player.getHealth() - enemyDmg);
                 System.out.printf("Enemy does %d damage; Player health at %d\n", enemyDmg, player.getHealth());
                 TextParser.delay(300);
+            }
+            // if defeated, call gameOver
+            if (player.getHealth() <= 0) {
+                System.out.println(enemy.getDialogue().get("defeat"));
+                fighting = false;
+                gameOver();
             }
         }
     }
@@ -450,7 +450,7 @@ public class Game {
         this.player = player;
     }
 
-    public void setCurrentLocation(String currentLocation) {
+    public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
     }
 }

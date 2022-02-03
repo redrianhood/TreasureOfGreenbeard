@@ -1,10 +1,59 @@
 package com.greenbeard.model;
 
+import com.greenbeard.util.TextParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.*;
 
 public class GameMap {
+    private static final String LOCATIONS_FILE = "data/locations/locations.json";
+    private static final String NPC_FILE = "data/npc.json";
+    private Map<String, Location> locations = new HashMap<>();
+
+    public GameMap() {
+        JSONObject locObj = TextParser.readJsonFile(LOCATIONS_FILE);
+        locObj.forEach((k, v) -> {
+            String key = (String) k;
+            JSONObject value = (JSONObject) v;
+            String name = (String) value.get("name");
+            String description = (String) value.get("description");
+
+            List<String> travel = new ArrayList<>();
+            if (value.get("locations") != null) {
+                JSONArray travelTo = (JSONArray) value.get("locations");
+                travelTo.forEach(item -> travel.add((String) item));
+            }
+            locations.put(key, new Location(name, description, travel, key));
+        });
+
+        JSONObject npcObj = TextParser.readJsonFile(NPC_FILE);
+        npcObj.forEach((k, v) -> {
+            String key = (String) k;
+            JSONObject value = (JSONObject) v;
+            value.forEach((npcKey, npcVal) -> {
+                JSONObject val = (JSONObject) npcVal;
+                String name = (String) val.get("name");
+                String greeting = (String) val.get("greeting");
+                String ableToRecruit = (String) val.get("ableToRecruit");
+                String recruitMessage = (String) val.get("recruitMessage");
+                String image = (String) val.get("image");
+                String weapon = (String) val.get("weapon");
+                String intro = (String) val.get("intro");
+                NPC npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image);
+                if(weapon != null && intro != null) {
+                    npc.setWeapon(weapon);
+                    npc.setIntro(intro);
+                }
+                Location curLoc = locations.get(key);
+                curLoc.addNpc(npc);
+            });
+        });
+    }
+
     public void showLocation(String location) {
         String pathFile = null;
         try {
@@ -78,5 +127,9 @@ public class GameMap {
                         "\"" +  ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD +  "leave" + ColorConsole.RESET + "\", " +
                         ColorConsole.RED_BOLD +  "talk" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD +  "recruit" + ColorConsole.RESET + "\"");
         }
+
+    public Map<String, Location> getLocations() {
+        return locations;
+
     }
 }
