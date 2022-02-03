@@ -2,6 +2,7 @@ package com.greenbeard.controller;
 
 import com.apps.util.Prompter;
 
+
 import com.greenbeard.model.*;
 import com.greenbeard.util.Die;
 import com.greenbeard.util.TextParser;
@@ -19,18 +20,17 @@ public class Game {
     private boolean dialogue;
     private GameMap map = new GameMap();
     private boolean cryptFight = true;
-    private String currentLocation = "town";
     private Player player = new Player();
     private Die die = new Die();
     private Audio audio = new Audio();
     private Prompter prompter = new Prompter(new Scanner(System.in));
+
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
     private static long BANNER_DELAY = 0; //1500;
     private static final String LOCATIONS_FILE = "data/locations/locations.json";
     private static final String NPC_FILE = "data/npc.json";
     private static final String DIALOGUE_FILE = "data/dialogue.json";
-
 
     public void execute() {
         gameOver = false;
@@ -51,23 +51,26 @@ public class Game {
     private void help() {
         System.out.println("\n\n");
         printCurrentLocation();
+        map.availableCommand(this.currentLocation);
         //showLocation();
+
         System.out.println("\n");
-        System.out.println("You can chose to go to:\n" + getDestinations(this.currentLocation));
+        System.out.println("You can chose to go to:\n" + ColorConsole.RED_BOLD + (getDestinations(this.currentLocation)) + ColorConsole.RESET);
 
 
         System.out.println("\n");
         recruitCharacter(this.currentLocation);
         System.out.println("\n\n");
-        audio.audioPreference();
+        //audio.audioPreference();
     }
 
     private void printCurrentLocation() {
-        System.out.println("Your current location is: " + this.currentLocation);
+        System.out.println("Your current location is: " + ColorConsole.RED_BOLD + (this.currentLocation) + ColorConsole.RESET);
+        System.out.println();
     }
 
     private void welcome() {
-        audio.play("data/audio/gamemusic.wav", Clip.LOOP_CONTINUOUSLY);
+        audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
         System.out.println("\n\n");
         try {
             //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
@@ -84,11 +87,12 @@ public class Game {
             List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
             welcome.forEach((line) -> {
                 TextParser.printWordByWord(line);
+
             });
             player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
             player.setShipName(prompter.prompt("What is the name of your Ship? [please include 'The' or not] -> "));
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
-                    "Options are: sword, or pistol\n --> ", "sword|pistol", "Invalid selection");
+                    "Options are: " + ColorConsole.CYAN_BOLD + "sword, or pistol" + ColorConsole.RESET + "\n  --> ", "sword|pistol", "Invalid selection");
             player.setWeapon(weapon);
             System.out.printf("\n\nYou are the Great Captain %s, Captain of the %s.\n" +
                             "With your trusty %s by your side, you set off to town.%n",
@@ -140,7 +144,10 @@ public class Game {
         }
         // set sail for island when ready for final boss
         else if ("set".equals(verb) && "sail".equals(noun) && currentLocation.equals("harbor")) {
-            audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
+            if(audio.isMusicOn()) {
+                audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
+                audio.setVolumeLevel(audio.getVolumePreference());
+            }
             travel(noun);
         }
         // talking to someone
@@ -151,7 +158,7 @@ public class Game {
         //show current crew members
         else if ("look".equals(verb)) {
             if ("crew".equals(noun)) {
-                System.out.println(player.getCrewMates());
+                System.out.println(ColorConsole.PURPLE_BOLD + player.getCrewMates() + ColorConsole.RESET);
             } else if ("map".equals(noun)) {
                 map.showMap(this.currentLocation.getBasicName());
             }
@@ -181,10 +188,10 @@ public class Game {
                 recruitList.add(value.getName());
             }
 
-        });
-        //print ableToRecruit information.
-        System.out.println("You can talk to: " + characterList);
-        System.out.println("You can recruit: " + recruitList);
+        System.out.println("You can talk to: " + ColorConsole.BLUE_ITALIC + characterList + ColorConsole.RESET);
+        System.out.println("You can recruit: " + ColorConsole.BLUE_ITALIC + recruitList + ColorConsole.RESET);
+
+        
     }
 
     // Handles traveling between different locations in the map.
@@ -253,7 +260,7 @@ public class Game {
     private void sailToIsland() {
         if (player.getCrewMates().size() < 3) {
             System.out.printf("You don't have enough crew members to sail my friend!\n" +
-                    "Continue searching for at least 3 members to \"Set Sail\" on ", player.getShipName());
+                        "Continue searching for at least 3 members to \"Set Sail\" on ",  ColorConsole.BLACK_BOLD + player.getShipName());
             return;
         } else {
             setCurrentLocation(map.getLocations().get("island"));
