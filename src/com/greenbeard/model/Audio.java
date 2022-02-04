@@ -111,7 +111,7 @@ public class Audio {
     }
 
     public void setVolumeLevel(double vol) {
-        System.out.println("Setting volume to: " +  vol*10);
+        //System.out.println("Setting volume to: " +  vol*10);
         if (clip == null || !clip.isActive() || !clip.isOpen()) {
             return;
         }

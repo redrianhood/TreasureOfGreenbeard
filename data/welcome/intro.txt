@@ -10,3 +10,6 @@ Bar
 Cemetery
 Crypt
 Harbor
+Restaurant
+Clinic
+Inn
