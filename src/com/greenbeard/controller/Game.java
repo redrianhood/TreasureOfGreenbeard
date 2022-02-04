@@ -184,7 +184,7 @@ public class Game {
         //Iterate through JSONObject keys:
         location.getNpcs().forEach((key, value) -> {
             //add each character name to list
-            NPC npc = (NPC) value;
+            Character npc =  value;
             characterList.add( npc.getName());
 
             //check if character can be recruited
@@ -304,7 +304,6 @@ public class Game {
                 } else {
                     System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.");
                 }
-
             }
 
         } else {
