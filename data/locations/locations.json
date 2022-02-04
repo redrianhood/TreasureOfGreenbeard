@@ -6,86 +6,87 @@
       "bar",
       "cemetery",
       "inn",
-      "clinic"
+      "clinic",
+      "restaurant"
     ],
     "description": "The central area for the pirate town of Dark Reef"
   },
   "harbor": {
     "name": "Dark Reef Port",
-    "leave": "town",
     "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling.",
     "locations": [
       "bar",
       "cemetery",
       "inn",
       "clinic",
-      "restaurant"
+      "restaurant",
+      "town"
     ]
   },
   "bar": {
     "name": "The Ugly Duckling",
-    "leave": "town",
     "locations": [
       "harbor",
       "cemetery",
       "inn",
       "clinic",
-      "restaurant"
+      "restaurant",
+      "town"
     ],
     "description": "A sign labeled \"The Ugly Duckling\" hangs from rusty chains outside of what looks to be a popular bar location. \nThe door is heavy as you pull it open and are greeted by a classic bar.\nThere is a bartender, a lone stranger sitting in the corner, and the smell of ale permeates the area."
   },
   "cemetery": {
     "name": "Fair Winds and Following Seas Cemetery",
-    "leave": "town",
     "locations": [
       "crypt",
       "bar",
       "inn",
       "clinic",
-      "restaurant"
+      "restaurant",
+      "town"
     ],
     "description": "A cemetery that has a mourner crying over a gravestone, and a nearby crypt with what appears to be an open door."
   },
   "crypt": {
     "name": "Ryte Family Tomb",
-    "leave": "cemetery",
     "locations": [
-      "harbor",
-      "cemetery"
+      "cemetery",
+      "town"
     ],
     "description": "You walk through a stone door to a mausoleum. A musty air hangs around and the feeling you're not alone..."
   },
   "inn": {
     "name": "The Shallow Deep",
-    "leave": "town",
     "locations": [
       "harbor",
       "cemetery",
       "bar",
-      "clinic"
+      "clinic",
+      "town"
     ],
     "description": "As you try to walk inside the inn, you notice a dog wagging his tail towards you. You proceed inside the Shallow Deep inn. The inn is not very active this time of day, you notice the Innkeeper straight ahead and next to him, sitting on the barstool, is a pirate with an eye patch."
   },
   "clinic": {
     "name": "Seaview Clinic",
-    "leave": "town",
     "locations": [
       "harbor",
       "cemetery",
       "bar",
       "inn",
-      "restaurant"
+      "restaurant",
+      "town"
     ],
     "description": "You walk inside the clinic, and notice three people meet your glare. One behind the desk is most likely the receptionist. Behind her are two men, one much older and you realize that this must be the town doctor. The other is much younger and appears to be helping the older man, you deduced that this must be an apprentice."
   },
   "restaurant": {
     "name": "Dirty Sea Dogs",
-    "leave": "town",
     "locations": [
       "harbor",
       "cemetery",
       "bar",
-      "inn"
+      "clinic",
+      "inn",
+      "town"
     ],
     "description": "First thing you noticed as you approach the Dirty Sea Dogs restaurant is the food safety grade of 'D' on the front window. You think to yourself that, they certainly live up to their name. As you walk in, you see the cook and she motions you to sit on an empty table."
   },

@@ -26,6 +26,7 @@ public class Game {
     private Die die = new Die();
     private Audio audio = new Audio();
     private Prompter prompter = new Prompter(new Scanner(System.in));
+    private String talkedToCharacter;
 
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
@@ -135,7 +136,8 @@ public class Game {
         }
 
         if ("go".equals(verb)) {
-            travel(noun);
+            travel(noun, verb);
+            talkedToCharacter = null;
         }
 
         // recruit an npc for your crew
@@ -148,10 +150,12 @@ public class Game {
                 audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
-            travel(noun);
+            travel(noun, verb);
+            talkedToCharacter = null;
         }
         // talking to someone
         else if (!currentLocation.equals("town") && "talk".equals(verb)) {
+            talkedToCharacter = noun;
             startDialogue(noun);
         }
 
@@ -167,17 +171,6 @@ public class Game {
         }
     }
 
-//    private void actionOptions() {
-//        System.out.println("Current possible actions: ");
-////        StringBuilder builder = new StringBuilder();
-////        currentLocation.getActionOptions().forEach(option -> builder.append(option).append(" "));
-////        String actions = builder.toString();
-////        actions.replace(" ", ", ");
-////        System.out.println(actions);
-//        System.out.println(String.join(", ", currentLocation.getActionOptions()));
-//        System.out.println("==============");
-//    }
-
     private void showCharacters(Location location) {
         List<String> characterList = new ArrayList<>();
         List<String> recruitList = new ArrayList<>();
@@ -191,6 +184,7 @@ public class Game {
         location.getNpcs().forEach((key, value) -> {
             //add each character name to list
             Character npc =  value;
+
             characterList.add( npc.getName());
 
             //check if character can be recruited
@@ -204,11 +198,11 @@ public class Game {
     }
 
     // Handles traveling between different locations in the map.
-    private void travel(String noun) {
+    private void travel(String noun, String verb) {
         Console.clear();
       
         // First check and send you off to the island if you're sailing to the Island
-        if (noun.equals("sail")) {
+        if (noun.equals("sail") && !verb.equals("go")) {
             sailToIsland();
         }
 
@@ -242,7 +236,8 @@ public class Game {
     }
 
     private boolean validateRoute(String destination) {
-        return map.getLocations().get(destination) != null;
+        // route must exist && you must be able to travel there from the current location
+        return map.getLocations().get(destination) != null && currentLocation.getCanTravelTo().contains(destination);
     }
 
 
@@ -253,7 +248,13 @@ public class Game {
             String name = npc.getName();
             boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
+                if(talkedToCharacter == null || !talkedToCharacter.equals(member)) {
+                    System.out.println();
+                    System.out.println("Before recruiting " + member + ", " + "you need to talk to: " + member);
+                    return;
+                } else {
                     player.addCrewMate(name);
+                }
             }
             String recruitMsg = npc.getRecruitMessage();
             System.out.println(recruitMsg); // print message out when you try to recruit them.
@@ -297,6 +298,7 @@ public class Game {
             while (dialogue) {
                 JSONArray finalOptions = options;
                 options.forEach((item) -> System.out.println((finalOptions.indexOf(item) + 1) + ". " + item.toString()));
+                System.out.println("Type " + ColorConsole.GREEN_BOLD + "leave" + ColorConsole.RESET + " to end dialogue");
                 String input = (prompter.prompt("-> "));
                 Integer response = null;
                 if (input.matches("\\d+")) {
@@ -308,7 +310,7 @@ public class Game {
                 if (response != null && response <= responses.size()) {
                     System.out.println("->" + responses.get(response - 1));
                 } else {
-                    System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.");
+                    System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.\n");
                 }
             }
 
