@@ -26,6 +26,7 @@ public class Game {
     private Die die = new Die();
     private Audio audio = new Audio();
     private Prompter prompter = new Prompter(new Scanner(System.in));
+    private String talkedToCharacter;
 
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
@@ -130,13 +131,14 @@ public class Game {
 
         try {
             verb = TextParser.checkSynonym(commands.get(0));
-            noun = commands.get(0);
+            noun = commands.get(1);
         } catch (Exception e) {
             return;
         }
 
         if ("go".equals(verb)) {
             travel(noun);
+            talkedToCharacter = null;
         }
 
         // recruit an npc for your crew
@@ -150,9 +152,11 @@ public class Game {
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
             travel(noun);
+            talkedToCharacter = null;
         }
         // talking to someone
         else if (!currentLocation.equals("town") && "talk".equals(verb)) {
+            talkedToCharacter = noun;
             startDialogue(noun);
         }
 
@@ -254,7 +258,13 @@ public class Game {
             String name = npc.getName();
             boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
+                if(talkedToCharacter == null || !talkedToCharacter.equals(member)) {
+                    System.out.println();
+                    System.out.println("Before recruiting " + member + ", " + "you need to talk to: " + member);
+                    return;
+                } else {
                     player.addCrewMate(name);
+                }
             }
             String recruitMsg = npc.getRecruitMessage();
             System.out.println(recruitMsg); // print message out when you try to recruit them.
