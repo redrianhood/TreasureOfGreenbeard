@@ -83,10 +83,11 @@ public class GameMap {
                 case "inn":
                 case "island":
                 case "town":
+                case "restaurant":
                     pathFile = "data/single-image-text/" + location + ".txt";
                     break;
                 default:
-                    System.out.println("Invalid Location you are trying to go" + location);
+                    System.out.println("Invalid Location you are trying to go " + location);
             }
             if (pathFile != null) {
                 Files.lines(Path.of(pathFile)).forEach(System.out::println);
@@ -110,6 +111,7 @@ public class GameMap {
                 case "inn":
                 case "island":
                 case "town":
+                case "restaurant":
                     filePath = "data/map/ascii-map-" + location + ".txt";
                     break;
                 default:
