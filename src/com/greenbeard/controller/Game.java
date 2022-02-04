@@ -120,7 +120,7 @@ public class Game {
             }
         }
 
-        else if (commands.size() != 2) {
+        if (commands.size() != 2) {
             System.out.println("Invalid Command");
             return;
         }
