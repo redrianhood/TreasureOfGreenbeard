@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Audio {
-
+    public static final double DEFAULT_VOLUME = .1d *1;
     private Clip clip;
     private FloatControl gainControl;
     private Scanner scanner = new Scanner(System.in);
@@ -28,6 +28,12 @@ public class Audio {
             //start playing clip
             clip.start();
             clip.loop(count);
+            //check if volume is not zero
+            if(volumePreference !=0) {
+                setVolumeLevel(volumePreference);
+            } else {
+                setVolumeLevel(DEFAULT_VOLUME);
+            }
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {

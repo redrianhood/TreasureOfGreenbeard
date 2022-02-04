@@ -64,7 +64,7 @@ public class Game {
     }
 
     private void welcome() {
-        audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
+        audio.play("data/audio/gamemusic.wav", Clip.LOOP_CONTINUOUSLY);
         System.out.println("\n\n");
         try {
             //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
@@ -247,7 +247,7 @@ public class Game {
             String name = npc.getName();
             boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
-                player.addCrewMate(name);
+                    player.addCrewMate(name);
             }
             String recruitMsg = npc.getRecruitMessage();
             System.out.println(recruitMsg); // print message out when you try to recruit them.
@@ -269,7 +269,6 @@ public class Game {
             finale();
             gameOver();
         }
-
     }
 
     private void startDialogue(String noun) {

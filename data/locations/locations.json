@@ -15,11 +15,11 @@
     "leave": "town",
     "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling.",
     "locations": [
-      "harbor",
       "bar",
       "cemetery",
       "inn",
-      "clinic"
+      "clinic",
+      "restaurant"
     ]
   },
   "bar": {
@@ -29,7 +29,8 @@
       "harbor",
       "cemetery",
       "inn",
-      "clinic"
+      "clinic",
+      "restaurant"
     ],
     "description": "A sign labeled \"The Ugly Duckling\" hangs from rusty chains outside of what looks to be a popular bar location. \nThe door is heavy as you pull it open and are greeted by a classic bar.\nThere is a bartender, a lone stranger sitting in the corner, and the smell of ale permeates the area."
   },
