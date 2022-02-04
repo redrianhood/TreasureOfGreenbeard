@@ -35,7 +35,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-        welcome();
+//        welcome();
         map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
 
@@ -105,7 +105,6 @@ public class Game {
     private void start() {
         String input = prompter.prompt("\nWhat would you like to do?\n -> ").toLowerCase();
         List<String> commands = Arrays.asList(input.split(" "));
-
         // Help and Quit commands
         if (commands.size() == 1) {
             if ("help".equals(commands.get(0))) {
@@ -121,7 +120,7 @@ public class Game {
             }
         }
 
-        else if (commands.size() != 2) {
+        if (commands.size() != 2) {
             System.out.println("Invalid Command");
             return;
         }
@@ -137,7 +136,7 @@ public class Game {
         }
 
         if ("go".equals(verb)) {
-            travel(noun);
+            travel(noun, verb);
             talkedToCharacter = null;
         }
 
@@ -151,7 +150,7 @@ public class Game {
                 audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
-            travel(noun);
+            travel(noun, verb);
             talkedToCharacter = null;
         }
         // talking to someone
@@ -172,17 +171,6 @@ public class Game {
         }
     }
 
-//    private void actionOptions() {
-//        System.out.println("Current possible actions: ");
-////        StringBuilder builder = new StringBuilder();
-////        currentLocation.getActionOptions().forEach(option -> builder.append(option).append(" "));
-////        String actions = builder.toString();
-////        actions.replace(" ", ", ");
-////        System.out.println(actions);
-//        System.out.println(String.join(", ", currentLocation.getActionOptions()));
-//        System.out.println("==============");
-//    }
-
     private void showCharacters(Location location) {
         List<String> characterList = new ArrayList<>();
         List<String> recruitList = new ArrayList<>();
@@ -195,7 +183,8 @@ public class Game {
         //Iterate through JSONObject keys:
         location.getNpcs().forEach((key, value) -> {
             //add each character name to list
-            NPC npc = (NPC) value;
+            Character npc =  value;
+
             characterList.add( npc.getName());
 
             //check if character can be recruited
@@ -209,11 +198,11 @@ public class Game {
     }
 
     // Handles traveling between different locations in the map.
-    private void travel(String noun) {
+    private void travel(String noun, String verb) {
         Console.clear();
       
         // First check and send you off to the island if you're sailing to the Island
-        if (noun.equals("sail")) {
+        if (noun.equals("sail") && !verb.equals("go")) {
             sailToIsland();
         }
 
@@ -247,7 +236,8 @@ public class Game {
     }
 
     private boolean validateRoute(String destination) {
-        return map.getLocations().get(destination) != null;
+        // route must exist && you must be able to travel there from the current location
+        return map.getLocations().get(destination) != null && currentLocation.getCanTravelTo().contains(destination);
     }
 
 
@@ -297,7 +287,7 @@ public class Game {
             String ascii = npc.getImage();
             System.out.println(greet + "\n");
 
-//            printFile("data/"+ascii);
+            TextParser.printFile("data/npc-images/"+ascii);
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
             JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
@@ -308,6 +298,7 @@ public class Game {
             while (dialogue) {
                 JSONArray finalOptions = options;
                 options.forEach((item) -> System.out.println((finalOptions.indexOf(item) + 1) + ". " + item.toString()));
+                System.out.println("Type " + ColorConsole.GREEN_BOLD + "leave" + ColorConsole.RESET + " to end dialogue");
                 String input = (prompter.prompt("-> "));
                 Integer response = null;
                 if (input.matches("\\d+")) {
@@ -319,9 +310,8 @@ public class Game {
                 if (response != null && response <= responses.size()) {
                     System.out.println("->" + responses.get(response - 1));
                 } else {
-                    System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.");
+                    System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.\n");
                 }
-
             }
 
         } else {
@@ -397,10 +387,8 @@ public class Game {
 
     void fight(String name) {
         Enemy enemy = (Enemy) this.currentLocation.getNpcs().get(name);
-        System.out.println(enemy);
         // reset health before each fight
         player.setHealth(100);
-
 
         // fight intro description -> pulled from enemy
         System.out.println(enemy.getIntro());
@@ -408,15 +396,6 @@ public class Game {
         boolean fighting = true;
         // player attack, enemy attack loop
         while (fighting) {
-            // display:
-            // "3 Attacks available: \n Strong, Guarded, Normal
-            // prompt for valid input
-            // calculate appropriate dmg
-            // (is someone dead?)
-            // calculate enemy dmg
-            // (is someone dead?)
-            // loop
-
             // Ask for what kind of attack and calculate damage
             boolean validInput = false;
             // reset guard for round

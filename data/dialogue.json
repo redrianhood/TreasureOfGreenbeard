@@ -2,11 +2,11 @@
   "bar": {
     "bartender": {
       "options": [
-        "Do you have any rumors you are willing to share?",
+        "Have you heard any good rumors?",
         "How is your day going?"
       ],
       "responses": [
-        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
+        "I hear that there is a very talented navigator in town, if you're in search of one. \nOnly problem is that she recently lost someone and might not be up to sailing ever again.",
         "Couldn't be better! Just another day in good ol' Dark Reef"
       ]
     },
@@ -16,13 +16,13 @@
         "What are you doing at the bar in the middle of the day? Drinking your life away?"
       ],
       "responses": [
-        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
-        "I should ask you da same ol' timer."
+        "I do be lookin' for a new crew.\nI can be a good First Mate if ye be needin' one.",
+        "I should ask you da same!\nCareful with judgement young Captain, least ye be judged."
       ]
     }
   },
   "cemetery": {
-    "mourner": {
+    "sailor": {
       "options": [
         "Are you okay?",
         "Sorry for your loss.",
@@ -31,18 +31,20 @@
       "responses": [
         "What does it look like you fool? Leave me alone.",
         "My dearest Betty, she was so young... * You notice the gravestone says 'Beatrice: Loving pet and friend' *",
-        "Uh, yes I am and I've been in search of a crew to go with, but I lost Betty so suddenly..."
+        "Uh, yes I am and I've been in search of a crew to go with. I lost Betty so suddenly, I'm not sure I could handle it right now..."
       ]
     }
   },
   "crypt": {
     "zombie": {
       "options": [
+        "Sorry for fighting you.",
         "How are you alive?",
         "Umm.. Would you like to join my crew?"
       ],
       "responses": [
-        "I don't know I woke up like this.",
+        "I get it, I do be pretty scary lookin' after all.\nMistakes happen :)",
+        "Don't know, just woke up like this. \nThank ya for getting that stone door open, but what do I do now?",
         "Hell yes! I do be a good shipwright back when I be with the living."
       ]
     }
@@ -50,76 +52,84 @@
   "inn": {
     "dog": {
       "options": [
-        "Do you have any rumors you are willing to share?",
-        "How is your day going?"
+        "*Pet dog*",
+        "*Scratch behind ears*",
+        "Wanna be a sea dog?"
       ],
       "responses": [
-        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
-        "Couldn't be better! Just another day in good ol' Dark Reef"
+        "You give each head a nice pet. Though it has three heads, it wags it's one tail.",
+        "Each head tries to get scratches at the same time. It's a mess, but they're very happy.",
+        "**BARK BARK**\nYou're not positive, but it sounds like the dog might want to be recruited..."
       ]
     },
     "innkeeper": {
       "options": [
-        "Are you interested in joining my crew?",
-        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+        "Heard any good rumors?",
+        "Can I stay the night?"
       ],
       "responses": [
-        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
-        "I should ask you da same ol' timer."
+        "We don't have any shipwrights in town, but there used to be a family of them.\nYou could check out their family crypt in the cemetery if you were so inclined.",
+        "Sorry, we don't have any beds available right now.\nAnd don't you have a boat to sleep on anyways?"
       ]
     },
     "pirate": {
       "options": [
-        "Are you interested in joining my crew?",
-        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+        "Heard any good rumors?",
+        "Have you heard of Captain Greenbeard?",
+        "Are you interested in joining my crew?"
       ],
       "responses": [
-        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
-        "I should ask you da same ol' timer."
+        "Our old first mate left recently. I heard they were hanging around The Ugly Duckling.",
+        "Everyone in Dark Reef knows of Captain Greenbeard!\nHe used to be the greatest terror in the seas",
+        "No, I got meself a crew. Just hanging around here till we set off."
       ]
     }
   },
   "clinic": {
     "doctor": {
       "options": [
-        "Do you have any rumors you are willing to share?",
-        "How is your day going?"
+        "Can you fix me up?",
+        "Why did you become a doctor?",
+        "Do you really need an apprentice?"
       ],
       "responses": [
-        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
-        "Couldn't be better! Just another day in good ol' Dark Reef"
+        "What? You look fine! Maybe drink more water instead of ale there Captain.",
+        "Why did you become a pirate? I'm really busy, maybe talk to someone else.",
+        "Not really. I took them in because their parents asked.\nThey're not that good, so maybe you could take them off my hands."
       ]
     },
     "receptionist": {
       "options": [
-        "Are you interested in joining my crew?",
-        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+        "Heard any good rumors?",
+        "How are you today?",
+        "Do you have any sailing advice?"
       ],
       "responses": [
-        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
-        "I should ask you da same ol' timer."
+        "I heard that Captain GreenBeard has been dead for over 50 years.\nNo one has found his treasure in all that time.",
+        "I'm okay, but I could really use a new job.\nThis doctor is the only one in town and they aren't really known for their bedside manner.",
+        "I've heard you should have at least a navigator, a shipwright, and a first mate before setting sail.\nIt could be really dangerous otherwise."
       ]
     },
     "apprentice": {
       "options": [
-        "Are you interested in joining my crew?",
-        "What are you doing at the bar in the middle of the day? Drinking your life away?"
+        "What is your story?",
+        "Wanna join me crew?"
       ],
       "responses": [
-        "I do be lookin' fuh a new crew, I will join but only if I be da First Mate",
-        "I should ask you da same ol' timer."
+        "I don't have much of a story, just trying to be a doctor I guess.\nMy parents sent me here to learn, but the doctor isn't very nice.\nGosh, I always wanted to be a pirate like you. Adventure, the Sea, Treasure.\nYou're living my dream mate.",
+        "Really!?! I'd kill for a chance to be on a pirate crew!\nWait, will I need to kill anyone?"
       ]
     }
   },
   "restaurant": {
     "cook": {
       "options": [
-        "Do you have any rumors you are willing to share?",
-        "How is your day going?"
+        "Heard any good rumors?",
+        "Wanna join me crew?"
       ],
       "responses": [
-        "I hear that there is very talented navigator in town, if you are in search of one. Only problem is that he recently lost someone and might not be up to sailing ever again.",
-        "Couldn't be better! Just another day in good ol' Dark Reef"
+        "I've heard there's a dog over at inn. I even heard it has three heads!",
+        "Hmmm, I'm not really getting anywhere with this cook job.\nYa know what! Yeah! Let's set sail Captain."
       ]
     }
   }
