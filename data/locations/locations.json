@@ -15,7 +15,6 @@
     "leave": "town",
     "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling.",
     "locations": [
-      "crypt",
       "bar",
       "cemetery",
       "inn",
@@ -42,6 +41,7 @@
       "bar",
       "inn",
       "clinic",
+      "crypt",
       "restaurant"
     ],
     "description": "A cemetery that has a mourner crying over a gravestone, a shovel leaning against a cabin, and a nearby crypt with what appears to be an open door."
