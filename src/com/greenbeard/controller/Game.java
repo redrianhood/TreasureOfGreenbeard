@@ -26,6 +26,7 @@ public class Game {
     private Die die = new Die();
     private Audio audio = new Audio();
     private Prompter prompter = new Prompter(new Scanner(System.in));
+    private String talkedToCharacter;
 
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
@@ -64,7 +65,7 @@ public class Game {
     }
 
     private void welcome() {
-        audio.play("data/audio/finalbattle.wav", Clip.LOOP_CONTINUOUSLY);
+        audio.play("data/audio/gamemusic.wav", Clip.LOOP_CONTINUOUSLY);
         System.out.println("\n\n");
         try {
             //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
@@ -137,6 +138,7 @@ public class Game {
 
         if ("go".equals(verb)) {
             travel(noun, verb);
+            talkedToCharacter = null;
         }
 
         // recruit an npc for your crew
@@ -150,9 +152,11 @@ public class Game {
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
             travel(noun, verb);
+            talkedToCharacter = null;
         }
         // talking to someone
         else if (!currentLocation.equals("town") && "talk".equals(verb)) {
+            talkedToCharacter = noun;
             startDialogue(noun);
         }
 
@@ -164,7 +168,7 @@ public class Game {
                 map.showMap(this.currentLocation.getBasicName());
             }
         } else {
-            System.out.println("Sorry the command you typed is not recognized");
+            System.out.println("Sorry the command you typed is not recognized.");
         }
     }
 
@@ -244,7 +248,13 @@ public class Game {
             String name = npc.getName();
             boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
-                player.addCrewMate(name);
+                if(talkedToCharacter == null || !talkedToCharacter.equals(member)) {
+                    System.out.println();
+                    System.out.println("Before recruiting " + member + ", " + "you need to talk to: " + member);
+                    return;
+                } else {
+                    player.addCrewMate(name);
+                }
             }
             String recruitMsg = npc.getRecruitMessage();
             System.out.println(recruitMsg); // print message out when you try to recruit them.

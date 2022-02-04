@@ -55,15 +55,4 @@
 	    || ||
        ==' '==
      crypt(headless zombie)
-   <<Current Location>>
-                                                                         
-                                                                                                                                                                                     
-                                                                                       
-                                                                                                        
-                                                                                              
-																		
-																		   
-										
-										
-										
-	
+     <<Current Location>>
