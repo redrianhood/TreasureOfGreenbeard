@@ -373,10 +373,8 @@ public class Game {
 
     void fight(String name) {
         Enemy enemy = (Enemy) this.currentLocation.getNpcs().get(name);
-        System.out.println(enemy);
         // reset health before each fight
         player.setHealth(100);
-
 
         // fight intro description -> pulled from enemy
         System.out.println(enemy.getIntro());
@@ -384,15 +382,6 @@ public class Game {
         boolean fighting = true;
         // player attack, enemy attack loop
         while (fighting) {
-            // display:
-            // "3 Attacks available: \n Strong, Guarded, Normal
-            // prompt for valid input
-            // calculate appropriate dmg
-            // (is someone dead?)
-            // calculate enemy dmg
-            // (is someone dead?)
-            // loop
-
             // Ask for what kind of attack and calculate damage
             boolean validInput = false;
             // reset guard for round
