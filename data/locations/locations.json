@@ -15,6 +15,7 @@
     "leave": "town",
     "description": "A messy, yet beautiful harbor. The BlackDragoon is docked and chilling.",
     "locations": [
+      "crypt",
       "bar",
       "cemetery",
       "inn",
@@ -38,7 +39,6 @@
     "name": "Fair Winds and Following Seas Cemetery",
     "leave": "town",
     "locations": [
-      "crypt",
       "bar",
       "inn",
       "clinic",
