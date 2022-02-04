@@ -440,6 +440,12 @@ public class Game {
             // if enemy is defeated, end fight and continue game
             if (enemy.getHealth() <= 0) {
                 System.out.println(enemy.getVictory());
+                try {
+                    Files.lines(Path.of("data/welcome/congratulations.txt")).forEach(System.out::println);
+                    TextParser.delay(BANNER_DELAY);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 fighting = false;
             }
             // enemy attack
