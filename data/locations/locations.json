@@ -33,7 +33,7 @@
       "restaurant",
       "town"
     ],
-    "description": "A sign labeled \"The Ugly Duckling\" hangs from rusty chains outside of what looks to be a popular bar location. \nThe door is heavy as you pull it open and are greeted by a classic bar.\nThere is a bartender, a lone stranger sitting in the corner, and the smell of ale permeates the area."
+    "description": "A sign labeled \"The Ugly Duckling\" hangs from rusty chains outside of what looks to be a popular bar location. \nThe door is heavy as you pull it open and are greeted by a cozy little pirate bar.\nThere is a bartender, a lone stranger sitting in the corner, and the smell of ale permeates the area."
   },
   "cemetery": {
     "name": "Fair Winds and Following Seas Cemetery",
@@ -64,7 +64,7 @@
       "clinic",
       "town"
     ],
-    "description": "As you try to walk inside the inn, you notice a dog wagging his tail towards you. You proceed inside the Shallow Deep inn. The inn is not very active this time of day, you notice the Innkeeper straight ahead and next to him, sitting on the barstool, is a pirate with an eye patch."
+    "description": "As you walk inside the inn you notice a three-headed dog wagging his tail right outside. \n\nYou proceed inside the Shallow Deep inn.\nNot very active this time of day, you notice only an Innkeeper, and a pirate with an eye-patch.\nThe innkeeper looks rather similar to the dog outside and the pirate looks very old."
   },
   "clinic": {
     "name": "Seaview Clinic",
@@ -76,7 +76,7 @@
       "restaurant",
       "town"
     ],
-    "description": "You walk inside the clinic, and notice three people meet your glare. One behind the desk is most likely the receptionist. Behind her are two men, one much older and you realize that this must be the town doctor. The other is much younger and appears to be helping the older man, you deduced that this must be an apprentice."
+    "description": "You walk inside what appears to be the only clinic in town and notice three people.\nA receptionist behind a desk, and two people behind her.\nOne much older and you realize that this must be the town doctor. \nThe other is much younger and appears to be helping the older man, you deduced that this must be an apprentice."
   },
   "restaurant": {
     "name": "Dirty Sea Dogs",

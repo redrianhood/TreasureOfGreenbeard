@@ -41,16 +41,16 @@
   "inn": {
     "dog": {
       "name": "dog",
-      "greeting": "Woof Woof! * He jumps on you and sticks his tongue out. *",
+      "greeting": "Woof Woof! * A three headed dog jumps on you and sticks his tongue out. *",
       "ableToRecruit": "true",
-      "recruitMessage": "* He barks and starts following you around * You start to think the dog likes you.",
+      "recruitMessage": "* The three heads bark in unison and they start following you around * \nYou start to think the dog likes you.",
       "image": "bartender.txt"
     },
     "innkeeper" : {
       "name": "innkeeper",
-      "greeting": "We got vacant rooms, if it pleases ya.",
+      "greeting": "Sorry, we don't have any vacant rooms right now.",
       "ableToRecruit": "false",
-      "recruitMessage": "Sorry laddy, my sailin' days are behind me. I am flattered you would try to recruit an old man like me.",
+      "recruitMessage": "Sorry kid, my sailin' days are behind me. I am flattered you would try to recruit an old man like me.",
       "image": "bartender.txt"
     },
     "pirate" : {
@@ -77,10 +77,10 @@
       "image": "bartender.txt"
     },
     "receptionist" : {
-      "name": "pirate",
+      "name": "receptionist",
       "greeting": "The doctor is busy right now. We do not have any open appointments. Please leave. Now.",
       "ableToRecruit": "false",
-      "recruitMessage": "I can't afford to be stuck at sea for months. Who do you think is going to do my hair an dmy nails.",
+      "recruitMessage": "I can't afford to be stuck at sea for months. Just imagine what it would do to my hair.",
       "image": "bartender.txt"
     }
   },
@@ -89,7 +89,7 @@
       "name": "cook",
       "greeting": "If you ain't payin, then I don't need you stickin around",
       "ableToRecruit": "true",
-      "recruitMessage": "My dream is always been to sail the seas and discover all types of marine animals.\n You will be pleased to hear that my cooking skills are top notch. \n My specialty? Boiled water. Good ain't it?",
+      "recruitMessage": "My dream is always been to sail the seas and discover all types of marine animals.\nYou will be pleased to hear that my cooking skills are top notch. \nMy specialty? Boiled water. Good ain't it?",
       "image": "bartender.txt"
     }
   },
