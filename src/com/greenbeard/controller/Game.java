@@ -35,7 +35,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-        welcome();
+//        welcome();
         map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
 
@@ -105,7 +105,6 @@ public class Game {
     private void start() {
         String input = prompter.prompt("\nWhat would you like to do?\n -> ").toLowerCase();
         List<String> commands = Arrays.asList(input.split(" "));
-
         // Help and Quit commands
         if (commands.size() == 1) {
             if ("help".equals(commands.get(0))) {
@@ -184,7 +183,8 @@ public class Game {
         //Iterate through JSONObject keys:
         location.getNpcs().forEach((key, value) -> {
             //add each character name to list
-            Character npc = value;
+            Character npc =  value;
+
             characterList.add( npc.getName());
 
             //check if character can be recruited
@@ -287,7 +287,7 @@ public class Game {
             String ascii = npc.getImage();
             System.out.println(greet + "\n");
 
-//            printFile("data/"+ascii);
+            TextParser.printFile("data/npc-images/"+ascii);
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
             JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
@@ -312,7 +312,6 @@ public class Game {
                 } else {
                     System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.\n");
                 }
-
             }
 
         } else {
