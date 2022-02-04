@@ -3,6 +3,7 @@ package com.greenbeard.model;
 public class Character {
     // Fields
     private String name;
+    private String realName;
     private String greeting;
     private boolean ableToRecruit;
     private String recruitMessage;
@@ -17,6 +18,14 @@ public class Character {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public int getHealth() {

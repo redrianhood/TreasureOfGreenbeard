@@ -285,9 +285,10 @@ public class Game {
             this.dialogue = true;
             String greet = npc.getGreeting();
             String ascii = npc.getImage();
-            System.out.println(greet + "\n");
 
             TextParser.printFile("data/npc-images/"+ascii);
+            System.out.println("\n");
+            System.out.println(greet + "\n");
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
             JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
@@ -300,15 +301,19 @@ public class Game {
                 options.forEach((item) -> System.out.println((finalOptions.indexOf(item) + 1) + ". " + item.toString()));
                 System.out.println("Type " + ColorConsole.GREEN_BOLD + "leave" + ColorConsole.RESET + " to end dialogue");
                 String input = (prompter.prompt("-> "));
+                System.out.println("\n");
                 Integer response = null;
+
                 if (input.matches("\\d+")) {
                     response = Integer.valueOf(input);
                 } else if (input.equals("leave")) {
                     dialogue = false;
                     break;
                 }
+
                 if (response != null && response <= responses.size()) {
-                    System.out.println("->" + responses.get(response - 1));
+                    System.out.println(npc.getRealName() +" says: " + responses.get(response - 1));
+                    System.out.println("\n");
                 } else {
                     System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.\n");
                 }

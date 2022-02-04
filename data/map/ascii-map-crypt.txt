@@ -54,5 +54,5 @@
         || ||
 	    || ||
        ==' '==
-     crypt(headless zombie)
+     crypt
      <<Current Location>>
