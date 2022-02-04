@@ -44,6 +44,7 @@ public class GameMap {
                 String recruitMessage = (String) val.get("recruitMessage");
                 String enemy = (String) val.get("enemy");
                 Character npc;
+
                 if(Boolean.parseBoolean(enemy)) {
                     String weapon = (String) val.get("weapon");
                     String intro = (String) val.get("intro");
@@ -56,7 +57,6 @@ public class GameMap {
                     String greeting = (String) val.get("greeting");
                     npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image);
                 }
-
                 Location curLoc = locations.get(key);
                 curLoc.addNpc(npc);
             });
@@ -151,6 +151,5 @@ public class GameMap {
 
     public Map<String, Location> getLocations() {
         return locations;
-
     }
 }
