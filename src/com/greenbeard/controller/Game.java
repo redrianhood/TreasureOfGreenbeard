@@ -34,7 +34,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-        welcome();
+//        welcome();
         map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
 
@@ -104,7 +104,6 @@ public class Game {
     private void start() {
         String input = prompter.prompt("\nWhat would you like to do?\n -> ").toLowerCase();
         List<String> commands = Arrays.asList(input.split(" "));
-
         // Help and Quit commands
         if (commands.size() == 1) {
             if ("help".equals(commands.get(0))) {
@@ -130,7 +129,7 @@ public class Game {
 
         try {
             verb = TextParser.checkSynonym(commands.get(0));
-            noun = commands.get(0);
+            noun = commands.get(1);
         } catch (Exception e) {
             return;
         }
@@ -287,7 +286,7 @@ public class Game {
             String ascii = npc.getImage();
             System.out.println(greet + "\n");
 
-//            printFile("data/"+ascii);
+            TextParser.printFile("data/npc-images/"+ascii);
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
             JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
