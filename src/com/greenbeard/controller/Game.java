@@ -360,7 +360,7 @@ public class Game {
 
     void finale() {
         // if crew doesn't have a navigator
-        if (!player.getCrewMates().contains("mourner")) {
+        if (!player.getCrewMates().contains("sailor")) {
             TextParser.delay(300);
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
