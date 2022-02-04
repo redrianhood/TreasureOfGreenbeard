@@ -130,11 +130,11 @@ public class GameMap {
         switch (location.getBasicName()) {
             case "harbor":
                 System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
-                        "\"" + ColorConsole.RED_BOLD + "leave" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "set sail" + ColorConsole.RESET + "\"");
+                        "\"" + ColorConsole.RED_BOLD + "quit" + ColorConsole.RESET + "\", " + ColorConsole.RED_BOLD + "leave" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "set sail" + ColorConsole.RESET + "\"");
                 break;
             case "town":
                 System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
-                        "\"" + ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\"");
+                        "\"" + ColorConsole.RED_BOLD + "quit" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\"");
                 break;
             case "bar":
             case "cemetery":
@@ -144,7 +144,8 @@ public class GameMap {
             case "restaurant":
                 System.out.println("\"" + ColorConsole.RED_BOLD + "show crew" + ColorConsole.RESET + "\", \"" + ColorConsole.RED_BOLD + "show map" + ColorConsole.RESET + "\", " +
                         "\"" + ColorConsole.RED_BOLD + "go" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD + "leave" + ColorConsole.RESET + "\", " +
-                        ColorConsole.RED_BOLD + "talk" + ColorConsole.RESET + "\", " + "\"" + ColorConsole.RED_BOLD + "recruit" + ColorConsole.RESET + "\"");
+                        ColorConsole.RED_BOLD + "talk" + ColorConsole.RESET + "\", " +
+                         ColorConsole.RED_BOLD + "quit" + ColorConsole.RESET + "\", " +"\"" + ColorConsole.RED_BOLD + "recruit" + ColorConsole.RESET + "\"");
         }
 
     }

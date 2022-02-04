@@ -30,7 +30,7 @@ public class Game {
 
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
-    private static long BANNER_DELAY = 0; //1500;
+    private static long BANNER_DELAY = 1500; //1500;
     private static final String DIALOGUE_FILE = "data/dialogue.json";
 
     public void execute() {
@@ -320,13 +320,27 @@ public class Game {
     }
 
     private void gameOver() {
-        System.out.println("GAME OVER!");
+        //System.out.println("GAME OVER!");
+        try {
+            Files.lines(Path.of("data/welcome/gameover.txt")).forEach(System.out::println);
+            TextParser.delay(BANNER_DELAY);
+            System.out.println("\n\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String playAgain = prompter.prompt("Play again? yes or no?\n -> ", "yes|no", "Invalid Choice");
         if ("yes".equals(playAgain)) {
             resetGame();
             execute();
         } else if ("no".equals(playAgain)) {
-            System.out.println("Thanks for playing! See you again!");
+            //System.out.println("Thanks for playing! See you again!");
+            TextParser.delay(BANNER_DELAY);
+            try {
+                Files.lines(Path.of("data/welcome/seeyouagain.txt")).forEach(System.out::println);
+                TextParser.delay(BANNER_DELAY);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.exit(0);
         }
     }
@@ -440,6 +454,7 @@ public class Game {
                 System.out.println(enemy.getDefeat());
                 fighting = false;
                 gameOver();
+
             }
         }
     }

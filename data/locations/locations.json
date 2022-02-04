@@ -38,10 +38,11 @@
   "cemetery": {
     "name": "Fair Winds and Following Seas Cemetery",
     "locations": [
-      "crypt",
       "bar",
+      "harbor",
       "inn",
       "clinic",
+      "crypt",
       "restaurant",
       "town"
     ],
