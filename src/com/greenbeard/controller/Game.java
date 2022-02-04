@@ -125,8 +125,15 @@ public class Game {
             return;
         }
 
-        String verb = TextParser.checkSynonym(commands.get(0));
-        String noun = commands.get(1);
+        String verb;
+        String noun;
+
+        try {
+            verb = TextParser.checkSynonym(commands.get(0));
+            noun = commands.get(0);
+        } catch (Exception e) {
+            return;
+        }
 
         if ("go".equals(verb)) {
             travel(noun);
@@ -157,7 +164,7 @@ public class Game {
                 map.showMap(this.currentLocation.getBasicName());
             }
         } else {
-            System.out.println("Sorry the command you typed is not recognized");
+            System.out.println("Sorry the command you typed is not recognized.");
         }
     }
 
