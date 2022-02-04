@@ -1,0 +1,7 @@
+Explore the town of Dark Reef, find a crew, sail to the island and defeat Captain Greenbeard!!
+
+
+To explore the game, please enter the command 'go' followed by a location you would like to visit.
+These are the following location you can visit:
+
+Bar, Cemetery, Crypt, Harbor, Restaurant, Clinic, Inn
