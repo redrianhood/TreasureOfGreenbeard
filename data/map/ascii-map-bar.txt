@@ -54,4 +54,4 @@
         || ||
 	    || ||
        ==' '==
-     crypt(headless zombie)
+     crypt
