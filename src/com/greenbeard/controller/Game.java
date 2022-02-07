@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+
 public class Game {
     private boolean gameOver;
     private boolean dialogue;
@@ -34,7 +35,7 @@ public class Game {
 
     public void execute() {
         gameOver = false;
-//        welcome();
+        welcome();
         map.showLocation(this.currentLocation.getBasicName());
         printCurrentLocation();
 
@@ -52,10 +53,8 @@ public class Game {
         System.out.println("\n");
         printCurrentLocation();
         map.availableCommand(this.currentLocation);
-//        System.out.println("\n");
         showCharacters(this.currentLocation);
         System.out.println("========================\n");
-        //audio.audioPreference();
     }
 
     private void printCurrentLocation() {
@@ -67,7 +66,6 @@ public class Game {
         audio.play("data/audio/gamemusic.wav", Clip.LOOP_CONTINUOUSLY);
         System.out.println("\n\n");
         try {
-            //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
             Files.lines(Path.of("data/banners/banner1.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
             Files.lines(Path.of("data/banners/banner2.txt")).forEach(System.out::println);
@@ -88,7 +86,6 @@ public class Game {
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
                     "Options are: " + ColorConsole.CYAN_BOLD + "sword, or pistol" + ColorConsole.RESET + "\n  --> ", "sword|pistol", "Invalid selection");
             player.setWeapon(weapon);
-            // Console.clear here (?)
             System.out.printf("\n\nYou are the Great Captain %s, Captain of the %s.\n" +
                             "With your trusty %s by your side, you set off to town.%n",
                     player.getName(), player.getShipName(), player.getWeaponName());
