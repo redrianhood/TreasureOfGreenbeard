@@ -84,7 +84,7 @@ public class Game {
             player.setName(prompter.prompt("\nWhat is your name Captain? -> "));
             player.setShipName(prompter.prompt("What is the name of your Ship? -> "));
             String weapon = prompter.prompt("What kind of weapon do you carry?\n" +
-                    "Options are: " + ColorConsole.CYAN_BOLD + "sword, or pistol" + ColorConsole.RESET + "\n  --> ", "sword|pistol", "Invalid selection");
+                    "Options are: sword, or pistol \n  --> ", "sword|pistol", "Invalid selection");
             player.setWeapon(weapon);
             System.out.printf("\n\nYou are the Great Captain %s, Captain of the %s.\n" +
                             "With your trusty %s by your side, you set off to town.%n",
@@ -305,6 +305,7 @@ public class Game {
                     response = Integer.valueOf(input);
                 } else if (input.equals("leave")) {
                     dialogue = false;
+                    Console.clear();
                     break;
                 }
 
