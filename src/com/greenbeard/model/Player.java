@@ -4,20 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player extends Character{
-    private static Player player;
+    private static final Player PLAYER = new Player();
     Set<String> crewMates = new HashSet<>();
     private int gold = 100;
     private String shipName = "";
 
-    private Player() {
-        // singleton
-    }
+    private Player() {}
 
     public static Player getInstance(){
-        if(player == null){
-            player = new Player();
-        }
-        return player;
+        return PLAYER;
     }
 
     public Set<String> addCrewMate(String name){
