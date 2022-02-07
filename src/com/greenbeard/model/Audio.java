@@ -53,7 +53,7 @@ public class Audio {
             System.out.print("Do you want an audio on your background? (Y / N): ");
             response = scanner.next().trim().toUpperCase();
 
-            if (response.length() > 1) {
+            if (response.length() == 1) {
                 response = response.charAt(0) + "";
             }
             switch (response) {
