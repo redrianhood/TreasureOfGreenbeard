@@ -59,7 +59,7 @@ public class Game {
     }
 
     private void printCurrentLocation() {
-        System.out.println("Your current location is: " + ColorConsole.RED_BOLD + (this.currentLocation.getBasicName())+ ": " + this.currentLocation.getName() + ColorConsole.RESET);
+        System.out.println("Your current location is: " + ColorConsole.RED_BOLD + (this.currentLocation.getBasicName()) + ": " + this.currentLocation.getName() + ColorConsole.RESET);
         System.out.println();
     }
 
@@ -110,15 +110,13 @@ public class Game {
             if ("help".equals(commands.get(0))) {
                 help();
                 return;
-            }
-            else if ("quit".equals(commands.get(0))){
+            } else if ("quit".equals(commands.get(0))) {
                 String response = prompter.prompt("\nAre you sure you want to quit? (y/n) ", "y|n", "Invalid Selection");
                 if ("y".equals(response)) {
                     gameOver = true;
                 }
                 return;
-            }
-            else if ("look".equals(commands.get(0))) {
+            } else if ("look".equals(commands.get(0))) {
                 System.out.println(currentLocation.getDescription());
             }
         }
@@ -164,7 +162,7 @@ public class Game {
         else if ("look".equals(verb)) {
             if ("crew".equals(noun)) {
                 player.getCrewMates().forEach(member -> {
-                    System.out.println(member.getName() +" -> name: " +member.getRealName() +"\n occupation: " + member.getOccupation());
+                    System.out.println(member.getName() + " -> name: " + member.getRealName() + "\n occupation: " + member.getOccupation());
                     System.out.println();
                 });
             } else if ("map".equals(noun)) {
@@ -187,7 +185,7 @@ public class Game {
         //Iterate through JSONObject keys:
         location.getNpcs().forEach((key, value) -> {
             //add each character name to list
-            Character npc =  value;
+            Character npc = value;
 
             characterList.add(npc.getName());
 
@@ -250,7 +248,7 @@ public class Game {
         if (npc != null) {
             boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
-                if(npc.isTalkedTo()) {
+                if (npc.isTalkedTo()) {
                     player.addCrewMate(npc);
                 } else {
                     System.out.println();
@@ -286,7 +284,7 @@ public class Game {
             String greet = npc.getGreeting();
             String ascii = npc.getImage();
 
-            TextParser.printFile("data/npc-images/"+ascii);
+            TextParser.printFile("data/npc-images/" + ascii);
             System.out.println("\n");
 
             if (greet != null) {
@@ -316,7 +314,7 @@ public class Game {
                 }
 
                 if (response != null && response <= responses.size()) {
-                    System.out.println(npc.getRealName() +" says: " + responses.get(response - 1));
+                    System.out.println(npc.getRealName() + " says: " + responses.get(response - 1));
                     System.out.println("\n");
                 } else {
                     System.out.println("Sorry the option " + input + " is not a valid response. Please choose the numerical number next to the dialogue option.\n");
@@ -400,11 +398,11 @@ public class Game {
             TextParser.delay(300);
             fight("greenbeard");
 
-            try{
+            try {
                 List<String> ending = Files.readAllLines(Path.of("data/messages/ending.txt"));
 //                Files.lines(Path.of("data/messages/ending.txt")).forEach(System.out::println);
                 ending.forEach(TextParser::printWordByWord);
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             gameOver = true;
@@ -462,7 +460,7 @@ public class Game {
             if (enemy.getHealth() <= 0) {
                 System.out.println(enemy.getVictory());
                 fighting = false;
-                if("zombie".equals(enemy.getName())) {
+                if ("zombie".equals(enemy.getName())) {
                     zombieEncounter();
                 }
             }
@@ -492,10 +490,17 @@ public class Game {
 
         String input = prompter.prompt("1. Finish him.\n2. Talk to him\n ->", "1|2", "Please enter 1 or 2");
 
-        if("1".equals(input)) {
+        if ("1".equals(input)) {
             System.out.println("You dealt one final blow to the zombie. He is now gone forever. Shame on you.");
-            currentLocation.getNpcs().remove("zombie");
-        } else if("2".equals(input)) {
+            String check = prompter.prompt("Are you absolutely sure this is what you want to do? y|n", "y|n", "Please enter y or n");
+            if ("y".equals(check)) {
+                System.out.println("Alright.. I tried giving you a chance.");
+                currentLocation.getNpcs().remove("zombie");
+            } else {
+                System.out.println("I think you will realize that you made a good choice.");
+                startDialogue("zombie");
+            }
+        } else if ("2".equals(input)) {
             startDialogue("zombie");
         } else {
             System.out.println("Something went wrong.");
