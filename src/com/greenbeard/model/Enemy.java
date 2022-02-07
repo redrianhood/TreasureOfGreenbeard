@@ -7,17 +7,18 @@ public class Enemy extends Character {
     private String intro;
     private String victory;
     private String defeat;
-    private Map<String, String> dialogue = new HashMap<>();
 
     //constructor
-    public Enemy(String name, String intro, String victory, String defeat, String image, String recruitMessage, boolean ableToRecruit) {
+    public Enemy(String name, String realName, String intro, String victory, String defeat, String image, String recruitMessage, boolean ableToRecruit, String occupation) {
         setName(name);
+        setRealName(realName);
         setIntro(intro);
         setVictory(victory);
         setDefeat(defeat);
         setImage(image);
         setAbleToRecruit(ableToRecruit);
         setRecruitMessage(recruitMessage);
+        setOccupation(occupation);
     }
 
 

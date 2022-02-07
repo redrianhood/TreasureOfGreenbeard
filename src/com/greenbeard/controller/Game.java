@@ -27,7 +27,6 @@ public class Game {
     private Die die = new Die();
     private Audio audio = new Audio();
     private Prompter prompter = new Prompter(new Scanner(System.in));
-    private String talkedToCharacter;
 
     private Location currentLocation = map.getLocations().get("town");
     private Scanner scanner = new Scanner(System.in);
@@ -67,17 +66,17 @@ public class Game {
         audio.play("data/audio/gamemusic.wav", Clip.LOOP_CONTINUOUSLY);
         System.out.println("\n\n");
         try {
-            Files.lines(Path.of("data/welcome/banner1.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/banner1.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
-            Files.lines(Path.of("data/welcome/banner2.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/banner2.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
-            Files.lines(Path.of("data/welcome/banner3.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/banner3.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
 
             audio.audioPreference();
             System.out.println("\n\n");
-            List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
-            List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
+            List<String> welcome = Files.readAllLines(Path.of("data/messages/welcome.txt"));
+            List<String> intro = Files.readAllLines(Path.of("data/messages/intro.txt"));
             welcome.forEach((line) -> {
                 TextParser.printWordByWord(line);
 
@@ -134,7 +133,6 @@ public class Game {
 
         if ("go".equals(verb)) {
             travel(noun, verb);
-            talkedToCharacter = null;
         }
 
         // recruit an npc for your crew
@@ -148,18 +146,20 @@ public class Game {
                 audio.setVolumeLevel(audio.getVolumePreference());
             }
             travel(noun, verb);
-            talkedToCharacter = null;
+
         }
         // talking to someone
         else if (!currentLocation.equals("town") && "talk".equals(verb)) {
-            talkedToCharacter = noun;
             startDialogue(noun);
         }
 
         //show current crew members
         else if ("look".equals(verb)) {
             if ("crew".equals(noun)) {
-                System.out.println(ColorConsole.PURPLE_BOLD + player.getCrewMates() + ColorConsole.RESET);
+                player.getCrewMates().forEach(member -> {
+                    System.out.println(member.getName() +" -> name: " +member.getRealName() +"\n occupation: " + member.getOccupation());
+                    System.out.println();
+                });
             } else if ("map".equals(noun)) {
                 map.showMap(this.currentLocation.getBasicName());
             }
@@ -182,7 +182,7 @@ public class Game {
             //add each character name to list
             Character npc =  value;
 
-            characterList.add( npc.getName());
+            characterList.add(npc.getName());
 
             //check if character can be recruited
             if (npc.isAbleToRecruit()) {
@@ -197,7 +197,6 @@ public class Game {
     // Handles traveling between different locations in the map.
     private void travel(String noun, String verb) {
         Console.clear();
-      
         // First check and send you off to the island if you're sailing to the Island
         if (noun.equals("sail") && !verb.equals("go")) {
             sailToIsland();
@@ -242,15 +241,14 @@ public class Game {
         Character npc = this.currentLocation.getNpcs().get(member);
 
         if (npc != null) {
-            String name = npc.getName();
             boolean ableToRecruit = npc.isAbleToRecruit();
             if (ableToRecruit) {
-                if(talkedToCharacter == null || !talkedToCharacter.equals(member)) {
-                    System.out.println();
-                    System.out.println("Before recruiting " + member + ", " + "you need to talk to: " + member);
-                    return;
+                if(npc.isTalkedTo()) {
+                    player.addCrewMate(npc);
                 } else {
-                    player.addCrewMate(name);
+                    System.out.println();
+                    System.out.println("You need to speak to " + npc.getName() + " before recruiting them. What if they're a serial killer? You never know these days.");
+                    return;
                 }
             }
             String recruitMsg = npc.getRecruitMessage();
@@ -267,9 +265,6 @@ public class Game {
                     "Continue searching for at least 3 members to \"Set Sail\" on ", ColorConsole.BLACK_BOLD + player.getShipName());
             return;
         } else {
-            setCurrentLocation(map.getLocations().get("island"));
-            String description = this.currentLocation.getDescription();
-            System.out.println(description);
             finale();
             gameOver();
         }
@@ -280,12 +275,17 @@ public class Game {
 
         if (npc != null) {
             this.dialogue = true;
+            npc.setTalkedTo(true);
             String greet = npc.getGreeting();
             String ascii = npc.getImage();
 
             TextParser.printFile("data/npc-images/"+ascii);
             System.out.println("\n");
-            System.out.println(greet + "\n");
+
+            if (greet != null) {
+                System.out.println(greet + "\n");
+            }
+
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
             JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
@@ -324,7 +324,7 @@ public class Game {
     private void gameOver() {
         //System.out.println("GAME OVER!");
         try {
-            Files.lines(Path.of("data/welcome/gameover.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/gameover.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
             System.out.println("\n\n");
         } catch (IOException e) {
@@ -338,7 +338,7 @@ public class Game {
             //System.out.println("Thanks for playing! See you again!");
             TextParser.delay(BANNER_DELAY);
             try {
-                Files.lines(Path.of("data/welcome/seeyouagain.txt")).forEach(System.out::println);
+                Files.lines(Path.of("data/messages/seeyouagain.txt")).forEach(System.out::println);
                 TextParser.delay(BANNER_DELAY);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -357,20 +357,22 @@ public class Game {
 
     void finale() {
         // if crew doesn't have a navigator
-        if (!player.getCrewMates().contains("sailor")) {
+        if (player.getCrewMates().stream().filter(character -> "sailor".equals(character.getName())).findAny().orElse(null) == null) {
+
             TextParser.delay(300);
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
             gameOver = true;
-        } // if crew doesn't have a shipwright
-        else if (!player.getCrewMates().contains("zombie")) {
+        }
+        // if crew doesn't have a shipwright
+        else if (player.getCrewMates().stream().filter(character -> "zombie".equals(character.getName())).findAny().orElse(null) == null) {
             TextParser.delay(300);
             System.out.println("As you were out at sea, you started sinking! \n" +
                     "You didn't have a shipwright and you sank to the bottom. Sorry :(\n" +
                     "GAME OVER");
             gameOver = true;
         } // if crew doesn't have a firstmate
-        else if (!player.getCrewMates().contains("stranger")) {
+        else if (player.getCrewMates().stream().filter(character -> "stranger".equals(character.getName())).findAny().orElse(null) == null) {
             TextParser.delay(300);
             System.out.println("MUTINY! \n" +
                     "You sailed to the island and got the treasure all right.\n" +
@@ -379,10 +381,25 @@ public class Game {
                     "GAME OVER");
             gameOver = true;
         } else {
-            System.out.println("\nYou land on Yarginory Island, look around, and see a treasure chest just" +
-                    "sitting on the beach! You approach it cautiously...\n\n");
+            setCurrentLocation(map.getLocations().get("island"));
+            String description = this.currentLocation.getDescription();
+            System.out.println(description);
+            System.out.println("You dock your ship a small ways off Yarginory Island and take a smaller " +
+                    "boat to shore.\nYou take the map that your first Captain gave to you so many years " +
+                    "ago and follow the trail with your crew.\n\nYou find what appears to be an island " +
+                    "cave and enter inside.\n\nYou walk in to a center room and see a heap of teasure " +
+                    "with a giant chest in the middle!\nAs you walk forward your crew is cut off from the " +
+                    "exit by a hoard of skeletons!!!\n\nA zombie appears from behind the heap of treasure and speaks...\n");
             TextParser.delay(300);
             fight("greenbeard");
+
+            try{
+                List<String> ending = Files.readAllLines(Path.of("data/messages/ending.txt"));
+//                Files.lines(Path.of("data/messages/ending.txt")).forEach(System.out::println);
+                ending.forEach(TextParser::printWordByWord);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
             gameOver = true;
         }
     }
@@ -437,13 +454,10 @@ public class Game {
             // if enemy is defeated, end fight and continue game
             if (enemy.getHealth() <= 0) {
                 System.out.println(enemy.getVictory());
-                try {
-                    Files.lines(Path.of("data/welcome/congratulations.txt")).forEach(System.out::println);
-                    TextParser.delay(BANNER_DELAY);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 fighting = false;
+                if("zombie".equals(enemy.getName())) {
+                    zombieEncounter();
+                }
             }
             // enemy attack
             if (player.getHealth() >= 0 && enemy.getHealth() >= 0) {
@@ -461,9 +475,23 @@ public class Game {
             if (player.getHealth() <= 0) {
                 System.out.println(enemy.getDefeat());
                 fighting = false;
-                gameOver();
-
             }
+        }
+    }
+
+    private void zombieEncounter() {
+        System.out.println("You've defeated the zombie. It looks like it's still alive and became less aggressive.");
+        System.out.println("You can choose to finish him with a final blow or perhaps... befriend him?");
+
+        String input = prompter.prompt("1. Finish him.\n2. Talk to him\n ->", "1|2", "Please enter 1 or 2");
+
+        if("1".equals(input)) {
+            System.out.println("You dealt one final blow to the zombie. He is now gone forever. Shame on you.");
+            currentLocation.getNpcs().remove("zombie");
+        } else if("2".equals(input)) {
+            startDialogue("zombie");
+        } else {
+            System.out.println("Something went wrong.");
         }
     }
 

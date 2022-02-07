@@ -10,6 +10,8 @@ public class Character {
     private String image;
     private int health = 100;
     private String weapon = "SWORD";
+    private boolean talkedTo = false;
+    private String occupation;
 
     // Accessors
     public String getName() {
@@ -88,6 +90,22 @@ public class Character {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isTalkedTo() {
+        return talkedTo;
+    }
+
+    public void setTalkedTo(boolean talkedTo) {
+        this.talkedTo = talkedTo;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
     @Override
