@@ -10,10 +10,14 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class GameMap {
-    private static GameMap gameMap;
+    private static final GameMap GAME_MAP = new GameMap();
     private static final String LOCATIONS_FILE = "data/locations/locations.json";
     private static final String NPC_FILE = "data/npc.json";
     private Map<String, Location> locations = new HashMap<>();
+
+    public static GameMap getInstance() {
+        return GAME_MAP;
+    }
 
     private GameMap() {
         JSONObject locObj = TextParser.readJsonFile(LOCATIONS_FILE);
@@ -67,14 +71,6 @@ public class GameMap {
             });
         });
     }
-
-    public static GameMap getInstance(){
-        if (gameMap == null){
-            gameMap = new GameMap();
-        }
-        return gameMap;
-    }
-
 
     public void showLocation(String location) {
         String pathFile = null;

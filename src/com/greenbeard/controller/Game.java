@@ -399,7 +399,7 @@ public class Game {
             try{
                 List<String> ending = Files.readAllLines(Path.of("data/messages/ending.txt"));
 //                Files.lines(Path.of("data/messages/ending.txt")).forEach(System.out::println);
-                ending.forEach(line -> TextParser.printWordByWord(line));
+                ending.forEach(TextParser::printWordByWord);
             } catch (IOException e){
                 e.printStackTrace();
             }
