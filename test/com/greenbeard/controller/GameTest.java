@@ -24,17 +24,17 @@ public class GameTest {
         game.finale();
     }
 
-    @Test
-    public void returnsSuccessText_whenRightCrewMates() {
-        testPlayer.setWeapon("pistol");
-        testPlayer.addCrewMate("sailor");
-        testPlayer.addCrewMate("zombie");
-        testPlayer.addCrewMate("stranger");
-        game.setCurrentLocation(map.getLocations().get("island"));
-        System.out.println(testPlayer.getWeapon());
-        System.out.println(testPlayer.getCrewMates());
-        game.finale();
-    }
+//    @Test
+//    public void returnsSuccessText_whenRightCrewMates() {
+//        testPlayer.setWeapon("pistol");
+//        testPlayer.addCrewMate("mourner");
+//        testPlayer.addCrewMate("zombie");
+//        testPlayer.addCrewMate("stranger");
+//        game.setCurrentLocation(map.getLocations().get("island"));
+//        System.out.println(testPlayer.getWeapon());
+//        System.out.println(testPlayer.getCrewMates());
+//        game.finale();
+//    }
 
     @Test
     public void successfullyFightZombie() {
