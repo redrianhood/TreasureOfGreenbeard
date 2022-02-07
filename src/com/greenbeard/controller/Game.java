@@ -102,6 +102,7 @@ public class Game {
         String input = prompter.prompt("\nWhat would you like to do?\n -> ").toLowerCase();
         List<String> commands = Arrays.asList(input.split(" "));
         // Help and Quit commands
+
         if (commands.size() == 1) {
             if ("help".equals(commands.get(0))) {
                 help();
@@ -112,6 +113,10 @@ public class Game {
                 if ("y".equals(response)) {
                     gameOver = true;
                 }
+                return;
+            }
+            else if ("look".equals(commands.get(0))) {
+                System.out.println(currentLocation.getDescription());
                 return;
             }
         }
