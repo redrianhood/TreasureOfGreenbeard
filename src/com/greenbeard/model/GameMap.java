@@ -60,6 +60,7 @@ public class GameMap {
                 } else {
                     String greeting = (String) val.get("greeting");
                     npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image, realName, occupation);
+
                 }
                 Location curLoc = locations.get(key);
                 curLoc.addNpc(npc);

@@ -8,6 +8,7 @@ public class NPC extends Character {
 
     private Map<String, Map<String, List<String>>> dialogue = new HashMap<>();
 
+
     public NPC(String name, String greeting, boolean ableToRecruit, String recruitMessage, String image, String realName, String occupation) {
         setName(name);
         setGreeting(greeting);

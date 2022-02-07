@@ -91,7 +91,7 @@
       "recruitMessage": "Great! I've been waiting for the right opportunity to leave this forsaken place. Adventure is what I have been craving. I'm sorry Mom, I will not be a doctor!",
       "image": "apprentice.txt"
     },
-    "receptionist": {
+    "receptionist" : {
       "realName": "Joy Full",
       "name": "receptionist",
       "greeting": "The doctor is busy right now. We do not have any open appointments. Please leave. Now.",
@@ -116,13 +116,13 @@
       "name": "Captain Greenbeard",
       "weapon": "sword",
       "enemy": "true",
-      "intro": "A zombie with a big, green, seaweed filled beard walks up to you holding a Cutlass.\n\n \"Arrggg, think ya can just take me treasure so easily? Think again young Captain\" \n\nThe zombie lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!",
+      "intro": "\"Arrggg, think ya can just take me treasure so easily? Think again young Captain.\"\n\n\"You and yer crew'll soon be joinin' me!\"\nCaptain Greenbeard lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!\n\n",
       "lose": "OH NO, i have been defeated. And so i die  X_X",
       "image": "bartender.txt",
       "ableToRecruit": "false",
       "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
       "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
-      "victory": "\nWith a final blow, Captain Greenbeard falls to the sand and looks up at you, \n\"I've been bested...\nSafe travels young Captain, yer crew is mighty fine..\"\n\nSailing off into the sunset, your crew sings the praises of their great Captain\n\n###VICTORY###\nGood Job Gamer :)",
+      "victory": "\nWith a final blow, Captain Greenbeard falls to the ground and looks up at you, \n\"I've been bested...\nMy crew'll not stand much longer with me finally gone...\nSafe travels young Captain, yer crew is mighty fine..\"\n\n###VICTORY###\nGood Job Gamer :)\n\n",
       "defeat": "\n***DEFEATED***\n A shine from Greenbeard's cutlass is the last thing you see as you fall to the ground. Perhaps you can join his zombie crew?"
     }
   }

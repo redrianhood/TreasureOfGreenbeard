@@ -68,17 +68,17 @@ public class Game {
         System.out.println("\n\n");
         try {
             //Files.lines(Path.of("data/welcome/banner.txt")).forEach(System.out::println);
-            Files.lines(Path.of("data/welcome/banner1.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/banner1.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
-            Files.lines(Path.of("data/welcome/banner2.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/banner2.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
-            Files.lines(Path.of("data/welcome/banner3.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/banner3.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
 
             audio.audioPreference();
             System.out.println("\n\n");
-            List<String> welcome = Files.readAllLines(Path.of("data/welcome/welcome.txt"));
-            List<String> intro = Files.readAllLines(Path.of("data/welcome/intro.txt"));
+            List<String> welcome = Files.readAllLines(Path.of("data/messages/welcome.txt"));
+            List<String> intro = Files.readAllLines(Path.of("data/messages/intro.txt"));
             welcome.forEach((line) -> {
                 TextParser.printWordByWord(line);
 
@@ -268,9 +268,6 @@ public class Game {
                     "Continue searching for at least 3 members to \"Set Sail\" on ", ColorConsole.BLACK_BOLD + player.getShipName());
             return;
         } else {
-            setCurrentLocation(map.getLocations().get("island"));
-            String description = this.currentLocation.getDescription();
-            System.out.println(description);
             finale();
             gameOver();
         }
@@ -291,6 +288,7 @@ public class Game {
             if (greet != null) {
                 System.out.println(greet + "\n");
             }
+
 
             JSONObject jsonObject = TextParser.readJsonFile(DIALOGUE_FILE);
             JSONObject area = (JSONObject) jsonObject.get(this.currentLocation.getBasicName());
@@ -329,7 +327,7 @@ public class Game {
     private void gameOver() {
         //System.out.println("GAME OVER!");
         try {
-            Files.lines(Path.of("data/welcome/gameover.txt")).forEach(System.out::println);
+            Files.lines(Path.of("data/banners/gameover.txt")).forEach(System.out::println);
             TextParser.delay(BANNER_DELAY);
             System.out.println("\n\n");
         } catch (IOException e) {
@@ -343,7 +341,7 @@ public class Game {
             //System.out.println("Thanks for playing! See you again!");
             TextParser.delay(BANNER_DELAY);
             try {
-                Files.lines(Path.of("data/welcome/seeyouagain.txt")).forEach(System.out::println);
+                Files.lines(Path.of("data/messages/seeyouagain.txt")).forEach(System.out::println);
                 TextParser.delay(BANNER_DELAY);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -363,6 +361,7 @@ public class Game {
     void finale() {
         // if crew doesn't have a navigator
         if (player.getCrewMates().stream().filter(character -> "sailor".equals(character.getName())).findAny().orElse(null) == null) {
+
             TextParser.delay(300);
             System.out.println("You didn't have a navigator and got lost at sea. Sorry :(\n" +
                     "GAME OVER");
@@ -385,10 +384,25 @@ public class Game {
                     "GAME OVER");
             gameOver = true;
         } else {
-            System.out.println("\nYou land on Yarginory Island, look around, and see a treasure chest just" +
-                    "sitting on the beach! You approach it cautiously...\n\n");
+            setCurrentLocation(map.getLocations().get("island"));
+            String description = this.currentLocation.getDescription();
+            System.out.println(description);
+            System.out.println("You dock your ship a small ways off Yarginory Island and take a smaller " +
+                    "boat to shore.\nYou take the map that your first Captain gave to you so many years " +
+                    "ago and follow the trail with your crew.\n\nYou find what appears to be an island " +
+                    "cave and enter inside.\n\nYou walk in to a center room and see a heap of teasure " +
+                    "with a giant chest in the middle!\nAs you walk forward your crew is cut off from the " +
+                    "exit by a hoard of skeletons!!!\n\nA zombie appears from behind the heap of treasure and speaks...\n");
             TextParser.delay(300);
             fight("greenbeard");
+
+            try{
+                List<String> ending = Files.readAllLines(Path.of("data/messages/ending.txt"));
+//                Files.lines(Path.of("data/messages/ending.txt")).forEach(System.out::println);
+                ending.forEach(line -> TextParser.printWordByWord(line));
+            } catch (IOException e){
+                e.printStackTrace();
+            }
             gameOver = true;
         }
     }
@@ -464,8 +478,6 @@ public class Game {
             if (player.getHealth() <= 0) {
                 System.out.println(enemy.getDefeat());
                 fighting = false;
-                gameOver();
-
             }
         }
     }
