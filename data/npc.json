@@ -2,40 +2,128 @@
   "bar": {
     "bartender": {
       "name": "bartender",
+      "realName": "Sascha Wolfburn",
       "greeting": "Hello Sea Captain, how goes yer adventurin'?",
       "ableToRecruit": "false",
-      "recruitMessage": "Arr, sorry cap'ain. No longer do I belong to the sea. My time has passed, you may try that stranger in the corner. I heard he might be interested in a crew.",
+      "recruitMessage": "Arr, sorry cap'ain. I am just a simple barmaid now. I'm done with pritatin'. You might try that fellow in the corner. I heard 'im mumble about looking for a crew.",
       "image": "bartender.txt"
     },
     "stranger": {
       "name": "stranger",
+      "realName": "Ned Bilgewater",
       "greeting": "Arrr, I don't know ye stranger. Whatcha be wanting?",
       "ableToRecruit": "true",
-      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
+      "occupation": "First Mate",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
+      "image": "stranger.txt"
     }
   },
   "cemetery": {
-    "mourner": {
-      "name": "mourner",
+    "sailor": {
+      "name": "sailor",
+      "realName": "Remi Qualtz",
       "greeting": "I would like to be left alone right now, please come back later.",
       "ableToRecruit": "true",
-      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
+      "occupation": "Navigator",
+      "recruitMessage": "Times have been rough, but the sea do be callin' me again. I'll navigate for ya.",
+      "image": "sailor.txt"
     }
   },
   "crypt": {
     "zombie": {
       "name": "zombie",
-      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+      "realName": "Zom B. Wright",
+      "weapon": "sword",
+      "enemy": "true",
+      "greeting": "Sorry if we got off to a rough start.\nMy name is Gregory, I seem to have dropped my head. Would you mind handing it to me?",
       "ableToRecruit": "true",
-      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service"
+      "recruitMessage": "This somehow feels right, like I was 'meant' to sail. It's a pleasure Captain.",
+      "occupation": "Shipwright",
+      "image": "zombie.txt",
+      "intro": "You enter a crypt and see a zombie headed directly towards you!!! You draw your weapon for battle ***\n",
+      "victory": "\n***VICTORY***\nWith your final blow, the zombie's head appears to have rolled onto the floor.\nIt looks like you can talk to the head O.O",
+      "defeat": "\n***DEFEATED***\nAs things fade you black, you think you faintly hear the zombie say, \"Well that was rather rude\""
+    }
+  },
+  "inn": {
+    "dog": {
+      "name": "dog",
+      "realName": "Ed, Edd and Eddy",
+      "greeting": "Woof, Woof, Woof! * He jumps on you and sticks his tongue out. * You're jaw drops as you notice that this dog has three heads!",
+      "ableToRecruit": "true",
+      "occupation": "Goodest Boy",
+      "recruitMessage": "* The three heads bark in unison and they start following you around * \nYou start to think the dog likes you.",
+      "image": "dog.txt"
+    },
+    "innkeeper": {
+      "name": "innkeeper",
+      "realName": "Doug Dogstorm",
+      "greeting": "Sorry, we don't have any vacant rooms right now.",
+      "ableToRecruit": "false",
+      "recruitMessage": "Sorry kid, my sailin' days are behind me. I am flattered you would try to recruit an old man like me.",
+      "image": "innkeeper.txt"
+    },
+    "pirate": {
+      "name": "pirate",
+      "realName": "Randi 'Mad Eye' Talon",
+      "greeting": "Hoy! Matey! Hope ya day is as salty as I am.",
+      "ableToRecruit": "true",
+      "occupation": "Quartermaster",
+      "recruitMessage": "You made a great choice mate. I am the best QuarterMaster in all of the West Coast. Self-proclaimed of course, so don't blame me if somethin' goes wrong.",
+      "image": "pirate.txt"
+    }
+  },
+  "clinic": {
+    "doctor": {
+      "name": "doctor",
+      "realName": "Forest Fyre",
+      "greeting": "If it ain't an emergency, or you got scurvy, then I don't have time to chat with you.",
+      "ableToRecruit": "false",
+      "recruitMessage": "My place is here in Dark Reef. I don't have the luxury of leaving and participating in your foolish plans.",
+      "image": "doctor.txt"
+    },
+    "apprentice": {
+      "name": "apprentice",
+      "realName": "Stew Smith",
+      "greeting": "How fare's the sea, mate?",
+      "ableToRecruit": "true",
+      "occupation": "Ship Doctor",
+      "recruitMessage": "Great! I've been waiting for the right opportunity to leave this forsaken place. Adventure is what I have been craving. I'm sorry Mom, I will not be a doctor!",
+      "image": "apprentice.txt"
+    },
+    "receptionist" : {
+      "realName": "Joy Full",
+      "name": "receptionist",
+      "greeting": "The doctor is busy right now. We do not have any open appointments. Please leave. Now.",
+      "ableToRecruit": "false",
+      "recruitMessage": "I can't afford to be stuck at sea for months. Just imagine what it would do to my hair.",
+      "image": "receptionist.txt"
+    }
+  },
+  "restaurant": {
+    "cook": {
+      "name": "cook",
+      "realName": "Wade Saltblood",
+      "greeting": "If you ain't payin, then I don't need you stickin around",
+      "ableToRecruit": "true",
+      "occupation": "Cook",
+      "recruitMessage": "My dream is always been to sail the seas and discover all types of marine animals.\nYou will be pleased to hear that my cooking skills are top notch. \nMy specialty? Boiled water. Good ain't it?",
+      "image": "cook.txt"
     }
   },
   "island": {
     "greenbeard": {
       "name": "Captain Greenbeard",
-      "weapon":"sword",
-      "intro": "A zombie with a big, green, seaweed filled beard walks up to you holding a Cutlass.\n\n \"Arrggg, think ya can just take me treasure so easily? Think again young Captain\" \n\nThe zombie lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!",
-      "lose": "OH NO, i have been defeated. And so i die  X_X"
+      "weapon": "sword",
+      "enemy": "true",
+      "intro": "\"Arrggg, think ya can just take me treasure so easily? Think again young Captain.\"\n\n\"You and yer crew'll soon be joinin' me!\"\nCaptain Greenbeard lunges at you with their sword!\nYou draw your weapon and proceed to battle!!!!\n\n",
+      "lose": "OH NO, i have been defeated. And so i die  X_X",
+      "image": "bartender.txt",
+      "ableToRecruit": "false",
+      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
+      "greeting": "Hello. I seem to have dropped my head. Would you mind handing it to my body for me?",
+      "victory": "\nWith a final blow, Captain Greenbeard falls to the ground and looks up at you, \n\"I've been bested...\nMy crew'll not stand much longer with me finally gone...\nSafe travels young Captain, yer crew is mighty fine..\"\n\n###VICTORY###\nGood Job Gamer :)\n\n",
+      "defeat": "\n***DEFEATED***\n A shine from Greenbeard's cutlass is the last thing you see as you fall to the ground. Perhaps you can join his zombie crew?"
     }
   }
 }

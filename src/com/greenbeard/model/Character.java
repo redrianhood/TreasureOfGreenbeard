@@ -1,10 +1,17 @@
 package com.greenbeard.model;
 
-class Character {
+public class Character {
     // Fields
     private String name;
+    private String realName;
+    private String greeting;
+    private boolean ableToRecruit;
+    private String recruitMessage;
+    private String image;
     private int health = 100;
-    private String weapon;
+    private String weapon = "SWORD";
+    private boolean talkedTo = false;
+    private String occupation;
 
     // Accessors
     public String getName() {
@@ -13,6 +20,14 @@ class Character {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public int getHealth() {
@@ -45,6 +60,53 @@ class Character {
         return Weapon.valueOf(weapon).getDmgRoll();
     }
 
+    public String getGreeting() {
+        return greeting;
+    }
+
+    public void setGreeting(String greeting) {
+        this.greeting = greeting;
+    }
+
+    public boolean isAbleToRecruit() {
+        return ableToRecruit;
+    }
+
+    public void setAbleToRecruit(boolean ableToRecruit) {
+        this.ableToRecruit = ableToRecruit;
+    }
+
+    public String getRecruitMessage() {
+        return recruitMessage;
+    }
+
+    public void setRecruitMessage(String recruitMessage) {
+        this.recruitMessage = recruitMessage;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public boolean isTalkedTo() {
+        return talkedTo;
+    }
+
+    public void setTalkedTo(boolean talkedTo) {
+        this.talkedTo = talkedTo;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
 
     @Override
     public String toString() {

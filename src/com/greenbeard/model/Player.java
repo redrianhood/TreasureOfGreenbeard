@@ -1,25 +1,27 @@
 package com.greenbeard.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Player extends Character{
-    Set<String> crewMates = new HashSet<>();
+
+    private static final Player PLAYER = new Player();
+    Set<Character> crewMates = new HashSet<>();
     private int gold = 100;
     private String shipName = "";
 
-    public Player() {
+    private Player() {}
 
+    public static Player getInstance(){
+        return PLAYER;
     }
 
-    public Set<String> addCrewMate(String name){
-        crewMates.add(name);
-        // JSON Crewmates npc.json
+    public Set<Character> addCrewMate(Character member){
+        crewMates.add(member);
         return crewMates;
     }
 
-    public Set<String> getCrewMates() {
+    public Set<Character> getCrewMates() {
         return crewMates;
     }
 

@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Audio {
-
+    public static final double DEFAULT_VOLUME = .1d *1;
     private Clip clip;
     private FloatControl gainControl;
     private Scanner scanner = new Scanner(System.in);
-
-
+    private boolean musicOn;
+    private double volumePreference;
 
     public void play(String fileName, int count) {
         try {
@@ -25,8 +25,15 @@ public class Audio {
             clip.open(audioStream);
             //set the volume with master gain control
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            //start playing clip
             clip.start();
             clip.loop(count);
+            //check if volume is not zero
+            if(volumePreference !=0) {
+                setVolumeLevel(volumePreference);
+            } else {
+                setVolumeLevel(DEFAULT_VOLUME);
+            }
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -46,15 +53,17 @@ public class Audio {
             System.out.print("Do you want an audio on your background? (Y / N): ");
             response = scanner.next().trim().toUpperCase();
 
-            if (response.length() > 1) {
+            if (response.length() == 1) {
                 response = response.charAt(0) + "";
             }
             switch (response) {
                 case ("Y"):
                     this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    musicOn = true;
                     break;
                 case ("N"):
                     this.clip.stop();
+                    musicOn = false;
                     break;
                 default:
                     System.out.println("Not a Valid Response.");
@@ -89,9 +98,9 @@ public class Audio {
                 }
 
                 System.out.println();
-                double decibels = volChoice * 0.1d;
+                volumePreference = volChoice * 0.1d;
 
-                setVolumeLevel(decibels);
+                setVolumeLevel(volumePreference);
                 break;
 
             } catch (Exception e) {
@@ -101,12 +110,21 @@ public class Audio {
         }
     }
 
-    private void setVolumeLevel(double vol) {
+    public void setVolumeLevel(double vol) {
+        //System.out.println("Setting volume to: " +  vol*10);
         if (clip == null || !clip.isActive() || !clip.isOpen()) {
             return;
         }
         double gain = vol;
         float db = (float) (Math.log(gain) / Math.log(10.0) * 20.0);
         gainControl.setValue(db);
+    }
+
+    public double getVolumePreference() {
+        return volumePreference;
+    }
+
+    public boolean isMusicOn() {
+        return musicOn;
     }
 }
