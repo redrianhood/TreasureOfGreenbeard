@@ -25,7 +25,7 @@
       "greeting": "I would like to be left alone right now, please come back later.",
       "ableToRecruit": "true",
       "occupation": "Navigator",
-      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
+      "recruitMessage": "Times have been rough, but the sea do be callin' me again. I'll navigate for ya.",
       "image": "sailor.txt"
     }
   },
@@ -37,7 +37,7 @@
       "enemy": "true",
       "greeting": "Sorry if we got off to a rough start.\nMy name is Gregory, I seem to have dropped my head. Would you mind handing it to me?",
       "ableToRecruit": "true",
-      "recruitMessage": "I do be interested in joinin' a crew. If you shall have me then I'm at your service",
+      "recruitMessage": "This somehow feels right, like I was 'meant' to sail. It's a pleasure Captain.",
       "occupation": "Shipwright",
       "image": "zombie.txt",
       "intro": "You enter a crypt and see a zombie headed directly towards you!!! You draw your weapon for battle ***\n",
