@@ -120,6 +120,7 @@ public class Game {
             }
             else if ("look".equals(commands.get(0))) {
                 System.out.println(currentLocation.getDescription());
+                return;
             }
         }
 
