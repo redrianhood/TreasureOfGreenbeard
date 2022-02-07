@@ -17,6 +17,7 @@ public class GameMap {
 
     private GameMap() {
         JSONObject locObj = TextParser.readJsonFile(LOCATIONS_FILE);
+        // Populate Locations Map with each location in locations.json file.
         locObj.forEach((k, v) -> {
             String key = (String) k;
             JSONObject value = (JSONObject) v;
@@ -32,6 +33,7 @@ public class GameMap {
         });
 
         JSONObject npcObj = TextParser.readJsonFile(NPC_FILE);
+        // Create NPC or Enemy for each Location read from npc.json
         npcObj.forEach((k, v) -> {
             String key = (String) k;
             JSONObject value = (JSONObject) v;
@@ -42,6 +44,8 @@ public class GameMap {
                 String image = (String) val.get("image");
                 String ableToRecruit = (String) val.get("ableToRecruit");
                 String recruitMessage = (String) val.get("recruitMessage");
+                String realName = (String) val.get("realName");
+                String occupation = (String) val.get("occupation");
                 String enemy = (String) val.get("enemy");
                 Character npc;
 
@@ -51,12 +55,12 @@ public class GameMap {
                     String victory = (String) val.get("victory");
                     String defeat = (String) val.get("defeat");
 
-                    npc = new Enemy(basicName, intro, victory, defeat, image, recruitMessage, Boolean.parseBoolean(ableToRecruit));
+                    npc = new Enemy(basicName, realName, intro, victory, defeat, image, recruitMessage, Boolean.parseBoolean(ableToRecruit), occupation);
 
                 } else {
                     String greeting = (String) val.get("greeting");
-                    String realName = (String) val.get("realName");
-                    npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image, realName);
+                    npc = new NPC(name, greeting, Boolean.parseBoolean(ableToRecruit), recruitMessage, image, realName, occupation);
+
                 }
                 Location curLoc = locations.get(key);
                 curLoc.addNpc(npc);
