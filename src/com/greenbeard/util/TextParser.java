@@ -15,7 +15,7 @@ import java.util.List;
 
 public final class TextParser {
     private static JSONParser jsonParser = new JSONParser();
-    private static final long WORD_DELAY = 0; //250;
+    private static final long WORD_DELAY = 250; //250;
 
     private TextParser() {
     }

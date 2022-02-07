@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Player extends Character{
     private static Player player;
-    Set<String> crewMates = new HashSet<>();
+    Set<Character> crewMates = new HashSet<>();
     private int gold = 100;
     private String shipName = "";
 
@@ -20,12 +20,12 @@ public class Player extends Character{
         return player;
     }
 
-    public Set<String> addCrewMate(String name){
-        crewMates.add(name);
+    public Set<Character> addCrewMate(Character member){
+        crewMates.add(member);
         return crewMates;
     }
 
-    public Set<String> getCrewMates() {
+    public Set<Character> getCrewMates() {
         return crewMates;
     }
 
