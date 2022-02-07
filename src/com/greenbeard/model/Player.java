@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Player extends Character{
 
-    private static Player player;
+    private static final Player PLAYER = new Player();
     Set<Character> crewMates = new HashSet<>();
     private int gold = 100;
     private String shipName = "";
